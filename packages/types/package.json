@@ -1,0 +1,16 @@
+{
+  "name": "@aurix/types",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./index.ts",
+  "types": "./index.ts",
+  "scripts": {
+    "type-check": "tsc --noEmit",
+    "lint": "eslint ."
+  },
+  "devDependencies": {
+    "@aurix/eslint-config": "workspace:*",
+    "@aurix/typescript-config": "workspace:*",
+    "typescript": "^5.8.2"
+  }
+}

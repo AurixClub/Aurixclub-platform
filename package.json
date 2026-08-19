@@ -1,0 +1,29 @@
+{
+  "name": "aurix",
+  "private": true,
+  "scripts": {
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "lint": "turbo lint",
+    "type-check": "turbo type-check"
+  },
+  "devDependencies": {
+    "@aurix/backend": "workspace:*",
+    "@aurix/eslint-config": "workspace:*",
+    "@aurix/supabase": "workspace:*",
+    "@aurix/types": "workspace:*",
+    "@aurix/typescript-config": "workspace:*",
+    "@types/node": "^22.13.9",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "prettier": "^3.5.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "turbo": "^2.4.4",
+    "typescript": "^5.8.2"
+  },
+  "packageManager": "pnpm@10.33.2",
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

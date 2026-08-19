@@ -1,0 +1,22 @@
+{
+  "name": "@aurix/supabase",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./index.ts",
+  "types": "./index.ts",
+  "scripts": {
+    "type-check": "tsc --noEmit",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "@supabase/ssr": "^0.5.2",
+    "@supabase/supabase-js": "^2.49.1"
+  },
+  "devDependencies": {
+    "@aurix/eslint-config": "workspace:*",
+    "@aurix/types": "workspace:*",
+    "@aurix/typescript-config": "workspace:*",
+    "@types/node": "^22.13.9",
+    "typescript": "^5.8.2"
+  }
+}
