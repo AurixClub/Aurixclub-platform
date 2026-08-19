@@ -1,5 +1,5 @@
 export type EventStatus = "draft" | "published" | "cancelled" | "completed";
-export type EventMode = "online" | "offline" | "hybrid";
+export type EventMode = "online" | "offline" | "in_person" | "hybrid";
 
 export interface Event {
   id: string;

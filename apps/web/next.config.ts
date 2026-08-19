@@ -1,6 +1,8 @@
 import type { NextConfig } from "next";
+import path from "path";
 
 const nextConfig: NextConfig = {
+  outputFileTracingRoot: path.join(__dirname, "../../"),
   transpilePackages: ["@aurix/types", "@aurix/supabase", "@aurix/backend", "three"],
   reactStrictMode: true,
 
