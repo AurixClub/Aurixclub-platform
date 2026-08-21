@@ -155,7 +155,11 @@ export function AuthCard({ initialTab = "signin" }: AuthCardProps) {
         },
       });
       if (supabaseError) {
-        setErrorMessage(supabaseError.message);
+        setErrorMessage(
+          /sending confirmation email/i.test(supabaseError.message)
+            ? "Supabase could not send the confirmation email. Configure Supabase Auth email delivery/SMTP, then try again."
+            : supabaseError.message
+        );
         setIsLoading(false);
         return;
       }
@@ -388,7 +392,7 @@ export function AuthCard({ initialTab = "signin" }: AuthCardProps) {
                   const { error } = await supabase.auth.signInWithOAuth({
                     provider: "google",
                     options: {
-                      redirectTo: `${window.location.origin}/`,
+                      redirectTo: `${window.location.origin}/auth/callback`,
                     },
                   });
                   if (error) {

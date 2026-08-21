@@ -58,6 +58,35 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 export class AuthService {
+  /** Create an application session for a verified Supabase OAuth identity. */
+  async loginWithOAuth(email: string, fullName: string): Promise<{
+    user: { id: string; email: string; full_name: string; role: UserRole };
+    redirect: string;
+    token: string;
+  }> {
+    const normalizedEmail = email.trim().toLowerCase();
+    let user = await profileModel.findByEmail(normalizedEmail);
+
+    if (!user) {
+      const passwordHash = await passwordService.hash(randomBytes(32).toString("hex"));
+      user = await profileModel.create({
+        email: normalizedEmail,
+        password_hash: passwordHash,
+        full_name: fullName.trim() || normalizedEmail.split("@")[0] || "Member",
+        role: "member",
+        is_active: true,
+      });
+    }
+
+    if (!user.is_active) throw new AccountInactiveError();
+    const token = this.createSessionToken(user.id);
+    return {
+      user: { id: user.id, email: user.email, full_name: user.full_name, role: user.role },
+      redirect: this.getRedirectUrl(user.role),
+      token,
+    };
+  }
+
   /**
    * Helper: check if role is super_admin
    */
