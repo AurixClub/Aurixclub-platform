@@ -13,7 +13,7 @@ export default function AuthCallbackPage() {
     async function completeOAuth() {
       const code = searchParams.get("code");
       if (!code) {
-        setMessage("Google sign-in was cancelled or returned an invalid callback.");
+        setMessage("This confirmation link is invalid or has expired. Please request a new one.");
         return;
       }
 
@@ -35,7 +35,9 @@ export default function AuthCallbackPage() {
         return;
       }
 
-      if (!cancelled) window.location.assign(result.data?.redirect || "/");
+      if (!cancelled) {
+        window.location.assign(searchParams.get("redirect") || result.data?.redirect || "/dashboard");
+      }
     }
 
     completeOAuth().catch(() => setMessage("Unable to complete Google sign-in."));
@@ -46,7 +48,11 @@ export default function AuthCallbackPage() {
 
   return (
     <main className="min-h-screen bg-[#07090e] text-white flex items-center justify-center px-6">
-      <p className="text-sm text-zinc-300">{message}</p>
+      <div className="text-center space-y-4">
+        <span className="mx-auto block h-6 w-6 rounded-full border-2 border-blue-500/30 border-t-blue-400 animate-spin" />
+        <p className="text-sm text-zinc-300">{message}</p>
+        <a href="/login" className="text-sm text-blue-400 underline hover:text-blue-300">Return to sign in</a>
+      </div>
     </main>
   );
 }

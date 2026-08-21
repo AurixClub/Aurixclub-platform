@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Mail,
@@ -27,6 +28,7 @@ interface AuthCardProps {
 
 export function AuthCard({ initialTab = "signin" }: AuthCardProps) {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [activeTab, setActiveTab] = useState<"signin" | "signup" | "forgotPassword">(initialTab);
 
   // Sign In State
@@ -51,10 +53,12 @@ export function AuthCard({ initialTab = "signin" }: AuthCardProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [confirmationPending, setConfirmationPending] = useState(false);
 
   const clearAlerts = () => {
     setErrorMessage(null);
     setSuccessMessage(null);
+    setConfirmationPending(false);
   };
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -98,7 +102,7 @@ export function AuthCard({ initialTab = "signin" }: AuthCardProps) {
         return;
       }
 
-      const redirectTarget = data.data?.redirect || "/";
+      const redirectTarget = searchParams.get("redirect") || data.data?.redirect || "/dashboard";
       router.push(redirectTarget);
       router.refresh();
     } catch {
@@ -151,7 +155,7 @@ export function AuthCard({ initialTab = "signin" }: AuthCardProps) {
         password: signupPassword,
         options: {
           data: { full_name: fullName.trim() },
-          emailRedirectTo: `${window.location.origin}/login?confirmed=1`,
+          emailRedirectTo: `${window.location.origin}/auth/callback?redirect=/dashboard`,
         },
       });
       if (supabaseError) {
@@ -191,8 +195,33 @@ export function AuthCard({ initialTab = "signin" }: AuthCardProps) {
           : "Account created. Check your email to confirm your account before signing in."
       );
       setActiveTab("signin");
+      setConfirmationPending(!supabaseSignup.session);
     } catch {
       setErrorMessage("Unable to complete signup. Please try again.");
+      setIsLoading(false);
+    }
+  };
+
+  const handleResendConfirmation = async () => {
+    if (!signupEmail.trim()) return;
+    setIsLoading(true);
+    clearAlerts();
+    try {
+      const { error } = await createClient().auth.resend({
+        type: "signup",
+        email: signupEmail.trim(),
+        options: { emailRedirectTo: `${window.location.origin}/auth/callback?redirect=/dashboard` },
+      });
+      if (error) throw error;
+      setSuccessMessage("A new confirmation email has been sent. Check your inbox.");
+      setConfirmationPending(true);
+    } catch (error) {
+      setErrorMessage(
+        error instanceof Error && /sending confirmation email/i.test(error.message)
+          ? "Supabase email delivery is not configured. Configure SMTP/email delivery in Supabase Auth."
+          : "Unable to resend the confirmation email."
+      );
+    } finally {
       setIsLoading(false);
     }
   };
@@ -294,7 +323,19 @@ export function AuthCard({ initialTab = "signin" }: AuthCardProps) {
               className="mb-6 flex items-start gap-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30 p-3.5 text-xs sm:text-sm text-emerald-300"
             >
               <CheckCircle2 className="h-4 w-4 text-emerald-400 shrink-0 mt-0.5" />
-              <span>{successMessage}</span>
+              <div className="space-y-2">
+                <span>{successMessage}</span>
+                {confirmationPending && (
+                  <button
+                    type="button"
+                    onClick={handleResendConfirmation}
+                    disabled={isLoading}
+                    className="block text-left underline text-emerald-200 hover:text-white disabled:opacity-50"
+                  >
+                    Resend confirmation email
+                  </button>
+                )}
+              </div>
             </motion.div>
           )}
         </AnimatePresence>

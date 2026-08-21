@@ -52,7 +52,7 @@ export default function EventsPage() {
 
   const handleRegister = async (eventId: string) => {
     if (!session || !session.user) {
-      router.push("/login");
+      router.push("/login?redirect=/events");
       return;
     }
 
