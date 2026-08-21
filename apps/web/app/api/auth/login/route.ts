@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { authController, loginRateLimiter, getClientIp, verifyCsrfOrigin } from "@aurix/backend";
+import { createServerSupabaseClient } from "@aurix/supabase/server";
 
 export async function POST(req: NextRequest) {
   try {
@@ -33,6 +34,20 @@ export async function POST(req: NextRequest) {
     }
 
     const body = await req.json();
+
+    // If this email belongs to Supabase Auth, enforce its confirmation state.
+    // Legacy/super-admin accounts can still use the application auth store.
+    const supabase = createServerSupabaseClient();
+    const { error: supabaseLoginError } = await supabase.auth.signInWithPassword({
+      email: body.email,
+      password: body.password,
+    });
+    if (supabaseLoginError && /confirm/i.test(supabaseLoginError.message)) {
+      return NextResponse.json(
+        { success: false, error: { code: "EMAIL_NOT_CONFIRMED", message: "Please confirm your email address before signing in." } },
+        { status: 403 }
+      );
+    }
     const { response, status, token } = await authController.handleLogin(body);
 
     const res = NextResponse.json(response, { status });

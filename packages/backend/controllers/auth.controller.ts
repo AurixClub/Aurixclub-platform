@@ -67,7 +67,7 @@ export class AuthController {
           status: err.statusCode,
         };
       }
-      const message = err instanceof Error ? err.message : "Signup failed";
+      const message = "Signup failed";
       return {
         response: createErrorResponse(message, "SIGNUP_FAILED"),
         status: 400,
@@ -108,7 +108,7 @@ export class AuthController {
           status: err.statusCode,
         };
       }
-      const message = err instanceof Error ? err.message : "Login failed";
+      const message = "Invalid email or password";
       return {
         response: createErrorResponse(message, "AUTH_FAILED"),
         status: 401,

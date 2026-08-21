@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 /**
  * SECURITY: Next.js Edge Middleware
  *
- * - Protects /admin routes: redirects unauthenticated users to /auth
+ * - Protects /admin routes: redirects unauthenticated users to /login
  * - Validates session cookie presence (server-side verification happens in API routes)
  */
 export function middleware(req: NextRequest) {
@@ -14,7 +14,7 @@ export function middleware(req: NextRequest) {
     const sessionToken = req.cookies.get("aurix_session")?.value;
 
     if (!sessionToken) {
-      const loginUrl = new URL("/auth", req.url);
+      const loginUrl = new URL("/login", req.url);
       loginUrl.searchParams.set("redirect", pathname);
       return NextResponse.redirect(loginUrl);
     }

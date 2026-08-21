@@ -7,6 +7,8 @@
     "ADMIN_SEED_PASSWORD",
     "MEMBER_SEED_PASSWORD",
     "NEXT_PUBLIC_APP_URL",
+    "RESEND_API_KEY",
+    "RESEND_FROM_EMAIL",
     "NODE_ENV"
   ],
   "tasks": {

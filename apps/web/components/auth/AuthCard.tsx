@@ -16,6 +16,7 @@ import {
   ArrowLeft,
   ShieldCheck,
 } from "lucide-react";
+import { createClient } from "@aurix/supabase/client";
 
 interface AuthCardProps {
   initialTab?: "signin" | "signup";
@@ -61,6 +62,19 @@ export function AuthCard({ initialTab = "signin" }: AuthCardProps) {
 
     setIsLoading(true);
     try {
+      // When Supabase has the account, this also prevents unconfirmed users
+      // from entering the application before clicking the confirmation link.
+      const supabase = createClient();
+      const { error: supabaseLoginError } = await supabase.auth.signInWithPassword({
+        email: loginEmail.trim(),
+        password: loginPassword,
+      });
+      if (supabaseLoginError && /confirm/i.test(supabaseLoginError.message)) {
+        setErrorMessage("Please confirm your email address before signing in.");
+        setIsLoading(false);
+        return;
+      }
+
       const res = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -123,6 +137,23 @@ export function AuthCard({ initialTab = "signin" }: AuthCardProps) {
 
     setIsLoading(true);
     try {
+      // Supabase sends the confirmation email when email confirmation is
+      // enabled in the Supabase dashboard.
+      const supabase = createClient();
+      const { data: supabaseSignup, error: supabaseError } = await supabase.auth.signUp({
+        email: signupEmail.trim(),
+        password: signupPassword,
+        options: {
+          data: { full_name: fullName.trim() },
+          emailRedirectTo: `${window.location.origin}/login?confirmed=1`,
+        },
+      });
+      if (supabaseError) {
+        setErrorMessage(supabaseError.message);
+        setIsLoading(false);
+        return;
+      }
+
       const res = await fetch("/api/auth/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -141,9 +172,12 @@ export function AuthCard({ initialTab = "signin" }: AuthCardProps) {
         return;
       }
 
-      // Seamless instant redirect to home page
-      router.push("/");
-      router.refresh();
+      setSuccessMessage(
+        supabaseSignup.session
+          ? "Account created. You can now sign in."
+          : "Account created. Check your email to confirm your account before signing in."
+      );
+      setActiveTab("signin");
     } catch {
       setErrorMessage("Unable to complete signup. Please try again.");
       setIsLoading(false);
@@ -161,9 +195,19 @@ export function AuthCard({ initialTab = "signin" }: AuthCardProps) {
 
     setIsLoading(true);
     try {
-      setSuccessMessage(`A password reset verification link has been dispatched to ${forgotEmail}. Check your inbox.`);
+      const res = await fetch("/api/auth/forgot-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: forgotEmail.trim() }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        setErrorMessage(data.error?.message || "Unable to send the password reset link.");
+        return;
+      }
+      setSuccessMessage("If that account exists, a password reset link has been sent. Check your inbox.");
     } catch {
-      setSuccessMessage(`A password reset link has been dispatched to ${forgotEmail}.`);
+      setErrorMessage("Unable to connect to password recovery service. Please try again.");
     } finally {
       setIsLoading(false);
     }

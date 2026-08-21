@@ -1,6 +1,7 @@
 import type { Event, EventRegistration } from "@aurix/types";
 import { eventModel } from "../models/event.model";
 import { profileModel } from "../models/profile.model";
+import { emailService } from "./email.service";
 import { AuthError } from "./auth.service";
 import type { CreateEventInput, UpdateEventInput, UpdateRegistrationInput } from "../validators/event.validator";
 
@@ -141,7 +142,12 @@ class EventService {
       phone: user.phone ?? null,
     });
 
-    return eventModel.registrationToDTO(reg);
+    const registration = eventModel.registrationToDTO(reg);
+    const event = eventModel.eventToDTO(ev);
+    void emailService.sendEventRegistrationConfirmation(registration, event).catch((error: unknown) => {
+      console.error("[Event] Registration confirmation email failed:", error);
+    });
+    return registration;
   }
 
   /**

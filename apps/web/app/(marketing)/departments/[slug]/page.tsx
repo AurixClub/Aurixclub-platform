@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import {
   Code,
   Handshake,
@@ -17,6 +18,7 @@ import {
 import { Navbar } from "@/components/navigation/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { ScrollReveal, StaggerContainer, StaggerItem } from "@/components/ui/ScrollReveal";
+import type { DepartmentMember } from "@aurix/types";
 
 /* ───── Department Data ───── */
 
@@ -152,6 +154,26 @@ export default function DepartmentDetailPage() {
   const params = useParams();
   const slug = params.slug as string;
   const dept = departments[slug];
+  const [liveMembers, setLiveMembers] = useState<DepartmentMember[] | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch("/api/departments")
+      .then((res) => res.json())
+      .then((data) => {
+        if (cancelled || !data.success) return;
+        const current = data.data?.departments?.find(
+          (department: { slug: string }) => department.slug === slug
+        );
+        if (!cancelled && current) setLiveMembers(current.members ?? []);
+      })
+      .catch(() => {
+        // Keep the editorial fallback if the public API is temporarily unavailable.
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [slug]);
 
   if (!dept) {
     return (
@@ -171,6 +193,13 @@ export default function DepartmentDetailPage() {
   }
 
   const Icon = dept.icon;
+  const members = liveMembers
+    ? liveMembers.map((member) => ({
+        name: member.name,
+        role: member.role,
+        image: member.avatar_url ?? "",
+      }))
+    : dept.members;
   const currentIndex = deptOrder.indexOf(slug);
   const prevSlug = currentIndex > 0 ? deptOrder[currentIndex - 1] : null;
   const nextSlug = currentIndex < deptOrder.length - 1 ? deptOrder[currentIndex + 1] : null;
@@ -240,7 +269,7 @@ export default function DepartmentDetailPage() {
               </div>
 
               <StaggerContainer staggerDelay={0.08} className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-                {dept.members.map((member, i) => (
+                {members.map((member, i) => (
                   <StaggerItem key={i}>
                     <div className="group rounded-2xl border border-white/10 bg-white/[0.03] p-4 text-center hover:bg-white/[0.06] hover:border-white/15 transition-all duration-300">
                       {/* Photo placeholder */}

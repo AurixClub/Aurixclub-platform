@@ -214,6 +214,7 @@ export default function AdminPage() {
       }
     } catch (e) {
       console.error("Failed to add member", e);
+      alert("Failed to add member. Please check the form values and try again.");
     } finally {
       setIsAddingMember(false);
     }
@@ -312,6 +313,8 @@ export default function AdminPage() {
           cover_image_url: newEventCoverImage.trim() || null,
           department_id: newEventDeptId || null,
           tags: newEventTags.split(",").map((t) => t.trim()).filter(Boolean),
+          // The admin action is explicitly labelled Create & Publish.
+          status: "published",
         }),
       });
 

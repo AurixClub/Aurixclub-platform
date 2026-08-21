@@ -1,6 +1,18 @@
 import type { UserProfile, UserRole } from "@aurix/types";
 import { passwordService } from "../services/password.service";
 
+function getSeedAdminPassword(): string {
+  const configuredPassword = process.env.ADMIN_SEED_PASSWORD?.trim();
+  if (configuredPassword) return configuredPassword;
+
+  // Never allow a predictable credential in a production deployment.
+  if (process.env.NODE_ENV === "production") {
+    throw new Error("ADMIN_SEED_PASSWORD must be configured in production");
+  }
+
+  return "Aurixclub@123";
+}
+
 export interface UserRecord {
   id: string;
   email: string;
@@ -27,7 +39,7 @@ class MockUserStore {
     if (this.isInitialized) return;
 
     // Super Admin Credentials
-    const seedAdminPassword = process.env.ADMIN_SEED_PASSWORD || "Aurixclub@123";
+    const seedAdminPassword = getSeedAdminPassword();
     const defaultAdminHash = await passwordService.hash(seedAdminPassword);
 
     const initialUsers: UserRecord[] = [
@@ -63,7 +75,7 @@ class MockUserStore {
 
     // Ensure Super Admin aurixclub.drait@gmail.com is always up-to-date
     if (normalizedEmail === "aurixclub.drait@gmail.com") {
-      const seedAdminPassword = process.env.ADMIN_SEED_PASSWORD || "Aurixclub@123";
+      const seedAdminPassword = getSeedAdminPassword();
       const adminHash = await passwordService.hash(seedAdminPassword);
       const adminUser: UserRecord = {
         id: "admin_aurix_001",

@@ -23,7 +23,7 @@ export function LoginForm() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMessage(null);
     setSuccessMessage(null);
@@ -34,23 +34,26 @@ export function LoginForm() {
     }
 
     setIsLoading(true);
-
-    // Simulated authentication check (demo credentials or test flow)
-    setTimeout(() => {
-      setIsLoading(false);
-      if (password === "wrong" || email === "error@test.com") {
-        setErrorMessage(
-          "The email or password you entered is incorrect. Please try again."
-        );
-      } else {
-        setSuccessMessage(
-          "Welcome back to AURIX! Redirecting you to your dashboard..."
-        );
+    try {
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: email.trim(), password }),
+      });
+      const data = await response.json();
+      if (!response.ok || !data.success) {
+        setErrorMessage(data.error?.message || "Invalid email or password.");
+        return;
       }
-    }, 1200);
+      window.location.assign(data.data?.redirect || "/");
+    } catch {
+      setErrorMessage("Unable to connect to authentication service. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const handleForgotPassword = (e: React.FormEvent) => {
+  const handleForgotPassword = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMessage(null);
     setSuccessMessage(null);
@@ -61,12 +64,23 @@ export function LoginForm() {
     }
 
     setIsLoading(true);
-    setTimeout(() => {
+    try {
+      const response = await fetch("/api/auth/forgot-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: forgotEmail.trim() }),
+      });
+      const data = await response.json();
+      if (!response.ok || !data.success) {
+        setErrorMessage(data.error?.message || "Unable to send the reset link.");
+        return;
+      }
+      setSuccessMessage("If that account exists, a password reset link has been sent. Check your inbox.");
+    } catch {
+      setErrorMessage("Unable to connect to password recovery service. Please try again.");
+    } finally {
       setIsLoading(false);
-      setSuccessMessage(
-        "A password reset link has been sent to your email address."
-      );
-    }, 1000);
+    }
   };
 
   return (

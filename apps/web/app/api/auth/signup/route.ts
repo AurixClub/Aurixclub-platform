@@ -33,20 +33,11 @@ export async function POST(req: NextRequest) {
     }
 
     const body = await req.json();
-    const { response, status, token } = await authController.handleSignup(body);
+    const { response, status } = await authController.handleSignup(body);
 
     const res = NextResponse.json(response, { status });
-
-    if (response.success && token) {
-      res.cookies.set("aurix_session", token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "lax",
-        path: "/",
-        maxAge: 7 * 24 * 60 * 60, // 7 days
-      });
-    }
-
+    // Do not create an application session until the user confirms email and
+    // signs in through the login flow.
     return res;
   } catch {
     return NextResponse.json(

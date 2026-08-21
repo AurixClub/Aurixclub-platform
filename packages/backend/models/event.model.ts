@@ -114,6 +114,7 @@ class MockEventStore {
     registration_deadline?: string | null;
     max_participants?: number | null;
     tags?: string[];
+    status?: EventStatus;
     created_by: string;
   }): Promise<EventRecord> {
     await this.ensureInitialized();
@@ -136,7 +137,7 @@ class MockEventStore {
       registration_deadline: data.registration_deadline ?? null,
       max_participants: data.max_participants ?? null,
       registration_count: 0,
-      status: "draft",
+      status: data.status ?? "draft",
       tags: data.tags ?? [],
       created_by: data.created_by,
       created_at: now,

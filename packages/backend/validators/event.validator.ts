@@ -14,13 +14,16 @@ export const createEventSchema = z.object({
   registration_deadline: z.string().nullable().optional(),
   max_participants: z.number().int().positive().nullable().optional(),
   tags: z.array(z.string()).optional(),
+  status: z.enum(["draft", "published"]).default("draft"),
 }).refine((data) => {
-  if (data.starts_at && data.ends_at) {
-    return new Date(data.ends_at) >= new Date(data.starts_at);
+  const startsAt = new Date(data.starts_at);
+  const endsAt = new Date(data.ends_at);
+  if (Number.isNaN(startsAt.getTime()) || Number.isNaN(endsAt.getTime())) {
+    return false;
   }
-  return true;
+  return endsAt >= startsAt;
 }, {
-  message: "ends_at must be after starts_at",
+  message: "Valid start/end dates are required and ends_at must be after starts_at",
   path: ["ends_at"],
 });
 
