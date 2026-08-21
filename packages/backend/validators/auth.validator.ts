@@ -20,8 +20,10 @@ export const signupSchema = z
       .regex(/[0-9]/, "Password must contain at least one digit"),
     full_name: z.string().min(2, "Full name must be at least 2 characters long").optional(),
     fullName: z.string().min(2, "Full name must be at least 2 characters long").optional(),
-    // SECURITY: 'role' is intentionally omitted. All signups default to 'member'.
-    // Super Admin accounts can only be promoted by existing admins.
+    phone: z.string().nullable().optional(),
+    college: z.string().nullable().optional(),
+    branch: z.string().nullable().optional(),
+    year: z.number().int().nullable().optional(),
   })
   .refine((data) => !!(data.full_name || data.fullName), {
     message: "Full name is required and must be at least 2 characters",
@@ -31,6 +33,10 @@ export const signupSchema = z
     email: data.email,
     password: data.password,
     full_name: (data.full_name || data.fullName)!.trim(),
+    phone: data.phone?.trim() || null,
+    college: data.college?.trim() || null,
+    branch: data.branch?.trim() || null,
+    year: data.year ?? null,
   }));
 
 export const updateRoleSchema = z.object({

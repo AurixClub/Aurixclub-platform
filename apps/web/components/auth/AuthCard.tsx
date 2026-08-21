@@ -15,6 +15,9 @@ import {
   EyeOff,
   ArrowLeft,
   ShieldCheck,
+  Phone,
+  Building2,
+  GraduationCap,
 } from "lucide-react";
 import { createClient } from "@aurix/supabase/client";
 
@@ -33,6 +36,9 @@ export function AuthCard({ initialTab = "signin" }: AuthCardProps) {
   // Sign Up State
   const [fullName, setFullName] = useState("");
   const [signupEmail, setSignupEmail] = useState("");
+  const [signupPhone, setSignupPhone] = useState("");
+  const [signupBranch, setSignupBranch] = useState("");
+  const [signupYear, setSignupYear] = useState("");
   const [signupPassword, setSignupPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -161,6 +167,9 @@ export function AuthCard({ initialTab = "signin" }: AuthCardProps) {
           full_name: fullName.trim(),
           email: signupEmail.trim(),
           password: signupPassword,
+          phone: signupPhone.trim() || null,
+          branch: signupBranch.trim() || null,
+          year: signupYear ? parseInt(signupYear) : null,
         }),
       });
 
@@ -468,6 +477,62 @@ export function AuthCard({ initialTab = "signin" }: AuthCardProps) {
                   className="w-full rounded-xl bg-white/[0.04] border border-white/10 px-4 py-3 pl-10 text-sm text-white placeholder-zinc-500 focus:border-blue-500 focus:outline-none transition-colors disabled:opacity-50"
                 />
                 <Mail className="absolute left-3.5 top-3.5 h-4 w-4 text-zinc-500" />
+              </div>
+            </div>
+
+            <div className="space-y-1.5">
+              <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-300">
+                Phone Number
+              </label>
+              <div className="relative">
+                <input
+                  type="tel"
+                  placeholder="+91 98765 43210"
+                  value={signupPhone}
+                  onChange={(e) => setSignupPhone(e.target.value)}
+                  disabled={isLoading}
+                  className="w-full rounded-xl bg-white/[0.04] border border-white/10 px-4 py-3 pl-10 text-sm text-white placeholder-zinc-500 focus:border-blue-500 focus:outline-none transition-colors disabled:opacity-50"
+                />
+                <Phone className="absolute left-3.5 top-3.5 h-4 w-4 text-zinc-500" />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              <div className="space-y-1.5">
+                <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-300">
+                  Branch / Dept
+                </label>
+                <div className="relative">
+                  <input
+                    type="text"
+                    placeholder="e.g. CSE / ECE"
+                    value={signupBranch}
+                    onChange={(e) => setSignupBranch(e.target.value)}
+                    disabled={isLoading}
+                    className="w-full rounded-xl bg-white/[0.04] border border-white/10 px-3.5 py-3 pl-9 text-xs text-white placeholder-zinc-500 focus:border-blue-500 focus:outline-none transition-colors disabled:opacity-50"
+                  />
+                  <Building2 className="absolute left-3 top-3.5 h-3.5 w-3.5 text-zinc-500" />
+                </div>
+              </div>
+
+              <div className="space-y-1.5">
+                <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-300">
+                  Year of Study
+                </label>
+                <div className="relative">
+                  <select
+                    value={signupYear}
+                    onChange={(e) => setSignupYear(e.target.value)}
+                    disabled={isLoading}
+                    className="w-full rounded-xl bg-[#0d111c] border border-white/10 px-3 py-3 text-xs text-white focus:border-blue-500 focus:outline-none transition-colors disabled:opacity-50"
+                  >
+                    <option value="">Select Year</option>
+                    <option value="1">1st Year</option>
+                    <option value="2">2nd Year</option>
+                    <option value="3">3rd Year</option>
+                    <option value="4">4th Year</option>
+                  </select>
+                </div>
               </div>
             </div>
 

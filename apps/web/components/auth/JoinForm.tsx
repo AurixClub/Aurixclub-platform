@@ -157,7 +157,7 @@ export function JoinForm() {
 
     try {
       const whyJoinText = `${formData.aboutYou}\n\nMotivation: ${formData.motivation}\nExperience: ${formData.previousExperience || "N/A"}\nAvailability: ${formData.weeklyAvailability}`;
-      const deptInterests = [formData.primaryDepartment, formData.secondaryDepartment].filter(Boolean);
+      const deptInterests = [formData.primaryDepartment].filter(Boolean);
 
       const payload = {
         full_name: formData.fullName.trim(),
@@ -381,11 +381,11 @@ export function JoinForm() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          {/* Primary Department */}
+        <div>
+          {/* Department Interest */}
           <div className="space-y-2">
             <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-300">
-              Primary Department <span className="text-red-400">*</span>
+              Department Interest <span className="text-red-400">*</span>
             </label>
             <select
               name="primaryDepartment"
@@ -395,7 +395,7 @@ export function JoinForm() {
                 errors.primaryDepartment ? "border-red-500/60" : "border-white/10"
               } px-4 py-3 text-sm text-white focus:border-purple-500 focus:outline-none transition-colors`}
             >
-              <option value="">Select primary department</option>
+              <option value="">Select department</option>
               {departments.map((dept) => (
                 <option key={dept} value={dept}>
                   {dept}
@@ -405,29 +405,6 @@ export function JoinForm() {
             {errors.primaryDepartment && (
               <p className="text-xs text-red-400">{errors.primaryDepartment}</p>
             )}
-          </div>
-
-          {/* Secondary Department */}
-          <div className="space-y-2">
-            <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-300">
-              Secondary Department <span className="text-zinc-500 font-normal">(Optional)</span>
-            </label>
-            <select
-              name="secondaryDepartment"
-              value={formData.secondaryDepartment}
-              onChange={handleInputChange}
-              className="w-full rounded-xl bg-[#0d111c] border border-white/10 px-4 py-3 text-sm text-white focus:border-purple-500 focus:outline-none transition-colors"
-            >
-              <option value="">Select secondary department (optional)</option>
-              {departments.map((dept) => (
-                <option key={dept} value={dept}>
-                  {dept}
-                </option>
-              ))}
-            </select>
-            <p className="text-[11px] text-zinc-500">
-              Optional — select another department you&apos;d be interested in contributing to.
-            </p>
           </div>
         </div>
       </div>

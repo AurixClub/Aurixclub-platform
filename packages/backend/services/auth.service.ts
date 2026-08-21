@@ -118,6 +118,10 @@ export class AuthService {
       email: input.email,
       password_hash: passwordHash,
       full_name: input.full_name,
+      phone: input.phone,
+      college: input.college || "Dr. Ambedkar Institute of Technology",
+      branch: input.branch,
+      year: input.year,
       role: "member",
       is_active: true,
     });
