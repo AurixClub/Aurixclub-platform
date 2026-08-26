@@ -510,7 +510,7 @@ export default function AdminPage() {
                   <button
                     key={idx}
                     onClick={() => setActiveTab(m.tab as AdminTab)}
-                    className="p-4 rounded-2xl bg-white/90 border border-gray-200 hover:border-rose-200 text-left transition-all hover:scale-[1.02] group"
+                    className="p-4 rounded-2xl bg-[#1a1d2b] border-zinc-700 hover:border-violet-500 text-left transition-all hover:scale-[1.02] group"
                   >
                     <div className="flex items-center justify-between mb-2">
                       <span className="text-[11px] font-mono uppercase tracking-wider text-gray-500">
@@ -528,7 +528,7 @@ export default function AdminPage() {
             {/* Two Column Layout: Recent Applications & Upcoming Events */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* Recent Applications Queue */}
-              <div className="p-6 rounded-2xl bg-white/90 border border-gray-200 space-y-4">
+              <div className="p-6 rounded-2xl bg-[#1a1d2b] border-zinc-700 space-y-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <UserCheck className="h-4 w-4 text-amber-400" />
@@ -550,7 +550,7 @@ export default function AdminPage() {
                     overview.recent_applications.map((app: any) => (
                       <div
                         key={app.id}
-                        className="p-3.5 rounded-xl bg-gray-50 border border-gray-200 flex items-center justify-between gap-3"
+                        className="p-3.5 rounded-xl bg-[#2a2e3b] border-zinc-700 flex items-center justify-between gap-3"
                       >
                         <div className="min-w-0">
                           <div className="text-xs font-bold text-gray-900 truncate">{app.full_name}</div>
