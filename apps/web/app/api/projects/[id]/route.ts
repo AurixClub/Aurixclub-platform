@@ -5,10 +5,11 @@ import { cookies } from "next/headers";
 
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const cookieStore = cookies();
+    const { id } = await params;
+    const cookieStore = await cookies();
     const token = cookieStore.get("aurix_session")?.value;
     const { user } = await authService.getSession(token);
 
@@ -20,7 +21,7 @@ export async function PATCH(
     }
 
     const body = await req.json();
-    const { response, status } = await projectController.updateProject(params.id, body);
+    const { response, status } = await projectController.updateProject(id, body);
     return NextResponse.json(response, { status });
   } catch (error) {
     console.error("API PATCH /projects/[id] error:", error);
@@ -33,10 +34,11 @@ export async function PATCH(
 
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const cookieStore = cookies();
+    const { id } = await params;
+    const cookieStore = await cookies();
     const token = cookieStore.get("aurix_session")?.value;
     const { user } = await authService.getSession(token);
 
@@ -47,7 +49,7 @@ export async function DELETE(
       );
     }
 
-    const { response, status } = await projectController.deleteProject(params.id);
+    const { response, status } = await projectController.deleteProject(id);
     return NextResponse.json(response, { status });
   } catch (error) {
     console.error("API DELETE /projects/[id] error:", error);

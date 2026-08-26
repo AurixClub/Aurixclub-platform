@@ -6,6 +6,7 @@ import { ScrollProgress, ScrollReveal, StaggerContainer, StaggerItem } from "@/c
 import { Code2, ExternalLink, Github, Sparkles, Layers, Cpu, Globe, Rocket } from "lucide-react";
 import Link from "next/link";
 import { projectModel } from "@aurix/backend";
+import type { Project } from "@aurix/types";
 
 export const metadata: Metadata = {
   title: "Projects & Innovations | AURIX",
@@ -24,7 +25,7 @@ const iconMap: Record<string, React.ElementType> = {
 };
 
 export default async function ProjectsPage() {
-  let projects = [];
+  let projects: Project[] = [];
   try {
     projects = await projectModel.getAll();
   } catch (error) {
@@ -90,7 +91,7 @@ export default async function ProjectsPage() {
                         {/* Tags */}
                         {project.tags && project.tags.length > 0 && (
                           <div className="flex flex-wrap gap-1.5">
-                            {project.tags.map((tag) => (
+                            {project.tags.map((tag: string) => (
                               <span
                                 key={tag}
                                 className="rounded-md bg-white/[0.03] px-2 py-0.5 text-[11px] text-zinc-400 border border-white/[0.05]"

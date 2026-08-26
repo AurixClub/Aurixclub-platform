@@ -1393,7 +1393,6 @@ export default function AdminPage() {
               ))}
             </div>
           </div>
-          </div>
         )}
 
         {/* ─── TAB: PROJECTS ────────────────────────────────────────────── */}
@@ -1437,7 +1436,7 @@ export default function AdminPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
               {projects.length > 0 ? (
-                projects.map((project) => (
+                projects.map((project: any) => (
                   <div key={project.id} className="p-6 rounded-2xl bg-[#0d111c]/90 border border-white/10 space-y-4">
                     <div className="flex items-center justify-between">
                       <span className="text-[10px] font-mono text-violet-400 uppercase tracking-wider">{project.category}</span>
@@ -1487,7 +1486,7 @@ export default function AdminPage() {
 
             <div className="overflow-y-auto flex-1 space-y-3">
               {eventRegistrations.length > 0 ? (
-                eventRegistrations.map((reg) => (
+                eventRegistrations.map((reg: any) => (
                   <div
                     key={reg.id}
                     className="p-3.5 rounded-xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-between"

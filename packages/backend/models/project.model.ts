@@ -1,9 +1,9 @@
-import { createClient } from "@aurix/supabase/server";
+import { createServerSupabaseClient } from "@aurix/supabase/server";
 import type { Project, ProjectInput } from "@aurix/types";
 
 export class ProjectModel {
   async getAll(): Promise<Project[]> {
-    const supabase = createClient();
+    const supabase = createServerSupabaseClient();
     const { data, error } = await supabase
       .from("projects")
       .select("*")
@@ -18,7 +18,7 @@ export class ProjectModel {
   }
 
   async create(input: ProjectInput): Promise<Project> {
-    const supabase = createClient();
+    const supabase = createServerSupabaseClient();
     const { data, error } = await supabase
       .from("projects")
       .insert([input])
@@ -34,7 +34,7 @@ export class ProjectModel {
   }
 
   async update(id: string, input: Partial<ProjectInput>): Promise<Project> {
-    const supabase = createClient();
+    const supabase = createServerSupabaseClient();
     const { data, error } = await supabase
       .from("projects")
       .update(input)
@@ -51,7 +51,7 @@ export class ProjectModel {
   }
 
   async delete(id: string): Promise<void> {
-    const supabase = createClient();
+    const supabase = createServerSupabaseClient();
     const { error } = await supabase.from("projects").delete().eq("id", id);
 
     if (error) {
