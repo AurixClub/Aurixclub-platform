@@ -1,5 +1,4 @@
 import { announcementModel } from "../models/announcement.model";
-import { authService } from "../services/auth.service";
 
 export class AnnouncementController {
   async getActive() {

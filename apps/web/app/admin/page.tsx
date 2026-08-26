@@ -172,8 +172,12 @@ export default function AdminPage() {
         if (d.success) setProjects(d.data.projects);
       } else if (activeTab === "announcements") {
         const res = await fetch("/api/announcements");
-        const d = await res.json();
-        setAnnouncements(d);
+        if (res.ok) {
+          const d = await res.json();
+          setAnnouncements(Array.isArray(d) ? d : []);
+        } else {
+          setAnnouncements([]);
+        }
       }
     } catch (e) {
       console.error("Failed to load admin data", e);
@@ -399,9 +403,9 @@ export default function AdminPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-900 flex flex-col selection:bg-violet-500/30">
+    <div className="min-h-screen bg-[#07090e] text-white flex flex-col selection:bg-violet-500/30">
       {/* Top Header */}
-      <header className="border-b border-gray-200 bg-white/90 backdrop-blur-xl sticky top-0 z-50">
+      <header className="border-b border-white/[0.06] bg-[#07090e]/90 backdrop-blur-xl sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <Link href="/" className="flex items-center gap-2.5 group">
@@ -410,8 +414,8 @@ export default function AdminPage() {
               </span>
             </Link>
 
-            <span className="text-xs px-2.5 py-1 rounded-full bg-violet-500/15 border border-rose-200 text-rose-500 font-mono flex items-center gap-1.5 font-semibold">
-              <ShieldCheck className="h-3.5 w-3.5 text-rose-600" />
+            <span className="text-xs px-2.5 py-1 rounded-full bg-violet-500/15 border border-violet-500/30 text-violet-300 font-mono flex items-center gap-1.5 font-semibold">
+              <ShieldCheck className="h-3.5 w-3.5 text-violet-400" />
               Super Admin Portal
             </span>
 
@@ -419,7 +423,7 @@ export default function AdminPage() {
             <Link
               href="/"
               target="_blank"
-              className="hidden md:inline-flex items-center gap-1.5 text-xs text-gray-500 hover:text-gray-900 px-2.5 py-1 rounded-lg bg-gray-50 hover:bg-gray-200 border border-gray-200 transition-colors"
+              className="hidden md:inline-flex items-center gap-1.5 text-xs text-zinc-400 hover:text-white px-2.5 py-1 rounded-lg bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 transition-colors"
             >
               <Globe className="h-3.5 w-3.5 text-blue-400" />
               <span>View Live Website</span>
@@ -432,19 +436,19 @@ export default function AdminPage() {
               onClick={loadData}
               disabled={isRefreshing}
               title="Refresh Data"
-              className="p-2 rounded-xl bg-gray-50 hover:bg-gray-200 border border-gray-200 text-gray-500 hover:text-gray-900 transition-colors disabled:opacity-50"
+              className="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 text-zinc-400 hover:text-white transition-colors disabled:opacity-50"
             >
-              <RefreshCw className={`h-4 w-4 ${isRefreshing ? "animate-spin text-rose-600" : ""}`} />
+              <RefreshCw className={`h-4 w-4 ${isRefreshing ? "animate-spin text-violet-400" : ""}`} />
             </button>
 
             <div className="text-right hidden sm:block">
-              <div className="text-xs font-semibold text-gray-900">{session.user.full_name}</div>
-              <div className="text-[10px] font-mono text-rose-600">{session.user.email}</div>
+              <div className="text-xs font-semibold text-white">{session.user.full_name}</div>
+              <div className="text-[10px] font-mono text-violet-400">{session.user.email}</div>
             </div>
 
             <button
               onClick={handleLogout}
-              className="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-xl bg-gray-100 hover:bg-red-500/15 hover:text-red-300 border border-gray-200 text-xs font-medium text-gray-600 transition-colors"
+              className="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-xl bg-white/[0.04] hover:bg-red-500/15 hover:text-red-300 border border-white/10 text-xs font-medium text-zinc-400 transition-colors"
             >
               <LogOut className="h-3.5 w-3.5" />
               <span className="hidden sm:inline">Sign Out</span>
@@ -453,7 +457,7 @@ export default function AdminPage() {
         </div>
 
         {/* Navigation Tabs Bar */}
-        <div className="border-t border-gray-200 bg-gray-50/60">
+        <div className="border-t border-white/[0.06] bg-white/[0.02]">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center gap-1 overflow-x-auto py-2 scrollbar-none">
             {[
               { id: "overview", label: "Overview", icon: Sparkles },
@@ -475,8 +479,8 @@ export default function AdminPage() {
                   }}
                   className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${
                     isActive
-                      ? "bg-rose-500 text-gray-900 shadow-lg shadow-rose-500/20 font-bold"
-                      : "text-gray-500 hover:text-gray-900 hover:bg-gray-50"
+                      ? "bg-violet-600 text-white shadow-lg shadow-violet-500/20 font-bold"
+                      : "text-zinc-400 hover:text-white hover:bg-white/[0.06]"
                   }`}
                 >
                   <Icon className="h-3.5 w-3.5" />
