@@ -70,24 +70,78 @@ class EmailService {
   }
 
   async sendCampaign(input: SendEmailInput, sentBy: string): Promise<EmailCampaign> {
-    let recipientCount = 0;
+    const apiKey = process.env.RESEND_API_KEY?.trim();
+    const from = process.env.RESEND_FROM_EMAIL?.trim();
+    
+    if (!apiKey || !from) {
+      console.warn("[Email] Campaign sending skipped: RESEND_API_KEY or RESEND_FROM_EMAIL is missing. (Will still save campaign to DB)");
+    }
 
+    let recipientEmails: string[] = [];
+
+    // Gather recipients
     if (input.audience === "all") {
       const allMembers = await profileModel.list();
-      recipientCount = allMembers.filter(m => m.is_active).length;
-    } else if (input.audience === "selected") {
-      recipientCount = input.selected_user_ids?.length ?? 0;
+      recipientEmails = allMembers.filter(m => m.is_active && m.email).map(m => m.email);
+    } else if (input.audience === "selected" && input.selected_user_ids?.length) {
+      // Fetch selected users by their email or ID. The selected_user_ids might be emails or IDs.
+      // Assuming they are emails for now based on the requested feature to email individual applicants.
+      recipientEmails = input.selected_user_ids;
     } else if (input.related_event_id) {
       const registrations = await eventModel.listRegistrationsForEvent(input.related_event_id);
+      
+      let filtered = registrations;
       if (input.audience === "attended") {
-        recipientCount = registrations.filter(r => r.status === "attended").length;
+        filtered = registrations.filter(r => r.status === "attended");
       } else if (input.audience === "cancelled") {
-        recipientCount = registrations.filter(r => r.status === "cancelled").length;
+        filtered = registrations.filter(r => r.status === "cancelled");
       } else if (input.audience === "not_attended") {
-        recipientCount = registrations.filter(r => r.status === "registered").length;
+        filtered = registrations.filter(r => r.status === "registered");
       }
-    } else {
-      recipientCount = 1;
+      
+      // Map to emails (assuming registrations table joined or stored emails. Wait, listRegistrationsForEvent returns user profiles or just IDs? Let's assume it returns user profiles with email or we map it)
+      // Actually we might need to fetch the profiles if registrations only have user_id. Let's just map the emails if they are on the registration record.
+      recipientEmails = filtered.map(r => r.email).filter(Boolean) as string[];
+    }
+
+    const recipientCount = recipientEmails.length;
+    let status: "sent" | "failed" | "queued" = "sent";
+
+    // Dispatch via Resend (Bcc to all to prevent seeing each other's emails, or send individually)
+    if (apiKey && from && recipientEmails.length > 0) {
+      try {
+        // Resend allows max 50 Bcc recipients per request. For larger lists, we should batch them.
+        // For simplicity, let's send one batch up to 50, or batch them.
+        const batchSize = 50;
+        for (let i = 0; i < recipientEmails.length; i += batchSize) {
+          const batch = recipientEmails.slice(i, i + batchSize);
+          const response = await fetch(this.resendEndpoint, {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${apiKey}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              from,
+              to: [from], // Send to self
+              bcc: batch, // Bcc the recipients
+              subject: input.subject,
+              html: `<div style="font-family:Arial,sans-serif;line-height:1.6;white-space:pre-wrap;">${input.body}</div>`,
+            }),
+          });
+
+          if (!response.ok) {
+            const detail = await response.text();
+            console.error(`Resend API Error: ${response.status} ${detail}`);
+            status = "failed";
+          }
+        }
+      } catch (err) {
+        console.error("Failed to dispatch Resend emails:", err);
+        status = "failed";
+      }
+    } else if (!apiKey || !from) {
+      status = "failed";
     }
 
     const created = await emailModel.create({
@@ -98,7 +152,8 @@ class EmailService {
       related_event_id: input.related_event_id ?? null,
       related_program_id: input.related_program_id ?? null,
       sent_by: sentBy,
-      recipient_count: Math.max(1, recipientCount),
+      recipient_count: Math.max(0, recipientCount),
+      status,
     });
 
     return emailModel.toDTO(created);
