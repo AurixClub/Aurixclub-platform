@@ -356,9 +356,9 @@ export default function AdminPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-[#07090e] text-white flex items-center justify-center">
-        <div className="flex items-center gap-3 text-zinc-400 font-mono text-sm">
-          <span className="h-5 w-5 rounded-full border-2 border-violet-500/30 border-t-violet-500 animate-spin" />
+      <div className="min-h-screen bg-gray-50 text-gray-900 flex items-center justify-center">
+        <div className="flex items-center gap-3 text-gray-500 font-mono text-sm">
+          <span className="h-5 w-5 rounded-full border-2 border-rose-200 border-t-violet-500 animate-spin" />
           <span>Authenticating Super Admin Portal...</span>
         </div>
       </div>
@@ -367,27 +367,27 @@ export default function AdminPage() {
 
   if (!session || !session.user || session.user.role !== "super_admin") {
     return (
-      <div className="min-h-screen bg-[#07090e] text-white flex flex-col items-center justify-center px-4 relative">
-        <div className="w-full max-w-md p-8 rounded-3xl bg-[#0d111c]/90 border border-red-500/20 text-center shadow-2xl backdrop-blur-xl">
+      <div className="min-h-screen bg-gray-50 text-gray-900 flex flex-col items-center justify-center px-4 relative">
+        <div className="w-full max-w-md p-8 rounded-3xl bg-white/90 border border-red-500/20 text-center shadow-2xl backdrop-blur-xl">
           <div className="inline-flex p-3.5 rounded-2xl bg-red-500/10 border border-red-500/30 text-red-400 mb-5">
             <ShieldAlert className="h-8 w-8" />
           </div>
           <h1 className="text-2xl font-bold mb-2">Restricted Access</h1>
-          <p className="text-sm text-zinc-400 mb-6 leading-relaxed">
+          <p className="text-sm text-gray-500 mb-6 leading-relaxed">
             This module requires <span className="text-red-300 font-semibold">Super Admin</span> authorization.
           </p>
 
           <div className="space-y-3">
             <Link
               href="/login"
-              className="w-full inline-flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 font-semibold text-sm text-white hover:opacity-95 transition-opacity"
+              className="w-full inline-flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 font-semibold text-sm text-gray-900 hover:opacity-95 transition-opacity"
             >
               <Lock className="h-4 w-4" />
               <span>Sign in as Super Admin</span>
             </Link>
             <Link
               href="/"
-              className="w-full inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-xs text-zinc-400 hover:text-white transition-colors"
+              className="w-full inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-gray-50 hover:bg-gray-200 text-xs text-gray-500 hover:text-gray-900 transition-colors"
             >
               <ArrowLeft className="h-3.5 w-3.5" />
               <span>Return to Home</span>
@@ -399,9 +399,9 @@ export default function AdminPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#07090e] text-white flex flex-col selection:bg-violet-500/30">
+    <div className="min-h-screen bg-gray-50 text-gray-900 flex flex-col selection:bg-violet-500/30">
       {/* Top Header */}
-      <header className="border-b border-white/10 bg-[#0a0d14]/90 backdrop-blur-xl sticky top-0 z-50">
+      <header className="border-b border-gray-200 bg-white/90 backdrop-blur-xl sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <Link href="/" className="flex items-center gap-2.5 group">
@@ -410,8 +410,8 @@ export default function AdminPage() {
               </span>
             </Link>
 
-            <span className="text-xs px-2.5 py-1 rounded-full bg-violet-500/15 border border-violet-500/30 text-violet-300 font-mono flex items-center gap-1.5 font-semibold">
-              <ShieldCheck className="h-3.5 w-3.5 text-violet-400" />
+            <span className="text-xs px-2.5 py-1 rounded-full bg-violet-500/15 border border-rose-200 text-rose-500 font-mono flex items-center gap-1.5 font-semibold">
+              <ShieldCheck className="h-3.5 w-3.5 text-rose-600" />
               Super Admin Portal
             </span>
 
@@ -419,11 +419,11 @@ export default function AdminPage() {
             <Link
               href="/"
               target="_blank"
-              className="hidden md:inline-flex items-center gap-1.5 text-xs text-zinc-400 hover:text-white px-2.5 py-1 rounded-lg bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 transition-colors"
+              className="hidden md:inline-flex items-center gap-1.5 text-xs text-gray-500 hover:text-gray-900 px-2.5 py-1 rounded-lg bg-gray-50 hover:bg-gray-200 border border-gray-200 transition-colors"
             >
               <Globe className="h-3.5 w-3.5 text-blue-400" />
               <span>View Live Website</span>
-              <ExternalLink className="h-3 w-3 text-zinc-500" />
+              <ExternalLink className="h-3 w-3 text-gray-400" />
             </Link>
           </div>
 
@@ -432,19 +432,19 @@ export default function AdminPage() {
               onClick={loadData}
               disabled={isRefreshing}
               title="Refresh Data"
-              className="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 text-zinc-400 hover:text-white transition-colors disabled:opacity-50"
+              className="p-2 rounded-xl bg-gray-50 hover:bg-gray-200 border border-gray-200 text-gray-500 hover:text-gray-900 transition-colors disabled:opacity-50"
             >
-              <RefreshCw className={`h-4 w-4 ${isRefreshing ? "animate-spin text-violet-400" : ""}`} />
+              <RefreshCw className={`h-4 w-4 ${isRefreshing ? "animate-spin text-rose-600" : ""}`} />
             </button>
 
             <div className="text-right hidden sm:block">
-              <div className="text-xs font-semibold text-white">{session.user.full_name}</div>
-              <div className="text-[10px] font-mono text-violet-400">{session.user.email}</div>
+              <div className="text-xs font-semibold text-gray-900">{session.user.full_name}</div>
+              <div className="text-[10px] font-mono text-rose-600">{session.user.email}</div>
             </div>
 
             <button
               onClick={handleLogout}
-              className="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-xl bg-white/[0.05] hover:bg-red-500/15 hover:text-red-300 border border-white/10 text-xs font-medium text-zinc-300 transition-colors"
+              className="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-xl bg-gray-100 hover:bg-red-500/15 hover:text-red-300 border border-gray-200 text-xs font-medium text-gray-600 transition-colors"
             >
               <LogOut className="h-3.5 w-3.5" />
               <span className="hidden sm:inline">Sign Out</span>
@@ -453,7 +453,7 @@ export default function AdminPage() {
         </div>
 
         {/* Navigation Tabs Bar */}
-        <div className="border-t border-white/[0.06] bg-[#07090e]/60">
+        <div className="border-t border-gray-200 bg-gray-50/60">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center gap-1 overflow-x-auto py-2 scrollbar-none">
             {[
               { id: "overview", label: "Overview", icon: Sparkles },
@@ -475,8 +475,8 @@ export default function AdminPage() {
                   }}
                   className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${
                     isActive
-                      ? "bg-violet-600 text-white shadow-lg shadow-violet-600/30 font-bold"
-                      : "text-zinc-400 hover:text-white hover:bg-white/[0.04]"
+                      ? "bg-rose-500 text-gray-900 shadow-lg shadow-rose-500/20 font-bold"
+                      : "text-gray-500 hover:text-gray-900 hover:bg-gray-50"
                   }`}
                 >
                   <Icon className="h-3.5 w-3.5" />
@@ -506,16 +506,16 @@ export default function AdminPage() {
                   <button
                     key={idx}
                     onClick={() => setActiveTab(m.tab as AdminTab)}
-                    className="p-4 rounded-2xl bg-[#0d111c]/90 border border-white/10 hover:border-violet-500/40 text-left transition-all hover:scale-[1.02] group"
+                    className="p-4 rounded-2xl bg-white/90 border border-gray-200 hover:border-rose-200 text-left transition-all hover:scale-[1.02] group"
                   >
                     <div className="flex items-center justify-between mb-2">
-                      <span className="text-[11px] font-mono uppercase tracking-wider text-zinc-400">
+                      <span className="text-[11px] font-mono uppercase tracking-wider text-gray-500">
                         {m.label}
                       </span>
                       <Icon className={`h-4 w-4 ${m.color} group-hover:scale-110 transition-transform`} />
                     </div>
-                    <div className="text-2xl font-black text-white">{m.value}</div>
-                    <div className="text-[10px] text-zinc-400 mt-0.5">{m.sub}</div>
+                    <div className="text-2xl font-black text-gray-900">{m.value}</div>
+                    <div className="text-[10px] text-gray-500 mt-0.5">{m.sub}</div>
                   </button>
                 );
               })}
@@ -524,17 +524,17 @@ export default function AdminPage() {
             {/* Two Column Layout: Recent Applications & Upcoming Events */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* Recent Applications Queue */}
-              <div className="p-6 rounded-2xl bg-[#0d111c]/90 border border-white/10 space-y-4">
+              <div className="p-6 rounded-2xl bg-white/90 border border-gray-200 space-y-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <UserCheck className="h-4 w-4 text-amber-400" />
-                    <h2 className="text-sm font-bold uppercase tracking-wider text-zinc-300">
+                    <h2 className="text-sm font-bold uppercase tracking-wider text-gray-600">
                       Recent Join Applications
                     </h2>
                   </div>
                   <button
                     onClick={() => setActiveTab("applications")}
-                    className="text-xs font-semibold text-violet-400 hover:text-violet-300 inline-flex items-center gap-1"
+                    className="text-xs font-semibold text-rose-600 hover:text-rose-500 inline-flex items-center gap-1"
                   >
                     <span>View All</span>
                     <ChevronRight className="h-3.5 w-3.5" />
@@ -546,12 +546,12 @@ export default function AdminPage() {
                     overview.recent_applications.map((app: any) => (
                       <div
                         key={app.id}
-                        className="p-3.5 rounded-xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-between gap-3"
+                        className="p-3.5 rounded-xl bg-gray-50 border border-gray-200 flex items-center justify-between gap-3"
                       >
                         <div className="min-w-0">
-                          <div className="text-xs font-bold text-white truncate">{app.full_name}</div>
-                          <div className="text-[11px] text-zinc-400 font-mono truncate">{app.email}</div>
-                          <div className="text-[10px] text-zinc-400 mt-0.5">
+                          <div className="text-xs font-bold text-gray-900 truncate">{app.full_name}</div>
+                          <div className="text-[11px] text-gray-500 font-mono truncate">{app.email}</div>
+                          <div className="text-[10px] text-gray-500 mt-0.5">
                             {app.branch} • Year {app.year}
                           </div>
                         </div>
@@ -590,23 +590,23 @@ export default function AdminPage() {
                       </div>
                     ))
                   ) : (
-                    <div className="text-xs text-zinc-400 text-center py-6">No applications submitted yet.</div>
+                    <div className="text-xs text-gray-500 text-center py-6">No applications submitted yet.</div>
                   )}
                 </div>
               </div>
 
               {/* Upcoming Events / Hackathons */}
-              <div className="p-6 rounded-2xl bg-[#0d111c]/90 border border-white/10 space-y-4">
+              <div className="p-6 rounded-2xl bg-white/90 border border-gray-200 space-y-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <Calendar className="h-4 w-4 text-emerald-400" />
-                    <h2 className="text-sm font-bold uppercase tracking-wider text-zinc-300">
+                    <h2 className="text-sm font-bold uppercase tracking-wider text-gray-600">
                       Published Events
                     </h2>
                   </div>
                   <button
                     onClick={() => setActiveTab("events")}
-                    className="text-xs font-semibold text-violet-400 hover:text-violet-300 inline-flex items-center gap-1"
+                    className="text-xs font-semibold text-rose-600 hover:text-rose-500 inline-flex items-center gap-1"
                   >
                     <span>Manage Events</span>
                     <ChevronRight className="h-3.5 w-3.5" />
@@ -618,12 +618,12 @@ export default function AdminPage() {
                     overview.upcoming_events.map((ev: any) => (
                       <div
                         key={ev.id}
-                        className="p-3.5 rounded-xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-between gap-3"
+                        className="p-3.5 rounded-xl bg-gray-50 border border-gray-200 flex items-center justify-between gap-3"
                       >
                         <div className="min-w-0">
-                          <div className="text-xs font-bold text-white truncate">{ev.title}</div>
-                          <div className="text-[11px] text-zinc-400 mt-0.5">
-                            Mode: <span className="font-mono text-zinc-300">{ev.mode}</span> • Max: {ev.max_participants ?? "Unlimited"}
+                          <div className="text-xs font-bold text-gray-900 truncate">{ev.title}</div>
+                          <div className="text-[11px] text-gray-500 mt-0.5">
+                            Mode: <span className="font-mono text-gray-600">{ev.mode}</span> • Max: {ev.max_participants ?? "Unlimited"}
                           </div>
                         </div>
 
@@ -633,7 +633,7 @@ export default function AdminPage() {
                           </div>
                           <button
                             onClick={() => handleOpenEventRegistrations(ev)}
-                            className="text-[10px] text-zinc-400 hover:text-white underline mt-0.5"
+                            className="text-[10px] text-gray-500 hover:text-gray-900 underline mt-0.5"
                           >
                             View list
                           </button>
@@ -641,7 +641,7 @@ export default function AdminPage() {
                       </div>
                     ))
                   ) : (
-                    <div className="text-xs text-zinc-400 text-center py-6">No events scheduled.</div>
+                    <div className="text-xs text-gray-500 text-center py-6">No events scheduled.</div>
                   )}
                 </div>
               </div>
@@ -654,8 +654,8 @@ export default function AdminPage() {
           <div className="space-y-6">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div>
-                <h2 className="text-2xl font-bold text-white">Departments & Leads</h2>
-                <p className="text-xs text-zinc-400">
+                <h2 className="text-2xl font-bold text-gray-900">Departments & Leads</h2>
+                <p className="text-xs text-gray-500">
                   Select a department to view and manage its Leads, Co-Leads, and Member profiles.
                 </p>
               </div>
@@ -671,7 +671,7 @@ export default function AdminPage() {
                   });
                   if (res.ok) loadData();
                 }}
-                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-violet-600 hover:bg-violet-500 text-white text-xs font-semibold shadow-lg shadow-violet-600/30 transition-all"
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-rose-500 hover:bg-rose-600 text-gray-900 text-xs font-semibold shadow-lg shadow-rose-500/20 transition-all"
               >
                 <Plus className="h-4 w-4" />
                 <span>Create Department</span>
@@ -688,39 +688,39 @@ export default function AdminPage() {
                   <div
                     key={dept.id}
                     onClick={() => setSelectedDept(isSelected ? null : dept)}
-                    className={`p-6 rounded-2xl bg-[#0d111c]/90 border cursor-pointer transition-all ${
+                    className={`p-6 rounded-2xl bg-white/90 border cursor-pointer transition-all ${
                       isSelected
-                        ? "border-violet-500 shadow-xl shadow-violet-500/20 bg-[#121626]"
-                        : "border-white/10 hover:border-violet-500/40"
+                        ? "border-violet-500 shadow-xl shadow-rose-500/10 bg-rose-50"
+                        : "border-gray-200 hover:border-rose-200"
                     }`}
                   >
                     <div className="flex items-start justify-between">
                       <div>
-                        <h3 className="text-base font-bold text-white">{dept.name}</h3>
-                        <span className="text-[11px] font-mono text-zinc-500">/{dept.slug}</span>
+                        <h3 className="text-base font-bold text-gray-900">{dept.name}</h3>
+                        <span className="text-[11px] font-mono text-gray-400">/{dept.slug}</span>
                       </div>
                       <span
                         className={`text-[10px] font-mono uppercase px-2.5 py-0.5 rounded-full font-bold ${
                           dept.status === "active"
                             ? "bg-emerald-500/15 text-emerald-300 border border-emerald-500/30"
-                            : "bg-zinc-500/15 text-zinc-400 border border-zinc-500/30"
+                            : "bg-zinc-500/15 text-gray-500 border border-zinc-500/30"
                         }`}
                       >
                         {dept.status}
                       </span>
                     </div>
 
-                    <p className="text-xs text-zinc-300 leading-relaxed my-3 line-clamp-2">
+                    <p className="text-xs text-gray-600 leading-relaxed my-3 line-clamp-2">
                       {dept.description || "No description provided."}
                     </p>
 
-                    <div className="pt-3 border-t border-white/[0.06] flex items-center justify-between text-xs">
-                      <span className="text-zinc-400 font-mono flex items-center gap-1.5">
+                    <div className="pt-3 border-t border-gray-200 flex items-center justify-between text-xs">
+                      <span className="text-gray-500 font-mono flex items-center gap-1.5">
                         <Users className="h-3.5 w-3.5 text-blue-400" />
-                        <span>Team Profiles: <strong className="text-white">{dept.members?.length || 0}</strong></span>
+                        <span>Team Profiles: <strong className="text-gray-900">{dept.members?.length || 0}</strong></span>
                       </span>
 
-                      <span className="text-[11px] text-violet-400 font-semibold">
+                      <span className="text-[11px] text-rose-600 font-semibold">
                         {isSelected ? "Managing Team ↓" : "View Leads & Members →"}
                       </span>
                     </div>
@@ -731,15 +731,15 @@ export default function AdminPage() {
 
             {/* Department Member Management Roster Panel */}
             {selectedDept && (
-              <div className="p-6 sm:p-8 rounded-3xl bg-[#0a0d16] border border-violet-500/30 shadow-2xl space-y-8">
-                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-white/10 pb-5">
+              <div className="p-6 sm:p-8 rounded-3xl bg-white border border-rose-200 shadow-2xl space-y-8">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-gray-200 pb-5">
                   <div>
-                    <div className="inline-flex items-center gap-2 text-xs font-mono text-violet-300 uppercase tracking-wider mb-1">
+                    <div className="inline-flex items-center gap-2 text-xs font-mono text-rose-500 uppercase tracking-wider mb-1">
                       <Crown className="h-3.5 w-3.5 text-amber-400" />
                       <span>Department Leadership & Team Management</span>
                     </div>
-                    <h3 className="text-2xl font-black text-white">{selectedDept.name}</h3>
-                    <p className="text-xs text-zinc-400 mt-1">{selectedDept.description}</p>
+                    <h3 className="text-2xl font-black text-gray-900">{selectedDept.name}</h3>
+                    <p className="text-xs text-gray-500 mt-1">{selectedDept.description}</p>
                   </div>
 
                   <div className="flex items-center gap-2">
@@ -758,7 +758,7 @@ export default function AdminPage() {
                     </button>
                     <button
                       onClick={() => setSelectedDept(null)}
-                      className="px-3 py-1.5 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] text-zinc-400 hover:text-white text-xs font-medium transition-colors"
+                      className="px-3 py-1.5 rounded-xl bg-gray-100 hover:bg-white/[0.1] text-gray-500 hover:text-gray-900 text-xs font-medium transition-colors"
                     >
                       Close Panel
                     </button>
@@ -766,42 +766,42 @@ export default function AdminPage() {
                 </div>
 
                 {/* Add Member / Lead / Co-Lead Form */}
-                <div className="p-6 rounded-2xl bg-white/[0.03] border border-white/10 space-y-4">
+                <div className="p-6 rounded-2xl bg-gray-50 border border-gray-200 space-y-4">
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2 text-sm font-bold text-white">
+                    <div className="flex items-center gap-2 text-sm font-bold text-gray-900">
                       <UserPlus className="h-4 w-4 text-emerald-400" />
                       <span>Add Member, Lead, or Co-Lead to {selectedDept.name}</span>
                     </div>
-                    <span className="text-[11px] font-mono text-zinc-400">Directly adds to public department page</span>
+                    <span className="text-[11px] font-mono text-gray-500">Directly adds to public department page</span>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
                     <div>
-                      <label className="text-zinc-400 font-mono block mb-1">Full Name *</label>
+                      <label className="text-gray-500 font-mono block mb-1">Full Name *</label>
                       <input
                         type="text"
                         placeholder="e.g. Harshith Gowda"
                         value={newMemberName}
                         onChange={(e) => setNewMemberName(e.target.value)}
-                        className="w-full px-3.5 py-2.5 rounded-xl bg-[#0d111c] border border-white/10 text-white placeholder:text-zinc-600 focus:outline-none focus:border-violet-500"
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-gray-200 text-gray-900 placeholder:text-zinc-600 focus:outline-none focus:border-violet-500"
                       />
                     </div>
 
                     <div>
-                      <label className="text-zinc-400 font-mono block mb-1">Role in Department *</label>
+                      <label className="text-gray-500 font-mono block mb-1">Role in Department *</label>
                       <input
                         type="text"
                         placeholder="e.g. Lead, Co-Lead, Core Member"
                         value={newMemberRole}
                         onChange={(e) => setNewMemberRole(e.target.value)}
-                        className="w-full px-3.5 py-2.5 rounded-xl bg-[#0d111c] border border-white/10 text-white placeholder:text-zinc-600 focus:outline-none focus:border-violet-500"
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-gray-200 text-gray-900 placeholder:text-zinc-600 focus:outline-none focus:border-violet-500"
                       />
                     </div>
 
                     <div>
                       <div className="flex items-center justify-between mb-1">
-                        <label className="text-zinc-400 font-mono text-xs">Profile Photo</label>
-                        <label className="cursor-pointer text-[10px] text-violet-400 hover:text-violet-300 font-mono underline flex items-center gap-1">
+                        <label className="text-gray-500 font-mono text-xs">Profile Photo</label>
+                        <label className="cursor-pointer text-[10px] text-rose-600 hover:text-rose-500 font-mono underline flex items-center gap-1">
                           <ImageIcon className="h-3 w-3" />
                           <span>Upload File</span>
                           <input
@@ -823,37 +823,37 @@ export default function AdminPage() {
                           placeholder="Upload or paste image URL..."
                           value={newMemberAvatar}
                           onChange={(e) => setNewMemberAvatar(e.target.value)}
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-[#0d111c] border border-white/10 text-white placeholder:text-zinc-600 focus:outline-none focus:border-violet-500 font-mono text-[11px]"
+                          className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-gray-200 text-gray-900 placeholder:text-zinc-600 focus:outline-none focus:border-violet-500 font-mono text-[11px]"
                         />
                       </div>
                     </div>
 
                     <div>
-                      <label className="text-zinc-400 font-mono block mb-1">Email Address</label>
+                      <label className="text-gray-500 font-mono block mb-1">Email Address</label>
                       <input
                         type="email"
                         placeholder="member@aurix.club"
                         value={newMemberEmail}
                         onChange={(e) => setNewMemberEmail(e.target.value)}
-                        className="w-full px-3.5 py-2.5 rounded-xl bg-[#0d111c] border border-white/10 text-white placeholder:text-zinc-600 focus:outline-none focus:border-violet-500 font-mono text-[11px]"
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-gray-200 text-gray-900 placeholder:text-zinc-600 focus:outline-none focus:border-violet-500 font-mono text-[11px]"
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label className="text-zinc-400 font-mono text-xs block mb-1">Short Description / Specialization</label>
+                    <label className="text-gray-500 font-mono text-xs block mb-1">Short Description / Specialization</label>
                     <input
                       type="text"
                       placeholder="e.g. Full-stack architect & AI workflow specialist leading software engineering tracks."
                       value={newMemberDesc}
                       onChange={(e) => setNewMemberDesc(e.target.value)}
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-[#0d111c] border border-white/10 text-xs text-white placeholder:text-zinc-600 focus:outline-none focus:border-violet-500"
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-gray-200 text-xs text-gray-900 placeholder:text-zinc-600 focus:outline-none focus:border-violet-500"
                     />
                   </div>
 
                   <div className="flex items-center justify-between pt-2">
                     <div className="flex items-center gap-2">
-                      <span className="text-[11px] text-zinc-500 font-mono">Quick Avatars:</span>
+                      <span className="text-[11px] text-gray-400 font-mono">Quick Avatars:</span>
                       {[
                         "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&auto=format&fit=crop",
                         "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=300&auto=format&fit=crop",
@@ -873,7 +873,7 @@ export default function AdminPage() {
                         <button
                           type="button"
                           onClick={() => setNewMemberAvatar("")}
-                          className="text-[10px] text-zinc-500 hover:text-red-400 font-mono ml-1"
+                          className="text-[10px] text-gray-400 hover:text-red-400 font-mono ml-1"
                         >
                           Clear
                         </button>
@@ -883,7 +883,7 @@ export default function AdminPage() {
                     <button
                       onClick={() => handleAddDepartmentMember(selectedDept.id)}
                       disabled={isAddingMember || !newMemberName.trim()}
-                      className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:opacity-95 disabled:opacity-40 text-white text-xs font-bold shadow-lg shadow-emerald-600/25 transition-all flex items-center gap-1.5"
+                      className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:opacity-95 disabled:opacity-40 text-gray-900 text-xs font-bold shadow-lg shadow-emerald-600/25 transition-all flex items-center gap-1.5"
                     >
                       <Plus className="h-4 w-4" />
                       <span>{isAddingMember ? "Adding..." : "Add to Department"}</span>
@@ -894,7 +894,7 @@ export default function AdminPage() {
                 {/* Current Department Members & Leads Cards Grid */}
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
-                    <h4 className="text-sm font-bold uppercase tracking-wider text-zinc-300">
+                    <h4 className="text-sm font-bold uppercase tracking-wider text-gray-600">
                       Current Department Members & Leads ({selectedDept.members?.length || 0})
                     </h4>
                   </div>
@@ -908,8 +908,8 @@ export default function AdminPage() {
                             key={member.id}
                             className={`p-5 rounded-2xl border flex flex-col justify-between space-y-4 transition-all ${
                               isLead
-                                ? "bg-gradient-to-br from-violet-950/40 via-[#0d111c] to-[#0d111c] border-violet-500/30"
-                                : "bg-white/[0.02] border-white/10"
+                                ? "bg-gradient-to-br from-violet-950/40 via-[#0d111c] to-[#0d111c] border-rose-200"
+                                : "bg-white/[0.02] border-gray-200"
                             }`}
                           >
                             <div className="space-y-3">
@@ -922,12 +922,12 @@ export default function AdminPage() {
                                       className="w-12 h-12 rounded-xl object-cover ring-2 ring-violet-500/30 flex-shrink-0"
                                     />
                                   ) : (
-                                    <div className="w-12 h-12 rounded-xl bg-violet-600/30 border border-violet-500/30 flex items-center justify-center font-bold text-base text-violet-300 flex-shrink-0">
+                                    <div className="w-12 h-12 rounded-xl bg-rose-500/30 border border-rose-200 flex items-center justify-center font-bold text-base text-rose-500 flex-shrink-0">
                                       {member.name.charAt(0)}
                                     </div>
                                   )}
                                   <div>
-                                    <h5 className="text-sm font-bold text-white leading-tight">{member.name}</h5>
+                                    <h5 className="text-sm font-bold text-gray-900 leading-tight">{member.name}</h5>
                                     <span
                                       className={`inline-block text-[10px] font-mono uppercase px-2 py-0.5 rounded-full font-bold mt-1 ${
                                         isLead
@@ -942,7 +942,7 @@ export default function AdminPage() {
 
                                 <button
                                   onClick={() => handleRemoveDepartmentMember(member.id)}
-                                  className="p-1.5 rounded-lg text-zinc-500 hover:text-red-400 hover:bg-red-500/10 transition-colors"
+                                  className="p-1.5 rounded-lg text-gray-400 hover:text-red-400 hover:bg-red-500/10 transition-colors"
                                   title="Remove Member"
                                 >
                                   <Trash2 className="h-4 w-4" />
@@ -950,14 +950,14 @@ export default function AdminPage() {
                               </div>
 
                               {member.description && (
-                                <p className="text-xs text-zinc-300 leading-relaxed line-clamp-3">
+                                <p className="text-xs text-gray-600 leading-relaxed line-clamp-3">
                                   {member.description}
                                 </p>
                               )}
                             </div>
 
                             {member.email && (
-                              <div className="text-[11px] font-mono text-zinc-500 pt-2 border-t border-white/[0.04]">
+                              <div className="text-[11px] font-mono text-gray-400 pt-2 border-t border-white/[0.04]">
                                 {member.email}
                               </div>
                             )}
@@ -966,9 +966,9 @@ export default function AdminPage() {
                       })}
                     </div>
                   ) : (
-                    <div className="p-8 rounded-2xl border border-dashed border-white/10 text-center text-xs text-zinc-400 space-y-1">
+                    <div className="p-8 rounded-2xl border border-dashed border-gray-200 text-center text-xs text-gray-500 space-y-1">
                       <p>No member or lead profiles added to {selectedDept.name} yet.</p>
-                      <p className="text-zinc-500">Use the form above to add Leads, Co-Leads, and department members!</p>
+                      <p className="text-gray-400">Use the form above to add Leads, Co-Leads, and department members!</p>
                     </div>
                   )}
                 </div>
@@ -982,8 +982,8 @@ export default function AdminPage() {
           <div className="space-y-6">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div>
-                <h2 className="text-2xl font-bold text-white">Join Applications</h2>
-                <p className="text-xs text-zinc-400">Review student club applications and send approvals.</p>
+                <h2 className="text-2xl font-bold text-gray-900">Join Applications</h2>
+                <p className="text-xs text-gray-500">Review student club applications and send approvals.</p>
               </div>
 
               <div className="flex items-center gap-2">
@@ -993,8 +993,8 @@ export default function AdminPage() {
                     onClick={() => setAppStatusFilter(status)}
                     className={`px-3 py-1 rounded-xl text-xs font-mono font-semibold uppercase transition-all ${
                       appStatusFilter === status
-                        ? "bg-violet-600 text-white"
-                        : "bg-white/[0.04] text-zinc-400 hover:text-white"
+                        ? "bg-rose-500 text-gray-900"
+                        : "bg-gray-50 text-gray-500 hover:text-gray-900"
                     }`}
                   >
                     {status}
@@ -1007,13 +1007,13 @@ export default function AdminPage() {
               {applications.map((app) => (
                 <div
                   key={app.id}
-                  className="p-5 rounded-2xl bg-[#0d111c]/90 border border-white/10 space-y-4 hover:border-violet-500/30 transition-all"
+                  className="p-5 rounded-2xl bg-white/90 border border-gray-200 space-y-4 hover:border-rose-200 transition-all"
                 >
                   <div className="flex items-start justify-between gap-3">
                     <div>
-                      <h3 className="text-base font-bold text-white">{app.full_name}</h3>
-                      <p className="text-xs font-mono text-zinc-400">{app.email} • {app.phone}</p>
-                      <p className="text-xs text-zinc-300 mt-1">
+                      <h3 className="text-base font-bold text-gray-900">{app.full_name}</h3>
+                      <p className="text-xs font-mono text-gray-500">{app.email} • {app.phone}</p>
+                      <p className="text-xs text-gray-600 mt-1">
                         {app.college} • {app.branch} (Year {app.year})
                       </p>
                     </div>
@@ -1037,7 +1037,7 @@ export default function AdminPage() {
                       {app.department_interests.map((dept, i) => (
                         <span
                           key={i}
-                          className="px-2 py-0.5 rounded-md bg-white/[0.04] text-[10px] font-mono text-zinc-300 border border-white/[0.08]"
+                          className="px-2 py-0.5 rounded-md bg-gray-50 text-[10px] font-mono text-gray-600 border border-white/[0.08]"
                         >
                           {dept}
                         </span>
@@ -1045,19 +1045,19 @@ export default function AdminPage() {
                     </div>
                   )}
 
-                  <div className="p-3 rounded-xl bg-white/[0.02] border border-white/[0.04] text-xs text-zinc-300 leading-relaxed">
-                    <span className="text-[10px] font-mono uppercase text-zinc-400 block mb-1">Statement:</span>
+                  <div className="p-3 rounded-xl bg-white/[0.02] border border-white/[0.04] text-xs text-gray-600 leading-relaxed">
+                    <span className="text-[10px] font-mono uppercase text-gray-500 block mb-1">Statement:</span>
                     {app.why_join}
                   </div>
 
                   {app.skills && (
-                    <div className="text-xs text-zinc-400">
-                      <span className="font-semibold text-zinc-300">Skills:</span> {app.skills}
+                    <div className="text-xs text-gray-500">
+                      <span className="font-semibold text-gray-600">Skills:</span> {app.skills}
                     </div>
                   )}
 
                   {/* Actions */}
-                  <div className="flex items-center justify-between pt-2 border-t border-white/[0.06]">
+                  <div className="flex items-center justify-between pt-2 border-t border-gray-200">
                     <div className="flex items-center gap-2">
                       <button
                         onClick={() => handleReviewApplication(app.id, "approved")}
@@ -1081,7 +1081,7 @@ export default function AdminPage() {
 
                     <button
                       onClick={() => handleDeleteApplication(app.id)}
-                      className="p-1.5 rounded-lg text-zinc-500 hover:text-red-400 hover:bg-red-500/10 transition-colors"
+                      className="p-1.5 rounded-lg text-gray-400 hover:text-red-400 hover:bg-red-500/10 transition-colors"
                       title="Delete application"
                     >
                       <Trash2 className="h-4 w-4" />
@@ -1098,13 +1098,13 @@ export default function AdminPage() {
           <div className="space-y-6">
             <div className="flex items-center justify-between">
               <div>
-                <h2 className="text-2xl font-bold text-white">Events & Hackathons</h2>
-                <p className="text-xs text-zinc-400">Create, schedule, publish events and track attendee registrations.</p>
+                <h2 className="text-2xl font-bold text-gray-900">Events & Hackathons</h2>
+                <p className="text-xs text-gray-500">Create, schedule, publish events and track attendee registrations.</p>
               </div>
 
               <button
                 onClick={() => setShowCreateEventModal(true)}
-                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-violet-600 hover:bg-violet-500 text-white text-xs font-semibold shadow-lg shadow-violet-600/30 transition-all"
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-rose-500 hover:bg-rose-600 text-gray-900 text-xs font-semibold shadow-lg shadow-rose-500/20 transition-all"
               >
                 <Plus className="h-4 w-4" />
                 <span>Create Event</span>
@@ -1114,15 +1114,15 @@ export default function AdminPage() {
             {/* Create Event Modal */}
             {showCreateEventModal && (
               <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-                <div className="w-full max-w-2xl rounded-3xl bg-[#0a0d16] border border-violet-500/30 p-6 sm:p-8 space-y-6 shadow-2xl max-h-[90vh] overflow-y-auto">
-                  <div className="flex items-center justify-between border-b border-white/10 pb-4">
+                <div className="w-full max-w-2xl rounded-3xl bg-white border border-rose-200 p-6 sm:p-8 space-y-6 shadow-2xl max-h-[90vh] overflow-y-auto">
+                  <div className="flex items-center justify-between border-b border-gray-200 pb-4">
                     <div className="flex items-center gap-2">
-                      <Calendar className="h-5 w-5 text-violet-400" />
-                      <h3 className="text-xl font-bold text-white">Create New Event / Hackathon</h3>
+                      <Calendar className="h-5 w-5 text-rose-600" />
+                      <h3 className="text-xl font-bold text-gray-900">Create New Event / Hackathon</h3>
                     </div>
                     <button
                       onClick={() => setShowCreateEventModal(false)}
-                      className="p-1.5 rounded-lg text-zinc-400 hover:text-white hover:bg-white/10"
+                      className="p-1.5 rounded-lg text-gray-500 hover:text-gray-900 hover:bg-white/10"
                     >
                       <X className="h-4 w-4" />
                     </button>
@@ -1130,24 +1130,24 @@ export default function AdminPage() {
 
                   <form onSubmit={handleCreateEvent} className="space-y-4 text-xs">
                     <div>
-                      <label className="text-zinc-400 font-mono block mb-1">Event Title *</label>
+                      <label className="text-gray-500 font-mono block mb-1">Event Title *</label>
                       <input
                         type="text"
                         required
                         placeholder="e.g. AURIX Flagship Hackathon 2026"
                         value={newEventTitle}
                         onChange={(e) => setNewEventTitle(e.target.value)}
-                        className="w-full px-3.5 py-2.5 rounded-xl bg-[#0d111c] border border-white/10 text-white placeholder:text-zinc-600 focus:outline-none focus:border-violet-500 text-sm"
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-gray-200 text-gray-900 placeholder:text-zinc-600 focus:outline-none focus:border-violet-500 text-sm"
                       />
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       <div>
-                        <label className="text-zinc-400 font-mono block mb-1">Event Mode</label>
+                        <label className="text-gray-500 font-mono block mb-1">Event Mode</label>
                         <select
                           value={newEventMode}
                           onChange={(e) => setNewEventMode(e.target.value as any)}
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-[#0d111c] border border-white/10 text-white focus:outline-none focus:border-violet-500"
+                          className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-gray-200 text-gray-900 focus:outline-none focus:border-violet-500"
                         >
                           <option value="in_person">In-Person (Campus)</option>
                           <option value="online">Online / Virtual</option>
@@ -1156,11 +1156,11 @@ export default function AdminPage() {
                       </div>
 
                       <div>
-                        <label className="text-zinc-400 font-mono block mb-1">Hosting Department</label>
+                        <label className="text-gray-500 font-mono block mb-1">Hosting Department</label>
                         <select
                           value={newEventDeptId}
                           onChange={(e) => setNewEventDeptId(e.target.value)}
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-[#0d111c] border border-white/10 text-white focus:outline-none focus:border-violet-500"
+                          className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-gray-200 text-gray-900 focus:outline-none focus:border-violet-500"
                         >
                           <option value="">All / Club-Wide</option>
                           {departments.map((d) => (
@@ -1174,46 +1174,46 @@ export default function AdminPage() {
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       <div>
-                        <label className="text-zinc-400 font-mono block mb-1">Start Date & Time</label>
+                        <label className="text-gray-500 font-mono block mb-1">Start Date & Time</label>
                         <input
                           type="datetime-local"
                           value={newEventStartsAt}
                           onChange={(e) => setNewEventStartsAt(e.target.value)}
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-[#0d111c] border border-white/10 text-white focus:outline-none focus:border-violet-500"
+                          className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-gray-200 text-gray-900 focus:outline-none focus:border-violet-500"
                         />
                       </div>
 
                       <div>
-                        <label className="text-zinc-400 font-mono block mb-1">End Date & Time</label>
+                        <label className="text-gray-500 font-mono block mb-1">End Date & Time</label>
                         <input
                           type="datetime-local"
                           value={newEventEndsAt}
                           onChange={(e) => setNewEventEndsAt(e.target.value)}
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-[#0d111c] border border-white/10 text-white focus:outline-none focus:border-violet-500"
+                          className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-gray-200 text-gray-900 focus:outline-none focus:border-violet-500"
                         />
                       </div>
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       <div>
-                        <label className="text-zinc-400 font-mono block mb-1">Venue / Location</label>
+                        <label className="text-gray-500 font-mono block mb-1">Venue / Location</label>
                         <input
                           type="text"
                           placeholder="e.g. Main Auditorium / CSE Seminar Hall"
                           value={newEventVenue}
                           onChange={(e) => setNewEventVenue(e.target.value)}
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-[#0d111c] border border-white/10 text-white placeholder:text-zinc-600 focus:outline-none focus:border-violet-500"
+                          className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-gray-200 text-gray-900 placeholder:text-zinc-600 focus:outline-none focus:border-violet-500"
                         />
                       </div>
 
                       <div>
-                        <label className="text-zinc-400 font-mono block mb-1">Max Capacity / Seats</label>
+                        <label className="text-gray-500 font-mono block mb-1">Max Capacity / Seats</label>
                         <input
                           type="number"
                           placeholder="100"
                           value={newEventMaxParticipants}
                           onChange={(e) => setNewEventMaxParticipants(e.target.value)}
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-[#0d111c] border border-white/10 text-white placeholder:text-zinc-600 focus:outline-none focus:border-violet-500 font-mono"
+                          className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-gray-200 text-gray-900 placeholder:text-zinc-600 focus:outline-none focus:border-violet-500 font-mono"
                         />
                       </div>
                     </div>
@@ -1221,8 +1221,8 @@ export default function AdminPage() {
                     {/* Cover Photo Upload with Live Preview */}
                     <div>
                       <div className="flex items-center justify-between mb-1">
-                        <label className="text-zinc-400 font-mono">Event Cover Poster / Banner</label>
-                        <label className="cursor-pointer text-[11px] text-violet-400 hover:text-violet-300 font-mono underline flex items-center gap-1">
+                        <label className="text-gray-500 font-mono">Event Cover Poster / Banner</label>
+                        <label className="cursor-pointer text-[11px] text-rose-600 hover:text-rose-500 font-mono underline flex items-center gap-1">
                           <ImageIcon className="h-3 w-3" />
                           <span>Upload File from Device</span>
                           <input
@@ -1240,7 +1240,7 @@ export default function AdminPage() {
                           placeholder="Upload image or paste poster URL..."
                           value={newEventCoverImage}
                           onChange={(e) => setNewEventCoverImage(e.target.value)}
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-[#0d111c] border border-white/10 text-white placeholder:text-zinc-600 focus:outline-none focus:border-violet-500 font-mono text-[11px]"
+                          className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-gray-200 text-gray-900 placeholder:text-zinc-600 focus:outline-none focus:border-violet-500 font-mono text-[11px]"
                         />
 
                         {newEventCoverImage && (
@@ -1249,7 +1249,7 @@ export default function AdminPage() {
                             <button
                               type="button"
                               onClick={() => setNewEventCoverImage("")}
-                              className="absolute top-2 right-2 p-1 rounded-md bg-black/70 text-zinc-300 hover:text-white text-[10px]"
+                              className="absolute top-2 right-2 p-1 rounded-md bg-black/70 text-gray-600 hover:text-gray-900 text-[10px]"
                             >
                               Remove Photo
                             </button>
@@ -1259,29 +1259,29 @@ export default function AdminPage() {
                     </div>
 
                     <div>
-                      <label className="text-zinc-400 font-mono block mb-1">Event Description & Agenda *</label>
+                      <label className="text-gray-500 font-mono block mb-1">Event Description & Agenda *</label>
                       <textarea
                         rows={3}
                         required
                         placeholder="Detail the event format, prerequisites, schedule, and benefits..."
                         value={newEventDesc}
                         onChange={(e) => setNewEventDesc(e.target.value)}
-                        className="w-full px-3.5 py-2.5 rounded-xl bg-[#0d111c] border border-white/10 text-white placeholder:text-zinc-600 focus:outline-none focus:border-violet-500 text-xs"
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-gray-200 text-gray-900 placeholder:text-zinc-600 focus:outline-none focus:border-violet-500 text-xs"
                       />
                     </div>
 
-                    <div className="flex items-center justify-end gap-3 pt-3 border-t border-white/10">
+                    <div className="flex items-center justify-end gap-3 pt-3 border-t border-gray-200">
                       <button
                         type="button"
                         onClick={() => setShowCreateEventModal(false)}
-                        className="px-4 py-2 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] text-zinc-400 hover:text-white transition-colors"
+                        className="px-4 py-2 rounded-xl bg-gray-100 hover:bg-white/[0.1] text-gray-500 hover:text-gray-900 transition-colors"
                       >
                         Cancel
                       </button>
                       <button
                         type="submit"
                         disabled={isCreatingEvent || !newEventTitle.trim()}
-                        className="px-6 py-2 rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 hover:opacity-90 disabled:opacity-40 text-white font-bold shadow-lg shadow-violet-600/30 transition-all"
+                        className="px-6 py-2 rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 hover:opacity-90 disabled:opacity-40 text-gray-900 font-bold shadow-lg shadow-rose-500/20 transition-all"
                       >
                         {isCreatingEvent ? "Publishing..." : "Create & Publish Event"}
                       </button>
@@ -1295,11 +1295,11 @@ export default function AdminPage() {
               {events.map((ev) => (
                 <div
                   key={ev.id}
-                  className="p-6 rounded-2xl bg-[#0d111c]/90 border border-white/10 space-y-4 hover:border-violet-500/30 transition-all flex flex-col justify-between"
+                  className="p-6 rounded-2xl bg-white/90 border border-gray-200 space-y-4 hover:border-rose-200 transition-all flex flex-col justify-between"
                 >
                   <div className="space-y-3">
                     <div className="flex items-start justify-between gap-2">
-                      <h3 className="text-base font-bold text-white">{ev.title}</h3>
+                      <h3 className="text-base font-bold text-gray-900">{ev.title}</h3>
                       <button
                         onClick={() => handleToggleEventStatus(ev.id, ev.status)}
                         className={`text-[10px] font-mono uppercase px-2.5 py-0.5 rounded-full font-bold transition-all ${
@@ -1312,27 +1312,27 @@ export default function AdminPage() {
                       </button>
                     </div>
 
-                    <p className="text-xs text-zinc-300 line-clamp-3 leading-relaxed">
+                    <p className="text-xs text-gray-600 line-clamp-3 leading-relaxed">
                       {ev.description}
                     </p>
 
-                    <div className="text-xs text-zinc-400 space-y-1 font-mono">
-                      <div>Mode: <span className="text-white">{ev.mode}</span></div>
+                    <div className="text-xs text-gray-500 space-y-1 font-mono">
+                      <div>Mode: <span className="text-gray-900">{ev.mode}</span></div>
                       <div>Registered: <span className="text-emerald-400 font-bold">{ev.registration_count}</span> / {ev.max_participants ?? "∞"}</div>
                     </div>
                   </div>
 
-                  <div className="pt-4 border-t border-white/[0.06] flex items-center justify-between">
+                  <div className="pt-4 border-t border-gray-200 flex items-center justify-between">
                     <button
                       onClick={() => handleOpenEventRegistrations(ev)}
-                      className="px-3 py-1.5 rounded-lg bg-white/[0.05] hover:bg-white/[0.1] text-xs font-semibold text-zinc-300 hover:text-white transition-colors"
+                      className="px-3 py-1.5 rounded-lg bg-gray-100 hover:bg-white/[0.1] text-xs font-semibold text-gray-600 hover:text-gray-900 transition-colors"
                     >
                       Attendees ({ev.registration_count})
                     </button>
 
                     <button
                       onClick={() => handleDeleteEvent(ev.id)}
-                      className="p-1.5 rounded-lg text-zinc-500 hover:text-red-400 hover:bg-red-500/10 transition-colors"
+                      className="p-1.5 rounded-lg text-gray-400 hover:text-red-400 hover:bg-red-500/10 transition-colors"
                       title="Delete Event"
                     >
                       <Trash2 className="h-4 w-4" />
@@ -1349,8 +1349,8 @@ export default function AdminPage() {
           <div className="space-y-6">
             <div className="flex items-center justify-between">
               <div>
-                <h2 className="text-2xl font-bold text-white">Email Campaigns & Broadcasts</h2>
-                <p className="text-xs text-zinc-400">Broadcast updates to all members or specific event attendees.</p>
+                <h2 className="text-2xl font-bold text-gray-900">Email Campaigns & Broadcasts</h2>
+                <p className="text-xs text-gray-500">Broadcast updates to all members or specific event attendees.</p>
               </div>
 
               <button
@@ -1373,7 +1373,7 @@ export default function AdminPage() {
                     loadData();
                   }
                 }}
-                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-violet-600 hover:bg-violet-500 text-white text-xs font-semibold shadow-lg shadow-violet-600/30 transition-all"
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-rose-500 hover:bg-rose-600 text-gray-900 text-xs font-semibold shadow-lg shadow-rose-500/20 transition-all"
               >
                 <Plus className="h-4 w-4" />
                 <span>Send Broadcast</span>
@@ -1384,20 +1384,20 @@ export default function AdminPage() {
               {emails.map((camp) => (
                 <div
                   key={camp.id}
-                  className="p-5 rounded-2xl bg-[#0d111c]/90 border border-white/10 space-y-2"
+                  className="p-5 rounded-2xl bg-white/90 border border-gray-200 space-y-2"
                 >
                   <div className="flex items-center justify-between">
-                    <h3 className="text-base font-bold text-white">{camp.subject}</h3>
+                    <h3 className="text-base font-bold text-gray-900">{camp.subject}</h3>
                     <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 text-[10px] font-mono font-bold uppercase">
                       {camp.status} ({camp.recipient_count} recipients)
                     </span>
                   </div>
 
-                  <p className="text-xs text-zinc-300 leading-relaxed whitespace-pre-line bg-white/[0.02] p-3 rounded-xl border border-white/[0.04]">
+                  <p className="text-xs text-gray-600 leading-relaxed whitespace-pre-line bg-white/[0.02] p-3 rounded-xl border border-white/[0.04]">
                     {camp.body}
                   </p>
 
-                  <div className="text-[11px] font-mono text-zinc-500 flex items-center justify-between pt-1">
+                  <div className="text-[11px] font-mono text-gray-400 flex items-center justify-between pt-1">
                     <span>Audience: {camp.audience}</span>
                     <span>Sent: {new Date(camp.created_at).toLocaleString()}</span>
                   </div>
@@ -1412,8 +1412,8 @@ export default function AdminPage() {
           <div className="space-y-6">
             <div className="flex items-center justify-between">
               <div>
-                <h2 className="text-2xl font-bold text-white">Projects Management</h2>
-                <p className="text-xs text-zinc-400">Manage platform showcase projects dynamically.</p>
+                <h2 className="text-2xl font-bold text-gray-900">Projects Management</h2>
+                <p className="text-xs text-gray-500">Manage platform showcase projects dynamically.</p>
               </div>
 
               <button
@@ -1439,7 +1439,7 @@ export default function AdminPage() {
                     alert("Failed to create project");
                   }
                 }}
-                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-violet-600 hover:bg-violet-500 text-white text-xs font-semibold shadow-lg shadow-violet-600/30 transition-all"
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-rose-500 hover:bg-rose-600 text-gray-900 text-xs font-semibold shadow-lg shadow-rose-500/20 transition-all"
               >
                 <Plus className="h-4 w-4" />
                 <span>Add Project</span>
@@ -1449,9 +1449,9 @@ export default function AdminPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
               {projects.length > 0 ? (
                 projects.map((project: any) => (
-                  <div key={project.id} className="p-6 rounded-2xl bg-[#0d111c]/90 border border-white/10 space-y-4">
+                  <div key={project.id} className="p-6 rounded-2xl bg-white/90 border border-gray-200 space-y-4">
                     <div className="flex items-center justify-between">
-                      <span className="text-[10px] font-mono text-violet-400 uppercase tracking-wider">{project.category}</span>
+                      <span className="text-[10px] font-mono text-rose-600 uppercase tracking-wider">{project.category}</span>
                       <button
                         onClick={async () => {
                           if (!confirm(`Delete project "${project.title}"?`)) return;
@@ -1464,13 +1464,13 @@ export default function AdminPage() {
                       </button>
                     </div>
                     <div>
-                      <h3 className="text-lg font-bold text-white">{project.title}</h3>
-                      <p className="text-xs text-zinc-400 mt-1 line-clamp-3">{project.description}</p>
+                      <h3 className="text-lg font-bold text-gray-900">{project.title}</h3>
+                      <p className="text-xs text-gray-500 mt-1 line-clamp-3">{project.description}</p>
                     </div>
                   </div>
                 ))
               ) : (
-                <div className="col-span-full py-12 text-center text-sm text-zinc-500">
+                <div className="col-span-full py-12 text-center text-sm text-gray-400">
                   No projects added yet. Click "Add Project" to get started.
                 </div>
               )}
@@ -1483,14 +1483,14 @@ export default function AdminPage() {
           <div className="space-y-6">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div>
-                <h2 className="text-2xl font-bold text-white">Global Announcements</h2>
-                <p className="text-xs text-zinc-400">Manage the front-page popup announcement.</p>
+                <h2 className="text-2xl font-bold text-gray-900">Global Announcements</h2>
+                <p className="text-xs text-gray-500">Manage the front-page popup announcement.</p>
               </div>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <div className="p-6 rounded-3xl bg-[#0d111c]/90 border border-white/10 space-y-4">
-                <h3 className="text-sm font-bold text-white mb-4">Create Announcement</h3>
+              <div className="p-6 rounded-3xl bg-white/90 border border-gray-200 space-y-4">
+                <h3 className="text-sm font-bold text-gray-900 mb-4">Create Announcement</h3>
                 <form 
                   onSubmit={async (e) => {
                     e.preventDefault();
@@ -1512,43 +1512,43 @@ export default function AdminPage() {
                   className="space-y-4 text-xs"
                 >
                   <div>
-                    <label className="text-zinc-400 font-mono block mb-1">Title *</label>
+                    <label className="text-gray-500 font-mono block mb-1">Title *</label>
                     <input
                       type="text"
                       required
                       value={newAnnouncement.title}
                       onChange={e => setNewAnnouncement({...newAnnouncement, title: e.target.value})}
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.02] border border-white/10 text-white focus:border-violet-500 outline-none"
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.02] border border-gray-200 text-gray-900 focus:border-violet-500 outline-none"
                     />
                   </div>
                   <div>
-                    <label className="text-zinc-400 font-mono block mb-1">Message *</label>
+                    <label className="text-gray-500 font-mono block mb-1">Message *</label>
                     <textarea
                       required
                       rows={3}
                       value={newAnnouncement.message}
                       onChange={e => setNewAnnouncement({...newAnnouncement, message: e.target.value})}
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.02] border border-white/10 text-white focus:border-violet-500 outline-none resize-none"
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.02] border border-gray-200 text-gray-900 focus:border-violet-500 outline-none resize-none"
                     />
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="text-zinc-400 font-mono block mb-1">Link URL</label>
+                      <label className="text-gray-500 font-mono block mb-1">Link URL</label>
                       <input
                         type="url"
                         value={newAnnouncement.link_url}
                         onChange={e => setNewAnnouncement({...newAnnouncement, link_url: e.target.value})}
-                        className="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.02] border border-white/10 text-white focus:border-violet-500 outline-none"
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.02] border border-gray-200 text-gray-900 focus:border-violet-500 outline-none"
                       />
                     </div>
                     <div>
-                      <label className="text-zinc-400 font-mono block mb-1">Link Text</label>
+                      <label className="text-gray-500 font-mono block mb-1">Link Text</label>
                       <input
                         type="text"
                         value={newAnnouncement.link_text}
                         onChange={e => setNewAnnouncement({...newAnnouncement, link_text: e.target.value})}
                         placeholder="e.g. Learn More"
-                        className="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.02] border border-white/10 text-white focus:border-violet-500 outline-none"
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.02] border border-gray-200 text-gray-900 focus:border-violet-500 outline-none"
                       />
                     </div>
                   </div>
@@ -1560,12 +1560,12 @@ export default function AdminPage() {
                       onChange={e => setNewAnnouncement({...newAnnouncement, is_active: e.target.checked})}
                       className="w-4 h-4 rounded border-white/20 bg-white/5 text-violet-500" 
                     />
-                    <label htmlFor="is_active" className="text-zinc-300 font-semibold cursor-pointer">Set as Active Immediately</label>
+                    <label htmlFor="is_active" className="text-gray-600 font-semibold cursor-pointer">Set as Active Immediately</label>
                   </div>
                   <button
                     type="submit"
                     disabled={isCreatingAnnouncement}
-                    className="w-full py-2.5 rounded-xl bg-violet-600 hover:bg-violet-500 text-white font-bold transition-all disabled:opacity-50 mt-4"
+                    className="w-full py-2.5 rounded-xl bg-rose-500 hover:bg-rose-600 text-gray-900 font-bold transition-all disabled:opacity-50 mt-4"
                   >
                     {isCreatingAnnouncement ? "Creating..." : "Create Announcement"}
                   </button>
@@ -1573,12 +1573,12 @@ export default function AdminPage() {
               </div>
 
               <div className="space-y-4">
-                <h3 className="text-sm font-bold text-white">Previous Announcements</h3>
+                <h3 className="text-sm font-bold text-gray-900">Previous Announcements</h3>
                 <div className="space-y-3 max-h-[600px] overflow-y-auto pr-2">
                   {announcements.map(ann => (
-                    <div key={ann.id} className={`p-4 rounded-2xl border transition-all ${ann.is_active ? 'bg-violet-900/20 border-violet-500/50' : 'bg-white/[0.02] border-white/10'}`}>
+                    <div key={ann.id} className={`p-4 rounded-2xl border transition-all ${ann.is_active ? 'bg-violet-900/20 border-violet-500/50' : 'bg-white/[0.02] border-gray-200'}`}>
                       <div className="flex justify-between items-start mb-2">
-                        <h4 className="text-sm font-bold text-white">{ann.title}</h4>
+                        <h4 className="text-sm font-bold text-gray-900">{ann.title}</h4>
                         <div className="flex items-center gap-2">
                           <button
                             onClick={async () => {
@@ -1589,7 +1589,7 @@ export default function AdminPage() {
                               });
                               loadData();
                             }}
-                            className={`text-[10px] uppercase font-bold px-2 py-1 rounded-full ${ann.is_active ? 'bg-emerald-500/20 text-emerald-400' : 'bg-zinc-800 text-zinc-400'}`}
+                            className={`text-[10px] uppercase font-bold px-2 py-1 rounded-full ${ann.is_active ? 'bg-emerald-500/20 text-emerald-400' : 'bg-zinc-800 text-gray-500'}`}
                           >
                             {ann.is_active ? 'Active' : 'Inactive'}
                           </button>
@@ -1600,15 +1600,15 @@ export default function AdminPage() {
                                 loadData();
                               }
                             }}
-                            className="text-zinc-500 hover:text-red-400"
+                            className="text-gray-400 hover:text-red-400"
                           >
                             <Trash2 className="w-4 h-4" />
                           </button>
                         </div>
                       </div>
-                      <p className="text-xs text-zinc-400 mb-2">{ann.message}</p>
+                      <p className="text-xs text-gray-500 mb-2">{ann.message}</p>
                       {ann.link_url && (
-                        <a href={ann.link_url} target="_blank" rel="noreferrer" className="text-xs text-violet-400 hover:underline">
+                        <a href={ann.link_url} target="_blank" rel="noreferrer" className="text-xs text-rose-600 hover:underline">
                           {ann.link_text || "Link"} &rarr;
                         </a>
                       )}
@@ -1624,15 +1624,15 @@ export default function AdminPage() {
       {/* Attendees Modal */}
       {selectedEventForRegs && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
-          <div className="w-full max-w-2xl rounded-3xl bg-[#0d111c] border border-white/10 p-6 space-y-6 max-h-[85vh] flex flex-col">
-            <div className="flex items-center justify-between border-b border-white/10 pb-4">
+          <div className="w-full max-w-2xl rounded-3xl bg-white border border-gray-200 p-6 space-y-6 max-h-[85vh] flex flex-col">
+            <div className="flex items-center justify-between border-b border-gray-200 pb-4">
               <div>
-                <h3 className="text-lg font-bold text-white">{selectedEventForRegs.title}</h3>
-                <p className="text-xs text-zinc-400">Registered Attendees List ({eventRegistrations.length})</p>
+                <h3 className="text-lg font-bold text-gray-900">{selectedEventForRegs.title}</h3>
+                <p className="text-xs text-gray-500">Registered Attendees List ({eventRegistrations.length})</p>
               </div>
               <button
                 onClick={() => setSelectedEventForRegs(null)}
-                className="p-2 rounded-xl text-zinc-400 hover:text-white hover:bg-white/10"
+                className="p-2 rounded-xl text-gray-500 hover:text-gray-900 hover:bg-white/10"
               >
                 <X className="h-5 w-5" />
               </button>
@@ -1643,11 +1643,11 @@ export default function AdminPage() {
                 eventRegistrations.map((reg: any) => (
                   <div
                     key={reg.id}
-                    className="p-3.5 rounded-xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-between"
+                    className="p-3.5 rounded-xl bg-gray-50 border border-gray-200 flex items-center justify-between"
                   >
                     <div>
-                      <div className="text-xs font-bold text-white">{reg.full_name}</div>
-                      <div className="text-[11px] font-mono text-zinc-400">{reg.email} • {reg.branch} (Yr {reg.year})</div>
+                      <div className="text-xs font-bold text-gray-900">{reg.full_name}</div>
+                      <div className="text-[11px] font-mono text-gray-500">{reg.email} • {reg.branch} (Yr {reg.year})</div>
                     </div>
 
                     <div className="flex items-center gap-2">
@@ -1675,7 +1675,7 @@ export default function AdminPage() {
                   </div>
                 ))
               ) : (
-                <div className="text-xs text-zinc-500 text-center py-8">No members registered yet.</div>
+                <div className="text-xs text-gray-400 text-center py-8">No members registered yet.</div>
               )}
             </div>
           </div>
