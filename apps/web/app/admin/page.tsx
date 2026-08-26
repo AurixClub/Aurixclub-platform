@@ -29,6 +29,7 @@ import {
   Image as ImageIcon,
   Crown,
   Sparkle,
+  Megaphone,
 } from "lucide-react";
 import type {
   SessionData,
@@ -47,7 +48,8 @@ type AdminTab =
   | "applications"
   | "events"
   | "emails"
-  | "projects";
+  | "projects"
+  | "announcements";
 
 export default function AdminPage() {
   const router = useRouter();
@@ -63,11 +65,11 @@ export default function AdminPage() {
   const [events, setEvents] = useState<Event[]>([]);
   const [emails, setEmails] = useState<EmailCampaign[]>([]);
   const [projects, setProjects] = useState<any[]>([]);
+  const [announcements, setAnnouncements] = useState<any[]>([]);
 
-  // Email Composer State
-  const [showEmailCompose, setShowEmailCompose] = useState(false);
-  const [emailComposeData, setEmailComposeData] = useState({ subject: "", body: "", audience: "all", selectedEmail: "" });
-  const [isSendingEmail, setIsSendingEmail] = useState(false);
+  // Announcement State
+  const [newAnnouncement, setNewAnnouncement] = useState({ title: "", message: "", link_text: "", link_url: "", is_active: false });
+  const [isCreatingAnnouncement, setIsCreatingAnnouncement] = useState(false);
 
   // Department & Member Management state
   const [selectedDept, setSelectedDept] = useState<Department | null>(null);
@@ -168,6 +170,10 @@ export default function AdminPage() {
         const res = await fetch("/api/projects");
         const d = await res.json();
         if (d.success) setProjects(d.data.projects);
+      } else if (activeTab === "announcements") {
+        const res = await fetch("/api/announcements");
+        const d = await res.json();
+        setAnnouncements(d);
       }
     } catch (e) {
       console.error("Failed to load admin data", e);
@@ -456,6 +462,7 @@ export default function AdminPage() {
               { id: "events", label: "Events", icon: Calendar },
               { id: "emails", label: "Emails", icon: Mail },
               { id: "projects", label: "Projects", icon: Layers },
+              { id: "announcements", label: "Announcements", icon: Megaphone },
             ].map((tab) => {
               const Icon = tab.icon;
               const isActive = activeTab === tab.id;
@@ -1049,30 +1056,9 @@ export default function AdminPage() {
                     </div>
                   )}
 
-                  {/* Links */}
-                  {(app.portfolio_url || app.github_url || app.linkedin_url) && (
-                    <div className="flex flex-wrap items-center gap-3 pt-2">
-                      {app.portfolio_url && (
-                        <a href={app.portfolio_url} target="_blank" rel="noopener noreferrer" className="text-xs text-violet-400 hover:text-violet-300 font-medium">
-                          Portfolio
-                        </a>
-                      )}
-                      {app.github_url && (
-                        <a href={app.github_url} target="_blank" rel="noopener noreferrer" className="text-xs text-violet-400 hover:text-violet-300 font-medium">
-                          GitHub
-                        </a>
-                      )}
-                      {app.linkedin_url && (
-                        <a href={app.linkedin_url} target="_blank" rel="noopener noreferrer" className="text-xs text-violet-400 hover:text-violet-300 font-medium">
-                          LinkedIn
-                        </a>
-                      )}
-                    </div>
-                  )}
-
                   {/* Actions */}
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between pt-3 border-t border-white/[0.06] gap-3">
-                    <div className="flex flex-wrap items-center gap-2">
+                  <div className="flex items-center justify-between pt-2 border-t border-white/[0.06]">
+                    <div className="flex items-center gap-2">
                       <button
                         onClick={() => handleReviewApplication(app.id, "approved")}
                         className="px-3 py-1.5 rounded-lg bg-emerald-600/20 hover:bg-emerald-600/40 text-emerald-300 text-xs font-semibold transition-colors"
@@ -1093,25 +1079,13 @@ export default function AdminPage() {
                       </button>
                     </div>
 
-                    <div className="flex items-center gap-2">
-                      <button
-                        onClick={() => {
-                          setEmailComposeData({ subject: "", body: "", audience: "selected", selectedEmail: app.email });
-                          setShowEmailCompose(true);
-                        }}
-                        className="px-3 py-1.5 rounded-lg bg-violet-600/20 hover:bg-violet-600/40 text-violet-300 text-xs font-semibold transition-colors flex items-center gap-1.5"
-                      >
-                        <Mail className="h-3.5 w-3.5" />
-                        Email
-                      </button>
-                      <button
-                        onClick={() => handleDeleteApplication(app.id)}
-                        className="p-1.5 rounded-lg text-zinc-500 hover:text-red-400 hover:bg-red-500/10 transition-colors"
-                        title="Delete application"
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </button>
-                    </div>
+                    <button
+                      onClick={() => handleDeleteApplication(app.id)}
+                      className="p-1.5 rounded-lg text-zinc-500 hover:text-red-400 hover:bg-red-500/10 transition-colors"
+                      title="Delete application"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </button>
                   </div>
                 </div>
               ))}
@@ -1380,14 +1354,29 @@ export default function AdminPage() {
               </div>
 
               <button
-                onClick={() => {
-                  setEmailComposeData({ subject: "", body: "", audience: "all", selectedEmail: "" });
-                  setShowEmailCompose(true);
+                onClick={async () => {
+                  const subject = prompt("Email Subject:");
+                  if (!subject) return;
+                  const body = prompt("Email Message Body (minimum 10 characters):");
+                  if (!body) return;
+                  const res = await fetch("/api/email/send", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                      subject,
+                      body,
+                      audience: "all",
+                    }),
+                  });
+                  if (res.ok) {
+                    alert("Email campaign dispatched successfully!");
+                    loadData();
+                  }
                 }}
                 className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-violet-600 hover:bg-violet-500 text-white text-xs font-semibold shadow-lg shadow-violet-600/30 transition-all"
               >
                 <Plus className="h-4 w-4" />
-                <span>Compose Broadcast</span>
+                <span>Send Broadcast</span>
               </button>
             </div>
 
@@ -1488,6 +1477,148 @@ export default function AdminPage() {
             </div>
           </div>
         )}
+
+        {/* ─── TAB: ANNOUNCEMENTS ────────────────────────────────────────── */}
+        {activeTab === "announcements" && (
+          <div className="space-y-6">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div>
+                <h2 className="text-2xl font-bold text-white">Global Announcements</h2>
+                <p className="text-xs text-zinc-400">Manage the front-page popup announcement.</p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div className="p-6 rounded-3xl bg-[#0d111c]/90 border border-white/10 space-y-4">
+                <h3 className="text-sm font-bold text-white mb-4">Create Announcement</h3>
+                <form 
+                  onSubmit={async (e) => {
+                    e.preventDefault();
+                    setIsCreatingAnnouncement(true);
+                    try {
+                      const res = await fetch("/api/announcements", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(newAnnouncement),
+                      });
+                      if (res.ok) {
+                        setNewAnnouncement({ title: "", message: "", link_text: "", link_url: "", is_active: false });
+                        loadData();
+                      }
+                    } finally {
+                      setIsCreatingAnnouncement(false);
+                    }
+                  }}
+                  className="space-y-4 text-xs"
+                >
+                  <div>
+                    <label className="text-zinc-400 font-mono block mb-1">Title *</label>
+                    <input
+                      type="text"
+                      required
+                      value={newAnnouncement.title}
+                      onChange={e => setNewAnnouncement({...newAnnouncement, title: e.target.value})}
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.02] border border-white/10 text-white focus:border-violet-500 outline-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-zinc-400 font-mono block mb-1">Message *</label>
+                    <textarea
+                      required
+                      rows={3}
+                      value={newAnnouncement.message}
+                      onChange={e => setNewAnnouncement({...newAnnouncement, message: e.target.value})}
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.02] border border-white/10 text-white focus:border-violet-500 outline-none resize-none"
+                    />
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="text-zinc-400 font-mono block mb-1">Link URL</label>
+                      <input
+                        type="url"
+                        value={newAnnouncement.link_url}
+                        onChange={e => setNewAnnouncement({...newAnnouncement, link_url: e.target.value})}
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.02] border border-white/10 text-white focus:border-violet-500 outline-none"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-zinc-400 font-mono block mb-1">Link Text</label>
+                      <input
+                        type="text"
+                        value={newAnnouncement.link_text}
+                        onChange={e => setNewAnnouncement({...newAnnouncement, link_text: e.target.value})}
+                        placeholder="e.g. Learn More"
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.02] border border-white/10 text-white focus:border-violet-500 outline-none"
+                      />
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3 pt-2">
+                    <input 
+                      type="checkbox" 
+                      id="is_active" 
+                      checked={newAnnouncement.is_active}
+                      onChange={e => setNewAnnouncement({...newAnnouncement, is_active: e.target.checked})}
+                      className="w-4 h-4 rounded border-white/20 bg-white/5 text-violet-500" 
+                    />
+                    <label htmlFor="is_active" className="text-zinc-300 font-semibold cursor-pointer">Set as Active Immediately</label>
+                  </div>
+                  <button
+                    type="submit"
+                    disabled={isCreatingAnnouncement}
+                    className="w-full py-2.5 rounded-xl bg-violet-600 hover:bg-violet-500 text-white font-bold transition-all disabled:opacity-50 mt-4"
+                  >
+                    {isCreatingAnnouncement ? "Creating..." : "Create Announcement"}
+                  </button>
+                </form>
+              </div>
+
+              <div className="space-y-4">
+                <h3 className="text-sm font-bold text-white">Previous Announcements</h3>
+                <div className="space-y-3 max-h-[600px] overflow-y-auto pr-2">
+                  {announcements.map(ann => (
+                    <div key={ann.id} className={`p-4 rounded-2xl border transition-all ${ann.is_active ? 'bg-violet-900/20 border-violet-500/50' : 'bg-white/[0.02] border-white/10'}`}>
+                      <div className="flex justify-between items-start mb-2">
+                        <h4 className="text-sm font-bold text-white">{ann.title}</h4>
+                        <div className="flex items-center gap-2">
+                          <button
+                            onClick={async () => {
+                              await fetch(`/api/announcements/${ann.id}`, {
+                                method: "PATCH",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({ is_active: !ann.is_active })
+                              });
+                              loadData();
+                            }}
+                            className={`text-[10px] uppercase font-bold px-2 py-1 rounded-full ${ann.is_active ? 'bg-emerald-500/20 text-emerald-400' : 'bg-zinc-800 text-zinc-400'}`}
+                          >
+                            {ann.is_active ? 'Active' : 'Inactive'}
+                          </button>
+                          <button 
+                            onClick={async () => {
+                              if(confirm("Delete this announcement?")) {
+                                await fetch(`/api/announcements/${ann.id}`, { method: "DELETE" });
+                                loadData();
+                              }
+                            }}
+                            className="text-zinc-500 hover:text-red-400"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </div>
+                      </div>
+                      <p className="text-xs text-zinc-400 mb-2">{ann.message}</p>
+                      {ann.link_url && (
+                        <a href={ann.link_url} target="_blank" rel="noreferrer" className="text-xs text-violet-400 hover:underline">
+                          {ann.link_text || "Link"} &rarr;
+                        </a>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </main>
 
       {/* Attendees Modal */}
@@ -1547,116 +1678,6 @@ export default function AdminPage() {
                 <div className="text-xs text-zinc-500 text-center py-8">No members registered yet.</div>
               )}
             </div>
-          </div>
-        </div>
-      )}
-
-      {/* Email Composer Modal */}
-      {showEmailCompose && (
-        <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-          <div className="w-full max-w-2xl rounded-3xl bg-[#0a0d16] border border-violet-500/30 p-6 sm:p-8 space-y-6 shadow-2xl">
-            <div className="flex items-center justify-between border-b border-white/10 pb-4">
-              <div className="flex items-center gap-2">
-                <Mail className="h-5 w-5 text-violet-400" />
-                <h3 className="text-xl font-bold text-white">Compose Email</h3>
-              </div>
-              <button
-                onClick={() => setShowEmailCompose(false)}
-                className="p-1.5 rounded-lg text-zinc-400 hover:text-white hover:bg-white/10"
-              >
-                <X className="h-4 w-4" />
-              </button>
-            </div>
-
-            <form
-              onSubmit={async (e) => {
-                e.preventDefault();
-                setIsSendingEmail(true);
-                try {
-                  const res = await fetch("/api/email/send", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                      subject: emailComposeData.subject,
-                      body: emailComposeData.body,
-                      audience: emailComposeData.audience,
-                      selected_user_ids: emailComposeData.audience === "selected" ? [emailComposeData.selectedEmail] : [],
-                    }),
-                  });
-                  if (res.ok) {
-                    alert("Email sent successfully!");
-                    setShowEmailCompose(false);
-                    loadData();
-                  } else {
-                    alert("Failed to send email.");
-                  }
-                } catch (err) {
-                  alert("Failed to send email.");
-                } finally {
-                  setIsSendingEmail(false);
-                }
-              }}
-              className="space-y-4 text-xs"
-            >
-              <div>
-                <label className="text-zinc-400 font-mono block mb-1">Audience</label>
-                {emailComposeData.audience === "selected" ? (
-                  <div className="px-3.5 py-2.5 rounded-xl bg-[#0d111c] border border-white/10 text-white text-sm">
-                    Sending to: {emailComposeData.selectedEmail}
-                  </div>
-                ) : (
-                  <select
-                    value={emailComposeData.audience}
-                    onChange={(e) => setEmailComposeData({ ...emailComposeData, audience: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#0d111c] border border-white/10 text-white focus:outline-none focus:border-violet-500"
-                  >
-                    <option value="all">All Active Members</option>
-                  </select>
-                )}
-              </div>
-
-              <div>
-                <label className="text-zinc-400 font-mono block mb-1">Subject *</label>
-                <input
-                  type="text"
-                  required
-                  value={emailComposeData.subject}
-                  onChange={(e) => setEmailComposeData({ ...emailComposeData, subject: e.target.value })}
-                  placeholder="Welcome to AURIX!"
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#0d111c] border border-white/10 text-white placeholder:text-zinc-600 focus:outline-none focus:border-violet-500 text-sm"
-                />
-              </div>
-
-              <div>
-                <label className="text-zinc-400 font-mono block mb-1">Message Body *</label>
-                <textarea
-                  required
-                  rows={8}
-                  value={emailComposeData.body}
-                  onChange={(e) => setEmailComposeData({ ...emailComposeData, body: e.target.value })}
-                  placeholder="Type your message here..."
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#0d111c] border border-white/10 text-white placeholder:text-zinc-600 focus:outline-none focus:border-violet-500 text-sm resize-none whitespace-pre-wrap"
-                />
-              </div>
-
-              <div className="pt-4 flex justify-end gap-3">
-                <button
-                  type="button"
-                  onClick={() => setShowEmailCompose(false)}
-                  className="px-4 py-2 rounded-xl text-zinc-400 hover:text-white hover:bg-white/5 transition-colors font-semibold"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  disabled={isSendingEmail}
-                  className="px-5 py-2 rounded-xl bg-violet-600 hover:bg-violet-500 text-white font-bold shadow-lg shadow-violet-600/25 transition-all disabled:opacity-50 flex items-center gap-2"
-                >
-                  {isSendingEmail ? "Sending..." : "Send Email"}
-                  <Mail className="h-4 w-4" />
-                </button>
-              </div>
-            </form>
           </div>
         </div>
       )}

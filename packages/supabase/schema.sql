@@ -290,4 +290,24 @@ VALUES
     ('team_founder_01', 'Advaith Kolkar', 'Founder & Lead Architect', 'dept_tech_01', 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80', 'Founding visionary of AURIX club. Architecting distributed platforms, engineering curricula, and inspiring the next generation of builders and technology leaders.', 'https://github.com/advaithkolkar', 'https://linkedin.com/in/advaithkolkar', 1, true, 2023),
     ('team_cofounder_02', 'Anish Sharma', 'Co-Founder & Head of Operations', 'dept_sponsors_02', 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=400&auto=format&fit=crop&q=80', 'Co-founder orchestrating club strategy, corporate partnerships, flagship ecosystem programs, and cross-department collaboration across universities.', 'https://github.com/anishsharma', 'https://linkedin.com/in/anishsharma', 2, true, 2023)
 ON CONFLICT (id) DO NOTHING;
+-- 12. ANNOUNCEMENTS
+CREATE TABLE IF NOT EXISTS public.announcements (
+    id TEXT PRIMARY KEY DEFAULT ('ann_' || replace(gen_random_uuid()::text, '-', '')),
+    title TEXT NOT NULL,
+    message TEXT NOT NULL,
+    link_url TEXT,
+    link_text TEXT,
+    is_active BOOLEAN NOT NULL DEFAULT false,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
 
+ALTER TABLE public.announcements ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Public announcements are readable" ON public.announcements FOR SELECT USING (is_active = true);
+CREATE POLICY "Admins can manage announcements" ON public.announcements FOR ALL USING (
+  EXISTS (
+    SELECT 1 FROM public.profiles
+    WHERE profiles.id = current_setting('request.jwt.claim.sub', true)
+    AND profiles.role = 'super_admin'
+  )
+);

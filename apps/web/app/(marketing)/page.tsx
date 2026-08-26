@@ -4,6 +4,7 @@ import { ImpactSection } from "@/components/home/ImpactSection";
 import { SponsorsSection } from "@/components/home/SponsorsSection";
 import { Footer } from "@/components/layout/Footer";
 import { ScrollProgress } from "@/components/ui/ScrollReveal";
+import AnnouncementPopup from "@/components/ui/AnnouncementPopup";
 
 export default function HomePage() {
   return (
@@ -23,6 +24,9 @@ export default function HomePage() {
 
       {/* Footer */}
       <Footer />
+      
+      {/* Global Announcements */}
+      <AnnouncementPopup />
     </div>
   );
 }
