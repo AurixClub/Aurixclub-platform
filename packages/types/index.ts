@@ -8,3 +8,4 @@ export * from "./post";
 export * from "./team";
 export * from "./media";
 export * from "./email";
+export * from "./project";

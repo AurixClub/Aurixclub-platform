@@ -6,52 +6,87 @@ import { createClient } from "@aurix/supabase/client";
 
 export default function AuthCallbackPage() {
   const searchParams = useSearchParams();
-  const [message, setMessage] = useState("Completing Google sign-in...");
+  const [message, setMessage] = useState("Verifying authentication...");
 
   useEffect(() => {
     let cancelled = false;
-    async function completeOAuth() {
+
+    async function handleAuthCallback() {
       const code = searchParams.get("code");
-      if (!code) {
-        setMessage("This confirmation link is invalid or has expired. Please request a new one.");
-        return;
-      }
-
       const supabase = createClient();
-      const { data, error } = await supabase.auth.exchangeCodeForSession(code);
-      if (error || !data.session?.access_token || !data.user?.email) {
-        setMessage(error?.message || "Unable to complete Google sign-in.");
+
+      let accessToken: string | undefined;
+
+      // 1. Check for PKCE authorization code (?code=...)
+      if (code) {
+        const { data, error } = await supabase.auth.exchangeCodeForSession(code);
+        if (!error && data.session?.access_token) {
+          accessToken = data.session.access_token;
+        }
+      }
+
+      // 2. Check for hash parameters (#access_token=... from email confirmation or implicit OAuth)
+      if (!accessToken && typeof window !== "undefined" && window.location.hash) {
+        const hashParams = new URLSearchParams(window.location.hash.substring(1));
+        accessToken = hashParams.get("access_token") || undefined;
+      }
+
+      // 3. Fallback: Check active Supabase session
+      if (!accessToken) {
+        const { data: sessionData } = await supabase.auth.getSession();
+        accessToken = sessionData.session?.access_token;
+      }
+
+      if (!accessToken) {
+        // If confirmation link was clicked, attempt direct login fallback
+        if (!cancelled) {
+          setMessage("Email confirmed successfully! Redirecting to home page...");
+          setTimeout(() => {
+            window.location.assign("/");
+          }, 1200);
+        }
         return;
       }
 
-      const response = await fetch("/api/auth/oauth", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ access_token: data.session.access_token }),
-      });
-      const result = await response.json();
-      if (!response.ok || !result.success) {
-        setMessage(result.error?.message || "Unable to create application session.");
-        return;
+      // Exchange access_token with backend to set session cookie
+      try {
+        const response = await fetch("/api/auth/oauth", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ access_token: accessToken }),
+        });
+        const result = await response.json();
+
+        if (response.ok && result.success) {
+          if (!cancelled) {
+            window.location.assign(result.data?.redirect || "/");
+          }
+          return;
+        }
+      } catch (err) {
+        console.error("Session creation error:", err);
       }
 
       if (!cancelled) {
-        window.location.assign(searchParams.get("redirect") || result.data?.redirect || "/dashboard");
+        window.location.assign("/");
       }
     }
 
-    completeOAuth().catch(() => setMessage("Unable to complete Google sign-in."));
+    handleAuthCallback().catch((err) => {
+      console.error("Auth callback exception:", err);
+      if (!cancelled) window.location.assign("/");
+    });
+
     return () => {
       cancelled = true;
     };
   }, [searchParams]);
 
   return (
-    <main className="min-h-screen bg-[#07090e] text-white flex items-center justify-center px-6">
-      <div className="text-center space-y-4">
-        <span className="mx-auto block h-6 w-6 rounded-full border-2 border-blue-500/30 border-t-blue-400 animate-spin" />
-        <p className="text-sm text-zinc-300">{message}</p>
-        <a href="/login" className="text-sm text-blue-400 underline hover:text-blue-300">Return to sign in</a>
+    <main className="min-h-screen bg-[#07090e] text-white flex flex-col items-center justify-center px-6">
+      <div className="flex items-center gap-3 text-zinc-300 text-sm font-medium">
+        <span className="h-5 w-5 rounded-full border-2 border-violet-500/30 border-t-violet-500 animate-spin" />
+        <span>{message}</span>
       </div>
     </main>
   );

@@ -9,6 +9,7 @@ export * from "./team.controller";
 export * from "./media.controller";
 export * from "./email.controller";
 export * from "./admin.controller";
+export * from "./project.controller";
 
 // Controller Layer signatures - request/response mapping & input validation only
 export interface ControllerResponse<T = unknown> {

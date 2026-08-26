@@ -8,3 +8,4 @@ export * from "./post.model";
 export * from "./team.model";
 export * from "./media.model";
 export * from "./email.model";
+export * from "./project.model";

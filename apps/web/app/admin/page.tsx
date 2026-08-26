@@ -46,7 +46,8 @@ type AdminTab =
   | "departments"
   | "applications"
   | "events"
-  | "emails";
+  | "emails"
+  | "projects";
 
 export default function AdminPage() {
   const router = useRouter();
@@ -61,6 +62,7 @@ export default function AdminPage() {
   const [applications, setApplications] = useState<JoinApplication[]>([]);
   const [events, setEvents] = useState<Event[]>([]);
   const [emails, setEmails] = useState<EmailCampaign[]>([]);
+  const [projects, setProjects] = useState<any[]>([]);
 
   // Department & Member Management state
   const [selectedDept, setSelectedDept] = useState<Department | null>(null);
@@ -157,6 +159,10 @@ export default function AdminPage() {
         const res = await fetch("/api/email/campaigns");
         const d = await res.json();
         if (d.success) setEmails(d.data.campaigns);
+      } else if (activeTab === "projects") {
+        const res = await fetch("/api/projects");
+        const d = await res.json();
+        if (d.success) setProjects(d.data.projects);
       }
     } catch (e) {
       console.error("Failed to load admin data", e);
@@ -444,6 +450,7 @@ export default function AdminPage() {
               { id: "applications", label: "Applications", icon: UserCheck },
               { id: "events", label: "Events", icon: Calendar },
               { id: "emails", label: "Emails", icon: Mail },
+              { id: "projects", label: "Projects", icon: Layers },
             ].map((tab) => {
               const Icon = tab.icon;
               const isActive = activeTab === tab.id;
@@ -1384,6 +1391,78 @@ export default function AdminPage() {
                   </div>
                 </div>
               ))}
+            </div>
+          </div>
+          </div>
+        )}
+
+        {/* ─── TAB: PROJECTS ────────────────────────────────────────────── */}
+        {activeTab === "projects" && (
+          <div className="space-y-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <h2 className="text-2xl font-bold text-white">Projects Management</h2>
+                <p className="text-xs text-zinc-400">Manage platform showcase projects dynamically.</p>
+              </div>
+
+              <button
+                onClick={async () => {
+                  const title = prompt("Project Title:");
+                  if (!title) return;
+                  const category = prompt("Project Category:");
+                  const description = prompt("Description:");
+                  if (!category || !description) return;
+                  
+                  const res = await fetch("/api/projects", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                      title,
+                      category,
+                      description,
+                    }),
+                  });
+                  if (res.ok) {
+                    loadData();
+                  } else {
+                    alert("Failed to create project");
+                  }
+                }}
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-violet-600 hover:bg-violet-500 text-white text-xs font-semibold shadow-lg shadow-violet-600/30 transition-all"
+              >
+                <Plus className="h-4 w-4" />
+                <span>Add Project</span>
+              </button>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+              {projects.length > 0 ? (
+                projects.map((project) => (
+                  <div key={project.id} className="p-6 rounded-2xl bg-[#0d111c]/90 border border-white/10 space-y-4">
+                    <div className="flex items-center justify-between">
+                      <span className="text-[10px] font-mono text-violet-400 uppercase tracking-wider">{project.category}</span>
+                      <button
+                        onClick={async () => {
+                          if (!confirm(`Delete project "${project.title}"?`)) return;
+                          const res = await fetch(`/api/projects/${project.id}`, { method: "DELETE" });
+                          if (res.ok) loadData();
+                        }}
+                        className="p-1.5 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20"
+                      >
+                        <Trash2 className="h-3.5 w-3.5" />
+                      </button>
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-bold text-white">{project.title}</h3>
+                      <p className="text-xs text-zinc-400 mt-1 line-clamp-3">{project.description}</p>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div className="col-span-full py-12 text-center text-sm text-zinc-500">
+                  No projects added yet. Click "Add Project" to get started.
+                </div>
+              )}
             </div>
           </div>
         )}

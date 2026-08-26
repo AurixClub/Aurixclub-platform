@@ -198,6 +198,7 @@ export function AuthCard({ initialTab = "signin" }: AuthCardProps) {
       setConfirmationPending(!supabaseSignup.session);
     } catch {
       setErrorMessage("Unable to complete signup. Please try again.");
+    } finally {
       setIsLoading(false);
     }
   };

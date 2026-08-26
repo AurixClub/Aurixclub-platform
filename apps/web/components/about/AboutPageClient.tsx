@@ -398,50 +398,7 @@ export default function AboutPageClient() {
         </div>
       </section>
 
-      {/* ═══════════ CTA ═══════════ */}
-      <section className="py-24 sm:py-28 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-blue-950/10 to-transparent pointer-events-none -z-10" />
-
-        <div className="mx-auto max-w-3xl text-center">
-          <ScrollReveal direction="up">
-            <p className="text-sm font-mono uppercase tracking-widest text-blue-400/80 mb-4">
-              Start Your Journey
-            </p>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white mb-6">
-              Have an Idea? <span className="text-gradient-primary">Build It With Us.</span>
-            </h2>
-          </ScrollReveal>
-
-          <ScrollReveal direction="up" delay={0.1}>
-            <div className="space-y-2 text-zinc-400 mb-8">
-              <p>You don&apos;t need to know everything before you start.</p>
-              <p>You don&apos;t need to have the perfect idea.</p>
-              <p className="text-zinc-300 font-semibold">You just need the curiosity to begin.</p>
-            </div>
-
-            <p className="text-sm text-zinc-400 max-w-2xl mx-auto mb-10 leading-relaxed">
-              Whether you want to build, research, experiment, start something new, connect with industry, or simply learn alongside people who are curious like you — there&apos;s a place for you at AURIX.
-            </p>
-          </ScrollReveal>
-
-          <ScrollReveal direction="up" delay={0.2}>
-            <Link
-              href="/join"
-              className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 px-8 py-4 text-base font-semibold text-white shadow-xl shadow-indigo-500/25 hover:shadow-indigo-500/40 transition-all duration-300 group hover:scale-[1.03] active:scale-[0.98]"
-            >
-              <span>Join AURIX</span>
-              <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-            </Link>
-
-            <p className="mt-8 text-sm font-mono text-zinc-500 tracking-wider">
-              Learn. Build. Lead.
-            </p>
-            <p className="text-xs text-zinc-600 mt-1">
-              Let&apos;s build what comes next — together.
-            </p>
-          </ScrollReveal>
-        </div>
-      </section>
+      
     </>
   );
 }
