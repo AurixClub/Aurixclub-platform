@@ -4,6 +4,8 @@ import { Navbar } from "@/components/navigation/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { AuthCard } from "@/components/auth/AuthCard";
 
+// Auth Fuse reference shell: the shared AuthCard owns the split composition; signup behavior remains unchanged.
+
 export const metadata: Metadata = {
   title: "Create Account | AURIX",
   description:
@@ -12,31 +14,14 @@ export const metadata: Metadata = {
 
 export default function SignupPage() {
   return (
-    <div className="min-h-screen bg-[#07090e] text-white flex flex-col selection:bg-blue-500/30 selection:text-white">
-      {/* Navigation */}
+    <div className="auth-page-shell signup-page-shell flex min-h-screen flex-col overflow-hidden bg-[#07090e] text-white selection:bg-blue-500/30 selection:text-white">
       <Navbar />
-
-      {/* Main Container */}
-      <main className="flex-grow pt-36 pb-28 px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-center relative overflow-hidden">
-        {/* Background ambient gradient glow */}
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[300px] bg-gradient-to-tr from-purple-600/15 via-indigo-500/15 to-blue-600/15 rounded-full blur-3xl pointer-events-none -z-10" />
-
-        {/* Page Header */}
-        <div className="mx-auto max-w-xl text-center space-y-3 mb-8">
-          <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white">
-            Join the <span className="text-gradient-primary">AURIX Movement.</span>
-          </h1>
-
-          <p className="text-xs sm:text-sm text-zinc-400 max-w-md mx-auto leading-relaxed">
-            Create an account to start collaborating on projects, attend workshops, and build together.
-          </p>
-        </div>
-
-        {/* Unified Tabbed Auth Card starting on signup */}
-        <AuthCard initialTab="signup" />
+      <main className="relative flex flex-1 items-center overflow-hidden px-4 pb-20 pt-28 sm:px-6 lg:px-10 lg:pb-24 lg:pt-32">
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_75%_48%,rgba(75,85,180,0.18),transparent_35%),radial-gradient(circle_at_16%_55%,rgba(255,255,255,0.1),transparent_28%)]" />
+        <section className="relative z-10 mx-auto w-full max-w-[1240px]" aria-label="AURIX membership application">
+          <AuthCard initialTab="signup" />
+        </section>
       </main>
-
-      {/* Footer */}
       <Footer />
     </div>
   );

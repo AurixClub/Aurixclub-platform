@@ -58,10 +58,10 @@ const initialFormData: JoinFormData = {
 
 const departments = [
   "Technical Department",
-  "Sponsors & Industry Relations Department",
-  "Innovation & Research Department",
+  "Industry & Sponsor Relationship Department",
+  "Research & Innovation Department",
   "Event Management Department",
-  "Social Media & Marketing Department",
+  "Social Media & Designing Department",
   "Entrepreneurship & Startup Department",
 ];
 

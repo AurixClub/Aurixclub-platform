@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 
 export default function DepartmentsPage() {
   return (
-    <div className="min-h-screen bg-[#07090e] text-white flex flex-col selection:bg-blue-500/30 selection:text-white">
+    <div className="hero-page-shell min-h-screen bg-[#07090e] text-white flex flex-col selection:bg-blue-500/30 selection:text-white">
       {/* Scroll Reading Progress Bar */}
       <ScrollProgress />
 
@@ -25,16 +25,16 @@ export default function DepartmentsPage() {
       {/* Main Content */}
       <main className="flex-grow pt-24">
         {/* Dedicated Page Hero */}
-        <section className="relative pt-16 pb-6 px-4 sm:px-6 lg:px-8 overflow-hidden text-center">
+        <section className="reference-editorial-section relative pt-24 pb-10 px-4 sm:px-6 lg:px-8 overflow-hidden">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-gradient-to-tr from-purple-600/15 via-blue-600/15 to-pink-600/15 rounded-full blur-3xl pointer-events-none -z-10" />
 
-          <div className="mx-auto max-w-4xl space-y-4">
+          <div className="mx-auto max-w-5xl space-y-4">
 
-            <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight text-white">
+            <h1 className="max-w-3xl text-5xl sm:text-7xl font-semibold tracking-[-0.06em] text-white">
               Our <span className="text-gradient-primary">Departments</span>
             </h1>
 
-            <p className="text-base sm:text-xl text-zinc-300 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-base sm:text-xl text-zinc-300 max-w-2xl leading-relaxed">
               Find where your passions align. Every department offers mentorship, hands-on leadership, and real-world project experience.
             </p>
           </div>
@@ -44,12 +44,12 @@ export default function DepartmentsPage() {
         <DepartmentsSection />
 
         {/* Bottom Callout */}
-        <section className="relative py-20 px-4 sm:px-6 lg:px-8 border-t border-white/[0.06] text-center">
-          <div className="mx-auto max-w-3xl glass-card p-10 rounded-3xl border border-white/10 space-y-6">
+        <section className="reference-editorial-section relative py-24 px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-5xl border border-white/12 bg-white/[0.035] p-8 sm:p-12 space-y-6">
             <h3 className="text-2xl sm:text-3xl font-bold text-white">
               Not sure which department fits you best?
             </h3>
-            <p className="text-sm sm:text-base text-zinc-400 max-w-xl mx-auto leading-relaxed">
+            <p className="text-sm sm:text-base text-zinc-400 max-w-xl leading-relaxed">
               You can apply with a primary and secondary preference in your application. Cross-department collaborations are actively encouraged!
             </p>
             <div>

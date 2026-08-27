@@ -4,11 +4,10 @@ import { ImpactSection } from "@/components/home/ImpactSection";
 import { SponsorsSection } from "@/components/home/SponsorsSection";
 import { Footer } from "@/components/layout/Footer";
 import { ScrollProgress } from "@/components/ui/ScrollReveal";
-import AnnouncementPopup from "@/components/ui/AnnouncementPopup";
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-[#07090e] text-white flex flex-col selection:bg-blue-500/30 selection:text-white">
+    <div className="hero-page-shell min-h-screen bg-[#07090e] text-white flex flex-col selection:bg-blue-500/30 selection:text-white">
       {/* Scroll Reading Progress Bar */}
       <ScrollProgress />
 
@@ -24,9 +23,6 @@ export default function HomePage() {
 
       {/* Footer */}
       <Footer />
-      
-      {/* Global Announcements */}
-      <AnnouncementPopup />
     </div>
   );
 }

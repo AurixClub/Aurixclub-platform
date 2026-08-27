@@ -55,12 +55,12 @@ const departments: Record<
     ],
   },
   "sponsors-industry": {
-    name: "Sponsors & Industry Relations",
+    name: "Industry & Sponsor Relationship",
     tagline: "Partnerships & Networks",
     description:
       "Connect AURIX with leading tech companies, alumni networks, venture partners, and sponsors.",
     longDescription:
-      "The Sponsors & Industry Relations department bridges the gap between campus and industry. We build partnerships with tech companies, secure sponsorships for events, coordinate mentorship programs, and create networking opportunities that give students real-world exposure.",
+      "The Industry & Sponsor Relationship department bridges the gap between campus and industry. We build partnerships with tech companies, secure sponsorships for events, coordinate mentorship programs, and create networking opportunities that give students real-world exposure.",
     icon: Handshake,
     accentColor: "from-indigo-500 to-violet-500",
     accentText: "text-indigo-400",
@@ -72,12 +72,12 @@ const departments: Record<
     ],
   },
   "innovation-research": {
-    name: "Innovation & Research",
+    name: "Research & Innovation",
     tagline: "R&D & Deep Tech",
     description:
       "Explore emerging technologies, publish scientific papers, and turn breakthrough ideas into reality.",
     longDescription:
-      "The Innovation & Research department pushes boundaries. We explore emerging technologies, conduct experiments, publish research papers, contribute to patents, and create prototypes that test the limits of what's possible. Curiosity drives everything we do.",
+      "The Research & Innovation department pushes boundaries. We explore emerging technologies, conduct experiments, publish research papers, contribute to patents, and create prototypes that test the limits of what's possible. Curiosity drives everything we do.",
     icon: Lightbulb,
     accentColor: "from-amber-500 to-orange-500",
     accentText: "text-amber-400",
@@ -106,12 +106,12 @@ const departments: Record<
     ],
   },
   "social-marketing": {
-    name: "Social Media & Marketing",
+    name: "Social Media & Designing",
     tagline: "Content & Brand Growth",
     description:
       "Craft stories, create digital design assets, expand reach, and bring AURIX culture to the global stage.",
     longDescription:
-      "The Social Media & Marketing department is the voice of AURIX. We craft compelling stories, design visual content, manage social media platforms, run campaigns, and build a strong digital presence that amplifies the work of every department and member.",
+      "The Social Media & Designing department is the voice of AURIX. We craft compelling stories, design visual content, manage social media platforms, run campaigns, and build a strong digital presence that amplifies the work of every department and member.",
     icon: Megaphone,
     accentColor: "from-pink-500 to-rose-500",
     accentText: "text-pink-400",
@@ -177,7 +177,7 @@ export default function DepartmentDetailPage() {
 
   if (!dept) {
     return (
-      <div className="min-h-screen bg-[#07090e] text-white flex flex-col">
+      <div className="hero-page-shell min-h-screen bg-[#07090e] text-white flex flex-col">
         <Navbar />
         <main className="flex-grow flex items-center justify-center">
           <div className="text-center space-y-4">
@@ -205,7 +205,7 @@ export default function DepartmentDetailPage() {
   const nextSlug = currentIndex < deptOrder.length - 1 ? deptOrder[currentIndex + 1] : null;
 
   return (
-    <div className="min-h-screen bg-[#07090e] text-white flex flex-col selection:bg-blue-500/30 selection:text-white">
+    <div className="hero-page-shell min-h-screen bg-[#07090e] text-white flex flex-col selection:bg-blue-500/30 selection:text-white">
       <Navbar />
 
       <main className="flex-grow pt-36 pb-28 px-4 sm:px-6 lg:px-8">

@@ -178,15 +178,15 @@ export default function AboutPageClient() {
   return (
     <>
       {/* ═══════════ JOURNEY ═══════════ */}
-      <section className="py-20 sm:py-24 px-4 sm:px-6 lg:px-8">
+      <section className="reference-editorial-section py-24 sm:py-32 px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-5xl">
           <ScrollReveal direction="up">
-            <div className="text-center space-y-3 mb-12">
+            <div className="space-y-3 mb-12 max-w-3xl">
               <p className="text-sm font-mono uppercase tracking-widest text-emerald-400/80">
                 The AURIX Journey
               </p>
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white">
-                From Campus to <span className="text-gradient-primary">Community.</span>
+                From Campus to <span className="text-white/45">Community.</span>
               </h2>
             </div>
           </ScrollReveal>
@@ -229,15 +229,15 @@ export default function AboutPageClient() {
       </section>
 
       {/* ═══════════ WHO WE ARE ═══════════ */}
-      <section className="py-20 sm:py-24 px-4 sm:px-6 lg:px-8">
+      <section className="reference-editorial-section py-24 sm:py-32 px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-6xl">
           <ScrollReveal direction="up">
-            <div className="text-center max-w-3xl mx-auto mb-14 space-y-3">
+            <div className="max-w-3xl mb-14 space-y-3">
               <p className="text-sm font-mono uppercase tracking-widest text-indigo-400/80">
                 Who We Are
               </p>
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white">
-                Built by Students. <span className="text-gradient-primary">Driven by Curiosity.</span>
+                Built by Students. <span className="text-white/45">Driven by Curiosity.</span>
               </h2>
             </div>
           </ScrollReveal>
@@ -266,15 +266,15 @@ export default function AboutPageClient() {
       </section>
 
       {/* ═══════════ GALLERY ═══════════ */}
-      <section className="py-20 sm:py-24 px-4 sm:px-6 lg:px-8">
+      <section className="reference-editorial-section py-24 sm:py-32 px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-6xl">
           <ScrollReveal direction="up">
-            <div className="text-center mb-12 space-y-3">
+            <div className="mb-12 space-y-3 max-w-3xl">
               <p className="text-sm font-mono uppercase tracking-widest text-blue-400/80">
                 Gallery
               </p>
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white">
-                Life at <span className="text-gradient-primary">AURIX</span>
+                Life at <span className="text-white/45">AURIX</span>
               </h2>
             </div>
           </ScrollReveal>
@@ -314,21 +314,21 @@ export default function AboutPageClient() {
       </section>
 
       {/* ═══════════ MISSION ═══════════ */}
-      <section className="py-20 sm:py-24 px-4 sm:px-6 lg:px-8">
+      <section className="reference-editorial-section py-24 sm:py-32 px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-6xl">
           <ScrollReveal direction="up">
-            <div className="text-center max-w-3xl mx-auto mb-6 space-y-3">
+            <div className="max-w-3xl mb-6 space-y-3">
               <p className="text-sm font-mono uppercase tracking-widest text-blue-400/80">
                 Our Mission
               </p>
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white">
-                Learn. Build. <span className="text-gradient-primary">Lead.</span>
+                Learn. Build. <span className="text-white/45">Lead.</span>
               </h2>
             </div>
           </ScrollReveal>
 
           <ScrollReveal direction="up" delay={0.1}>
-            <p className="text-center text-zinc-400 max-w-3xl mx-auto mb-14 leading-relaxed">
+            <p className="text-zinc-400 max-w-3xl mb-14 leading-relaxed">
               Our mission is to create an environment where students move beyond theoretical learning and develop the confidence to learn continuously, build fearlessly, and lead meaningfully.
             </p>
           </ScrollReveal>
@@ -361,15 +361,15 @@ export default function AboutPageClient() {
 
 
       {/* ═══════════ CULTURE / VALUES ═══════════ */}
-      <section className="py-20 sm:py-24 px-4 sm:px-6 lg:px-8">
+      <section className="reference-editorial-section py-24 sm:py-32 px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-6xl">
           <ScrollReveal direction="up">
-            <div className="text-center max-w-3xl mx-auto mb-6 space-y-3">
+            <div className="max-w-3xl mb-6 space-y-3">
               <p className="text-sm font-mono uppercase tracking-widest text-rose-400/80">
                 What We Believe
               </p>
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white">
-                Our <span className="text-gradient-primary">Culture</span>
+                Our <span className="text-white/45">Culture</span>
               </h2>
               <p className="text-zinc-400 leading-relaxed">
                 The values that shape how we learn, build, collaborate, and grow at AURIX.
@@ -398,7 +398,50 @@ export default function AboutPageClient() {
         </div>
       </section>
 
-      
+      {/* ═══════════ CTA ═══════════ */}
+      <section className="py-24 sm:py-28 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-blue-950/10 to-transparent pointer-events-none -z-10" />
+
+        <div className="mx-auto max-w-3xl text-center">
+          <ScrollReveal direction="up">
+            <p className="text-sm font-mono uppercase tracking-widest text-blue-400/80 mb-4">
+              Start Your Journey
+            </p>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white mb-6">
+              Have an Idea? <span className="text-white/45">Build It With Us.</span>
+            </h2>
+          </ScrollReveal>
+
+          <ScrollReveal direction="up" delay={0.1}>
+            <div className="space-y-2 text-zinc-400 mb-8">
+              <p>You don&apos;t need to know everything before you start.</p>
+              <p>You don&apos;t need to have the perfect idea.</p>
+              <p className="text-zinc-300 font-semibold">You just need the curiosity to begin.</p>
+            </div>
+
+            <p className="text-sm text-zinc-400 max-w-2xl mx-auto mb-10 leading-relaxed">
+              Whether you want to build, research, experiment, start something new, connect with industry, or simply learn alongside people who are curious like you — there&apos;s a place for you at AURIX.
+            </p>
+          </ScrollReveal>
+
+          <ScrollReveal direction="up" delay={0.2}>
+            <Link
+              href="/join"
+              className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 px-8 py-4 text-base font-semibold text-white shadow-xl shadow-indigo-500/25 hover:shadow-indigo-500/40 transition-all duration-300 group hover:scale-[1.03] active:scale-[0.98]"
+            >
+              <span>Join AURIX</span>
+              <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+            </Link>
+
+            <p className="mt-8 text-sm font-mono text-zinc-500 tracking-wider">
+              Learn. Build. Lead.
+            </p>
+            <p className="text-xs text-zinc-600 mt-1">
+              Let&apos;s build what comes next — together.
+            </p>
+          </ScrollReveal>
+        </div>
+      </section>
     </>
   );
 }

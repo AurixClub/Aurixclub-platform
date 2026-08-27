@@ -31,23 +31,32 @@ interface FounderProfile {
   linkedin?: string;
 }
 
+const departmentDisplayNames: Record<string, string> = {
+  "sponsors-industry-relations": "Industry & Sponsor Relationship",
+  "innovation-research": "Research & Innovation",
+  "social-media-marketing": "Social Media & Designing",
+};
+
+const displayDepartmentName = (department: Department) =>
+  departmentDisplayNames[department.slug] ?? department.name;
+
 const FOUNDERS: FounderProfile[] = [
   {
     name: "Advaith Kolkar",
-    role: "Founder & Lead Architect",
+    role: "Founder & Chief Patron",
     badge: "FOUNDER",
-    avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80",
-    bio: "Founding visionary of AURIX club. Architecting distributed platforms, engineering curricula, and inspiring the next generation of builders and technology leaders.",
+    avatar: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663895092823/yUhLSYPdmvAvVlyY.png",
+    bio: "As AURIX's founder and chief patron, this leadership shapes the club's long-term direction while architecting distributed platforms, engineering curricula, and the builder culture behind every initiative.",
     department: "Executive & Core Engineering",
     github: "https://github.com/advaithkolkar",
     linkedin: "https://linkedin.com/in/advaithkolkar",
   },
   {
     name: "Anish Sharma",
-    role: "Co-Founder & Head of Operations",
+    role: "Co-Founder & President",
     badge: "CO-FOUNDER",
-    avatar: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=400&auto=format&fit=crop&q=80",
-    bio: "Co-founder spearheading club growth, corporate partnerships, flagship ecosystem programs, and cross-department collaboration across universities.",
+    avatar: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663895092823/wEAEXIMxZQtZDzrq.jpeg",
+    bio: "As AURIX's co-founder and president, this leadership drives club growth and global strategy by building corporate partnerships, flagship ecosystem programs, and collaboration across universities.",
     department: "Executive & Global Strategy",
     github: "https://github.com/anishsharma",
     linkedin: "https://linkedin.com/in/anishsharma",
@@ -76,25 +85,25 @@ export default function TeamPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#07090e] text-white flex flex-col selection:bg-purple-500/30 selection:text-white">
+    <div className="hero-page-shell team-page-shell min-h-screen bg-[#07090e] text-white flex flex-col selection:bg-purple-500/30 selection:text-white">
       <ScrollProgress />
       <Navbar />
 
       <main className="flex-grow pt-24">
         {/* Page Hero */}
-        <section className="relative pt-16 pb-12 px-4 sm:px-6 lg:px-8 overflow-hidden text-center">
+        <section className="reference-editorial-section relative pt-24 pb-16 px-4 sm:px-6 lg:px-8 overflow-hidden">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-gradient-to-tr from-blue-600/15 via-purple-600/15 to-pink-600/15 rounded-full blur-3xl pointer-events-none -z-10" />
 
-          <div className="mx-auto max-w-4xl space-y-4">
+          <div className="mx-auto max-w-5xl space-y-4">
             <div className="inline-flex items-center gap-2 rounded-full border border-purple-500/20 bg-purple-500/10 px-3.5 py-1 text-xs font-medium text-purple-300">
               <Sparkles className="h-3.5 w-3.5" />
               <span>AURIX Leadership & Department Rosters</span>
             </div>
 
-            <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight text-white">
+            <h1 className="max-w-4xl text-5xl sm:text-7xl font-semibold tracking-[-0.06em] text-white">
               The People Behind <span className="text-gradient-primary">AURIX</span>
             </h1>
-            <p className="text-base sm:text-xl text-zinc-300 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-base sm:text-xl text-zinc-300 max-w-2xl leading-relaxed">
               Meet our founders, executive leads, and department members building the community, organizing tech events, and pushing the boundaries of student innovation.
             </p>
           </div>
@@ -103,8 +112,8 @@ export default function TeamPage() {
         {/* ========================================================================= */}
         {/* SECTION 1: FOUNDING LEADERSHIP (Advaith Kolkar & Anish Sharma)             */}
         {/* ========================================================================= */}
-        <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
-          <div className="rounded-3xl bg-gradient-to-b from-purple-950/20 via-[#0d101e]/80 to-[#090b14]/90 border border-purple-500/20 p-6 sm:p-10 space-y-8 relative overflow-hidden backdrop-blur-2xl shadow-2xl">
+        <section className="reference-editorial-section max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+          <div className="border border-white/12 bg-white/[0.035] p-6 sm:p-10 space-y-8 relative overflow-hidden">
             {/* Ambient Background Lights */}
             <div className="absolute -top-24 left-1/4 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl pointer-events-none -z-10" />
             <div className="absolute -bottom-24 right-1/4 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none -z-10" />
@@ -133,11 +142,11 @@ export default function TeamPage() {
                 >
                   {/* Photo with Crown */}
                   <div className="relative shrink-0">
-                    <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-2xl overflow-hidden bg-slate-900 ring-2 ring-purple-500/40 group-hover:ring-purple-400 transition-all shadow-2xl">
+                    <div className="w-28 aspect-[3/4] sm:w-32 rounded-2xl overflow-hidden bg-transparent ring-2 ring-purple-500/40 group-hover:ring-purple-400 transition-all shadow-2xl">
                       <img
                         src={founder.avatar}
                         alt={founder.name}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        className="block w-full h-full object-cover object-center transition-none"
                       />
                     </div>
                     <span className="absolute -bottom-2 -right-2 px-2.5 py-0.5 rounded-md bg-gradient-to-r from-amber-500 to-yellow-500 text-black font-black text-[10px] uppercase tracking-wider shadow-lg flex items-center gap-1">
@@ -152,10 +161,10 @@ export default function TeamPage() {
                       <h3 className="text-xl font-bold text-white group-hover:text-purple-300 transition-colors">
                         {founder.name}
                       </h3>
-                      <p className="text-xs font-semibold text-purple-400 font-mono tracking-wide">
+                      <p className="team-founder-role">
                         {founder.role}
                       </p>
-                      <span className="text-[11px] text-zinc-400 font-mono">
+                      <span className="team-founder-department">
                         {founder.department}
                       </span>
                     </div>
@@ -211,8 +220,8 @@ export default function TeamPage() {
         )}
 
         {!isLoading && (
-          <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24 space-y-16">
-            <div className="text-center space-y-2 pb-4">
+          <section className="reference-editorial-section max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 space-y-16">
+            <div className="space-y-2 pb-4 max-w-3xl">
               <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-xs font-medium text-zinc-400 font-mono">
                 <Layers className="h-3.5 w-3.5 text-purple-400" />
                 <span>Department Teams</span>
@@ -229,7 +238,7 @@ export default function TeamPage() {
                 <div
                   key={dept.id}
                   id={dept.slug}
-                  className="rounded-3xl bg-[#0a0d16]/80 border border-white/10 p-6 sm:p-10 space-y-8 relative overflow-hidden backdrop-blur-xl"
+                  className="border border-white/12 bg-white/[0.025] p-6 sm:p-10 space-y-8 relative overflow-hidden"
                 >
                   {/* Subtle Background Glow per row */}
                   <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-bl from-purple-600/5 via-blue-600/5 to-transparent rounded-full blur-2xl pointer-events-none -z-10" />
@@ -242,7 +251,7 @@ export default function TeamPage() {
                         <span>Department 0{deptIndex + 1}</span>
                       </div>
                       <h3 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
-                        {dept.name}
+                        {displayDepartmentName(dept)}
                       </h3>
                       <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed pt-1">
                         {dept.description}
@@ -344,12 +353,12 @@ export default function TeamPage() {
                     </div>
                   ) : (
                     <div className="p-8 rounded-2xl border border-dashed border-white/10 text-center space-y-2">
-                      <p className="text-xs text-zinc-400">No member profiles listed for {dept.name} yet.</p>
+                      <p className="text-xs text-zinc-400">No member profiles listed for {displayDepartmentName(dept)} yet.</p>
                       <Link
                         href="/join"
                         className="inline-block text-xs text-violet-400 hover:text-violet-300 font-semibold underline"
                       >
-                        Apply to lead or join {dept.name} →
+                        Apply to lead or join {displayDepartmentName(dept)} →
                       </Link>
                     </div>
                   )}

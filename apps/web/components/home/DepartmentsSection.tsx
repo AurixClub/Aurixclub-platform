@@ -16,6 +16,19 @@ import Link from "next/link";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import type { Department } from "@aurix/types";
 
+const departmentDisplayNames: Record<string, string> = {
+  "sponsors-industry-relations": "Industry & Sponsor Relationship",
+  "innovation-research": "Research & Innovation",
+  "social-media-marketing": "Social Media & Designing",
+};
+
+const upcomingDepartments = [
+  "Quantum Department",
+  "Space Science & Technology Department",
+  "Gaming & Technology Department",
+  "Student's Wellbeing & Counselling Department",
+];
+
 export function DepartmentsSection() {
   const [departments, setDepartments] = useState<Department[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -83,7 +96,7 @@ export function DepartmentsSection() {
                         Domain 0{index + 1}
                       </span>
                       <h3 className="text-xl font-bold text-white group-hover:text-violet-300 transition-colors">
-                        {dept.name}
+                        {departmentDisplayNames[dept.slug] ?? dept.name}
                       </h3>
                     </div>
 
@@ -116,6 +129,24 @@ export function DepartmentsSection() {
                   </Link>
                 </div>
               </div>
+            ))}
+            {upcomingDepartments.map((name, index) => (
+              <article
+                key={name}
+                className="group relative overflow-hidden rounded-3xl border border-dashed border-[#b8a7ff]/35 bg-[#0a0d16]/75 p-8 shadow-xl shadow-indigo-950/10 transition-all duration-300 hover:-translate-y-1.5 hover:border-[#c7ff3d]/55"
+              >
+                <div className="pointer-events-none absolute -right-16 -top-16 h-36 w-36 rounded-full bg-[#b8a7ff]/10 blur-3xl" />
+                <div className="relative flex min-h-[190px] flex-col justify-between gap-8">
+                  <div>
+                    <span className="mb-2 block text-[10px] font-mono font-bold uppercase tracking-wider text-violet-400">Upcoming 0{index + 1}</span>
+                    <h3 className="text-xl font-bold leading-tight text-white transition-colors group-hover:text-[#c7ff3d]">{name}</h3>
+                  </div>
+                  <div className="flex items-center gap-2 border-t border-white/[0.08] pt-4 text-xs font-semibold uppercase tracking-[0.16em] text-white/45">
+                    <span className="h-2 w-2 rounded-full bg-[#c7ff3d] shadow-[0_0_14px_rgba(199,255,61,0.75)]" />
+                    <span>Launching soon</span>
+                  </div>
+                </div>
+              </article>
             ))}
           </div>
         )}

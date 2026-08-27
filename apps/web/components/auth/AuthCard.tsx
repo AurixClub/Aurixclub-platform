@@ -198,7 +198,6 @@ export function AuthCard({ initialTab = "signin" }: AuthCardProps) {
       setConfirmationPending(!supabaseSignup.session);
     } catch {
       setErrorMessage("Unable to complete signup. Please try again.");
-    } finally {
       setIsLoading(false);
     }
   };
@@ -257,47 +256,72 @@ export function AuthCard({ initialTab = "signin" }: AuthCardProps) {
   };
 
   return (
-    <div className="w-full max-w-md mx-auto">
+    <div className="w-full max-w-6xl mx-auto">
       <motion.div
         initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="rounded-3xl glass-panel p-6 sm:p-9 border border-white/10 shadow-2xl relative overflow-hidden bg-[#0d111c]/80 backdrop-blur-xl"
+        className="auth-fuse-card relative grid overflow-hidden rounded-[2rem] border border-white/[0.12] bg-[#080a0f]/95 shadow-[0_30px_90px_rgba(0,0,0,0.5)] backdrop-blur-2xl md:grid-cols-[1.08fr_0.92fr]"
       >
-        {/* Subtle accent glow */}
-        <div className="absolute -top-24 -right-24 w-48 h-48 bg-blue-500/15 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-purple-500/15 rounded-full blur-3xl pointer-events-none" />
+        <aside className="auth-fuse-aside relative order-2 hidden min-h-[620px] flex-col justify-between overflow-hidden border-l border-white/[0.1] bg-[#0c1018] p-8 md:flex lg:p-12">
+          <div className="pointer-events-none absolute -right-24 top-16 h-72 w-72 rounded-full bg-[#243dff]/20 blur-3xl" />
+          <div className="pointer-events-none absolute -bottom-24 -left-20 h-80 w-80 rounded-full bg-[#c7ff3d]/10 blur-3xl" />
+          <div className="relative z-10 flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.24em] text-white/75">
+            <span className="flex h-10 w-10 items-center justify-center rounded-full border border-[#c7ff3d]/50 bg-[#c7ff3d]/10 text-[#c7ff3d]">A</span>
+            <span>AURIX / ACCESS</span>
+          </div>
+          <div className="relative z-10 max-w-sm">
+            <p className="mb-5 text-xs font-mono uppercase tracking-[0.3em] text-[#b8a7ff]">Learn. Build. Connect.</p>
+            <h2 className="text-5xl font-black uppercase leading-[0.88] tracking-[-0.07em] text-white lg:text-6xl">A space for student builders.</h2>
+            <p className="mt-6 max-w-xs text-sm leading-6 text-white/55">Enter the community where curiosity becomes real impact across engineering, deep tech, and innovation.</p>
+          </div>
+          <div className="relative z-10 flex items-center justify-between border-t border-white/[0.12] pt-5 text-[10px] font-semibold uppercase tracking-[0.22em] text-white/40">
+            <span>Dr. AIT / Bengaluru</span>
+            <span>01—06</span>
+          </div>
+        </aside>
 
+        {/* Subtle accent glow */}
+        <div className="pointer-events-none absolute -right-24 -top-24 h-64 w-64 rounded-full bg-blue-500/15 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-32 -left-24 h-72 w-72 rounded-full bg-purple-500/15 blur-3xl" />
+        <div className="pointer-events-none absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-blue-300/70 to-transparent" />
+        <div className="pointer-events-none absolute left-1/2 top-0 h-24 w-px -translate-x-1/2 bg-gradient-to-b from-blue-300/45 to-transparent" />
+
+        <div className="auth-fuse-form relative z-10 order-1 p-5 sm:p-8 lg:p-10">
         {/* Tab Selector (hidden in forgot password mode) */}
         {activeTab !== "forgotPassword" && (
-          <div className="flex rounded-2xl bg-white/[0.04] p-1 border border-white/10 mb-8">
+          <div className="auth-fuse-tabs mb-8 flex rounded-2xl border border-white/10 bg-black/25 p-1 shadow-inner shadow-black/20">
             <button
               type="button"
+              data-auth-tab="signin"
+              data-active={activeTab === "signin"}
               onClick={() => {
                 setActiveTab("signin");
                 clearAlerts();
               }}
-              className={`flex-1 py-2.5 text-xs sm:text-sm font-semibold rounded-xl transition-all duration-300 ${
+              className={`auth-fuse-tab flex-1 py-2.5 text-xs sm:text-sm font-semibold rounded-xl transition-all duration-300 ${
                 activeTab === "signin"
-                  ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md shadow-blue-500/25"
+                  ? "bg-white text-black shadow-[0_8px_24px_rgba(255,255,255,0.12)]"
                   : "text-zinc-400 hover:text-white"
               }`}
             >
-              Sign In
+              <span className="auth-fuse-tab-label">Sign In</span>
             </button>
             <button
               type="button"
+              data-auth-tab="signup"
+              data-active={activeTab === "signup"}
               onClick={() => {
                 setActiveTab("signup");
                 clearAlerts();
               }}
-              className={`flex-1 py-2.5 text-xs sm:text-sm font-semibold rounded-xl transition-all duration-300 ${
+              className={`auth-fuse-tab flex-1 py-2.5 text-xs sm:text-sm font-semibold rounded-xl transition-all duration-300 ${
                 activeTab === "signup"
-                  ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md shadow-indigo-500/25"
+                  ? "bg-white text-black shadow-[0_8px_24px_rgba(255,255,255,0.12)]"
                   : "text-zinc-400 hover:text-white"
               }`}
             >
-              Create Account
+              <span className="auth-fuse-tab-label">Create Account</span>
             </button>
           </div>
         )}
@@ -356,7 +380,7 @@ export function AuthCard({ initialTab = "signin" }: AuthCardProps) {
                   onChange={(e) => setLoginEmail(e.target.value)}
                   disabled={isLoading}
                   required
-                  className="w-full rounded-xl bg-white/[0.04] border border-white/10 px-4 py-3 pl-10 text-sm text-white placeholder-zinc-500 focus:border-blue-500 focus:outline-none transition-colors disabled:opacity-50"
+                  className="w-full rounded-2xl border border-white/10 bg-white/[0.035] px-4 py-3.5 pl-11 text-sm text-white outline-none ring-0 transition-all duration-200 placeholder:text-zinc-500 focus:border-blue-400/70 focus:bg-white/[0.06] focus:shadow-[0_0_0_4px_rgba(96,165,250,0.08)] disabled:opacity-50"
                 />
                 <Mail className="absolute left-3.5 top-3.5 h-4 w-4 text-zinc-500" />
               </div>
@@ -386,7 +410,7 @@ export function AuthCard({ initialTab = "signin" }: AuthCardProps) {
                   onChange={(e) => setLoginPassword(e.target.value)}
                   disabled={isLoading}
                   required
-                  className="w-full rounded-xl bg-white/[0.04] border border-white/10 px-4 py-3 pl-10 text-sm text-white placeholder-zinc-500 focus:border-blue-500 focus:outline-none transition-colors disabled:opacity-50"
+                  className="w-full rounded-2xl border border-white/10 bg-white/[0.035] px-4 py-3.5 pl-11 text-sm text-white outline-none ring-0 transition-all duration-200 placeholder:text-zinc-500 focus:border-blue-400/70 focus:bg-white/[0.06] focus:shadow-[0_0_0_4px_rgba(96,165,250,0.08)] disabled:opacity-50"
                 />
                 <Lock className="absolute left-3.5 top-3.5 h-4 w-4 text-zinc-500" />
               </div>
@@ -502,7 +526,7 @@ export function AuthCard({ initialTab = "signin" }: AuthCardProps) {
                   onChange={(e) => setFullName(e.target.value)}
                   disabled={isLoading}
                   required
-                  className="w-full rounded-xl bg-white/[0.04] border border-white/10 px-4 py-3 pl-10 text-sm text-white placeholder-zinc-500 focus:border-blue-500 focus:outline-none transition-colors disabled:opacity-50"
+                  className="w-full rounded-2xl border border-white/10 bg-white/[0.035] px-4 py-3.5 pl-11 text-sm text-white outline-none ring-0 transition-all duration-200 placeholder:text-zinc-500 focus:border-blue-400/70 focus:bg-white/[0.06] focus:shadow-[0_0_0_4px_rgba(96,165,250,0.08)] disabled:opacity-50"
                 />
                 <User className="absolute left-3.5 top-3.5 h-4 w-4 text-zinc-500" />
               </div>
@@ -520,7 +544,7 @@ export function AuthCard({ initialTab = "signin" }: AuthCardProps) {
                   onChange={(e) => setSignupEmail(e.target.value)}
                   disabled={isLoading}
                   required
-                  className="w-full rounded-xl bg-white/[0.04] border border-white/10 px-4 py-3 pl-10 text-sm text-white placeholder-zinc-500 focus:border-blue-500 focus:outline-none transition-colors disabled:opacity-50"
+                  className="w-full rounded-2xl border border-white/10 bg-white/[0.035] px-4 py-3.5 pl-11 text-sm text-white outline-none ring-0 transition-all duration-200 placeholder:text-zinc-500 focus:border-blue-400/70 focus:bg-white/[0.06] focus:shadow-[0_0_0_4px_rgba(96,165,250,0.08)] disabled:opacity-50"
                 />
                 <Mail className="absolute left-3.5 top-3.5 h-4 w-4 text-zinc-500" />
               </div>
@@ -537,7 +561,7 @@ export function AuthCard({ initialTab = "signin" }: AuthCardProps) {
                   value={signupPhone}
                   onChange={(e) => setSignupPhone(e.target.value)}
                   disabled={isLoading}
-                  className="w-full rounded-xl bg-white/[0.04] border border-white/10 px-4 py-3 pl-10 text-sm text-white placeholder-zinc-500 focus:border-blue-500 focus:outline-none transition-colors disabled:opacity-50"
+                  className="w-full rounded-2xl border border-white/10 bg-white/[0.035] px-4 py-3.5 pl-11 text-sm text-white outline-none ring-0 transition-all duration-200 placeholder:text-zinc-500 focus:border-blue-400/70 focus:bg-white/[0.06] focus:shadow-[0_0_0_4px_rgba(96,165,250,0.08)] disabled:opacity-50"
                 />
                 <Phone className="absolute left-3.5 top-3.5 h-4 w-4 text-zinc-500" />
               </div>
@@ -690,7 +714,7 @@ export function AuthCard({ initialTab = "signin" }: AuthCardProps) {
                   onChange={(e) => setForgotEmail(e.target.value)}
                   disabled={isLoading}
                   required
-                  className="w-full rounded-xl bg-white/[0.04] border border-white/10 px-4 py-3 pl-10 text-sm text-white placeholder-zinc-500 focus:border-blue-500 focus:outline-none transition-colors disabled:opacity-50"
+                  className="w-full rounded-2xl border border-white/10 bg-white/[0.035] px-4 py-3.5 pl-11 text-sm text-white outline-none ring-0 transition-all duration-200 placeholder:text-zinc-500 focus:border-blue-400/70 focus:bg-white/[0.06] focus:shadow-[0_0_0_4px_rgba(96,165,250,0.08)] disabled:opacity-50"
                 />
                 <Mail className="absolute left-3.5 top-3.5 h-4 w-4 text-zinc-500" />
               </div>
@@ -721,6 +745,7 @@ export function AuthCard({ initialTab = "signin" }: AuthCardProps) {
             </button>
           </form>
         )}
+        </div>
       </motion.div>
     </div>
   );

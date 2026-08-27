@@ -81,15 +81,15 @@ export default function EventsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#07090e] text-white flex flex-col selection:bg-blue-500/30 selection:text-white">
+    <div className="hero-page-shell min-h-screen bg-[#07090e] text-white flex flex-col selection:bg-blue-500/30 selection:text-white">
       <ScrollProgress />
       <Navbar />
 
-      <main className="flex-grow pt-36 pb-28 px-4 sm:px-6 lg:px-8">
+      <main className="reference-editorial-section flex-grow pt-36 pb-28 px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           {/* Header */}
-          <div className="text-center max-w-3xl mx-auto mb-12 space-y-4">
-            <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight text-white">
+          <div className="max-w-3xl mb-12 space-y-4">
+            <h1 className="max-w-4xl text-5xl sm:text-7xl font-semibold tracking-[-0.06em] text-white">
               Upcoming <span className="text-gradient-primary">Events</span>
             </h1>
             <p className="text-base sm:text-lg text-zinc-400 leading-relaxed">
@@ -119,7 +119,7 @@ export default function EventsPage() {
           ) : events.length === 0 ? (
             <div className="text-center py-20 text-zinc-400">No upcoming events scheduled right now.</div>
           ) : (
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 border-t border-white/12 lg:grid-cols-2 gap-x-8 gap-y-0">
               {events.map((event) => {
                 const isRegistered = registeredIds.includes(event.id);
                 const isFull = event.max_participants !== null && event.registration_count >= event.max_participants;
@@ -127,9 +127,9 @@ export default function EventsPage() {
                 return (
                   <div
                     key={event.id}
-                    className="group relative h-full rounded-3xl border border-white/[0.08] bg-white/[0.03] backdrop-blur-xl overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:border-white/20 hover:shadow-2xl flex flex-col justify-between"
+                    className="group relative h-full border-b border-white/12 bg-transparent overflow-hidden transition-colors duration-500 hover:bg-white/[0.035] flex flex-col justify-between"
                   >
-                    <div className="h-1.5 w-full bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500" />
+                    <div className="h-px w-full bg-white/12" />
 
                     <div className="p-7 sm:p-8 flex flex-col flex-1">
                       {event.cover_image_url && (

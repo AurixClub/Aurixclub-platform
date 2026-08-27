@@ -1,26 +1,27 @@
+/* Reference fidelity: global styles support the Limelight Nav, Minimalist Hero, and Motion Footer adaptations without changing backend behavior. */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --background: 230 25% 5%;
+    --background: 240 10% 4%;
     --foreground: 210 40% 98%;
-    --card: 228 22% 8%;
+    --card: 240 9% 7%;
     --card-foreground: 210 40% 98%;
-    --popover: 228 22% 8%;
+    --popover: 240 9% 7%;
     --popover-foreground: 210 40% 98%;
     --primary: 217 91% 60%;
     --primary-foreground: 222 47% 11%;
-    --secondary: 226 20% 16%;
+    --secondary: 240 7% 13%;
     --secondary-foreground: 210 40% 98%;
-    --muted: 224 18% 14%;
+    --muted: 240 6% 11%;
     --muted-foreground: 215 20% 65%;
     --accent: 260 84% 65%;
     --accent-foreground: 210 40% 98%;
     --destructive: 0 62% 30%;
     --destructive-foreground: 210 40% 98%;
-    --border: 226 20% 16%;
+    --border: 240 6% 18%;
     --input: 226 20% 16%;
     --ring: 217 91% 60%;
     --radius: 0.75rem;
@@ -57,19 +58,20 @@
 }
 
 /* Glassmorphism and lighting utilities */
-.glass-panel {
-  background: rgba(13, 17, 28, 0.7);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  .glass-panel {
+  background: rgba(18, 18, 22, 0.74);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.34);
 }
 
-.glass-card {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  .glass-card {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.025));
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 16px 42px rgba(0, 0, 0, 0.32);
 }
 
 .glass-card-hover {
@@ -89,7 +91,7 @@
 }
 
 .text-gradient-primary {
-  background: linear-gradient(135deg, #60a5fa 0%, #a855f7 50%, #ec4899 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #d9d9df 58%, #9999a5 100%);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -101,4 +103,765 @@
 
 .glow-purple {
   box-shadow: 0 0 50px -10px rgba(168, 85, 247, 0.3);
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Global Hero reference system: quiet grid, orbiting light, and editorial depth across every route. */
+.hero-global-grid {
+  background-image:
+    linear-gradient(rgba(148, 163, 184, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148, 163, 184, 0.055) 1px, transparent 1px);
+  background-size: 4.5rem 4.5rem;
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 42%, black 20%, transparent 82%);
+}
+
+.hero-global-vignette {
+  background:
+    radial-gradient(circle at 16% 22%, rgba(59, 130, 246, 0.1), transparent 24%),
+    radial-gradient(circle at 82% 68%, rgba(168, 85, 247, 0.1), transparent 26%),
+    linear-gradient(180deg, rgba(7, 9, 14, 0.04), rgba(7, 9, 14, 0.55));
+}
+
+.hero-global-orbit {
+  border: 1px solid rgba(147, 197, 253, 0.12);
+  border-radius: 999px;
+  transform: rotate(-22deg);
+}
+
+.hero-global-orbit-one {
+  width: min(48vw, 42rem);
+  height: min(20vw, 17rem);
+  right: -8rem;
+  top: 12rem;
+}
+
+.hero-global-orbit-two {
+  width: min(36vw, 32rem);
+  height: min(14vw, 12rem);
+  left: -8rem;
+  bottom: 8rem;
+  border-color: rgba(192, 132, 252, 0.1);
+  transform: rotate(26deg);
+}
+
+.hero-global-beam {
+  height: 1px;
+  width: min(30vw, 24rem);
+  background: linear-gradient(90deg, transparent, rgba(147, 197, 253, 0.28), transparent);
+  transform-origin: center;
+}
+
+.hero-global-beam-one {
+  right: 14%;
+  top: 24%;
+  transform: rotate(28deg);
+}
+
+.hero-global-beam-two {
+  left: 12%;
+  bottom: 26%;
+  background: linear-gradient(90deg, transparent, rgba(216, 180, 254, 0.22), transparent);
+  transform: rotate(-24deg);
+}
+
+.hero-global-node {
+  width: 0.35rem;
+  height: 0.35rem;
+  border-radius: 999px;
+  background: #bfdbfe;
+  box-shadow: 0 0 1.25rem rgba(147, 197, 253, 0.9);
+}
+
+.hero-global-node-one {
+  right: 27%;
+  top: 19%;
+}
+
+.hero-global-node-two {
+  left: 22%;
+  bottom: 21%;
+  background: #e9d5ff;
+  box-shadow: 0 0 1.25rem rgba(216, 180, 254, 0.9);
+}
+
+@media (max-width: 768px) {
+  .hero-global-grid {
+    background-size: 3.25rem 3.25rem;
+  }
+
+  .hero-global-orbit-one {
+    width: 28rem;
+    height: 12rem;
+    right: -13rem;
+    top: 14rem;
+  }
+
+  .hero-global-orbit-two {
+    width: 24rem;
+    height: 9rem;
+    left: -12rem;
+    bottom: 10rem;
+  }
+
+  .hero-global-beam-one {
+    right: 2%;
+    top: 29%;
+    width: 13rem;
+  }
+
+  .hero-global-beam-two {
+    left: 0;
+    bottom: 20%;
+    width: 12rem;
+  }
+}
+
+/* Global route shell: the reference uses charcoal canvases, thin separators, and sparse editorial depth. */
+body .hero-page-shell,
+body .min-h-screen.bg-\[\#07090e\] {
+  background-color: #08080b !important;
+  background-image:
+    radial-gradient(circle at 82% 18%, rgba(255, 255, 255, 0.055), transparent 25%),
+    radial-gradient(circle at 14% 86%, rgba(255, 255, 255, 0.035), transparent 30%);
+}
+
+body .hero-page-shell > main,
+body .hero-page-shell > header {
+  position: relative;
+  z-index: 1;
+}
+
+.reference-editorial-section {
+  border-top: 1px solid rgba(255, 255, 255, 0.11);
+  background: rgba(8, 8, 11, 0.9);
+}
+
+.reference-editorial-label {
+  color: rgba(255, 255, 255, 0.48);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+/* Editorial route treatment: normalize legacy page panels into the reference site's quiet charcoal system. */
+.hero-page-shell [class*="bg-gradient-to-r"],
+.hero-page-shell [class*="bg-gradient-to-b"],
+.hero-page-shell [class*="bg-gradient-to-br"] {
+  background-image: linear-gradient(145deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.018)) !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+.hero-page-shell [class*="bg-blue-600"],
+.hero-page-shell [class*="bg-violet-600"],
+.hero-page-shell [class*="bg-indigo-600"],
+.hero-page-shell [class*="bg-purple-600"],
+.hero-page-shell [class*="bg-emerald-600"] {
+  background-color: #f2f2f4 !important;
+  color: #111116 !important;
+  box-shadow: none !important;
+}
+
+.hero-page-shell [class*="border-blue-"],
+.hero-page-shell [class*="border-purple-"],
+.hero-page-shell [class*="border-violet-"] {
+  border-color: rgba(255, 255, 255, 0.14) !important;
+}
+
+.hero-page-shell [class*="shadow-purple-"],
+.hero-page-shell [class*="shadow-blue-"],
+.hero-page-shell [class*="shadow-violet-"] {
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.28) !important;
+}
+
+.editorial-rule {
+  height: 1px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+@media (max-width: 768px) {
+  .hero-page-shell [class*="rounded-3xl"],
+  .hero-page-shell [class*="rounded-2xl"] {
+    border-radius: 1.1rem;
+  }
+}
+
+/* Route-level composition: turn existing content sections into the reference's editorial narrative rhythm. */
+.hero-page-shell main > section {
+  position: relative;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.hero-page-shell main > section:first-child {
+  border-top: 0;
+}
+
+.hero-page-shell main > section h2 {
+  letter-spacing: -0.055em;
+}
+
+.hero-page-shell main > section p[class*="font-mono"],
+.hero-page-shell main > section p[class*="uppercase"] {
+  color: rgba(255, 255, 255, 0.48) !important;
+  letter-spacing: 0.2em;
+}
+
+.hero-page-shell main > section [class*="rounded-2xl"],
+.hero-page-shell main > section [class*="rounded-3xl"] {
+  border-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+.hero-page-shell main > section [class*="bg-white/[0.03]"],
+.hero-page-shell main > section [class*="bg-white/[0.04]"],
+.hero-page-shell main > section [class*="bg-white/[0.05]"] {
+  background: rgba(255, 255, 255, 0.035) !important;
+}
+
+/* Coherent theme layer: dark remains the editorial default; light mode swaps shared tokens and surfaces instead of overriding every text node. */
+html[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+html[data-theme="light"] {
+  color-scheme: light;
+  --background: 220 20% 97%;
+  --foreground: 222 47% 11%;
+  --card: 0 0% 100%;
+  --card-foreground: 222 47% 11%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222 47% 11%;
+  --primary: 221 83% 45%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 220 14% 93%;
+  --secondary-foreground: 222 47% 11%;
+  --muted: 220 14% 93%;
+  --muted-foreground: 215 16% 38%;
+  --accent: 252 78% 58%;
+  --accent-foreground: 0 0% 100%;
+  --border: 220 13% 82%;
+  --input: 220 14% 91%;
+  --ring: 221 83% 45%;
+}
+
+html[data-theme="light"] body {
+  background: hsl(var(--background)) !important;
+  color: hsl(var(--foreground)) !important;
+}
+
+html[data-theme="light"] .hero-page-shell,
+html[data-theme="light"] .hero-page-shell main,
+html[data-theme="light"] .hero-page-shell section,
+html[data-theme="light"] .hero-page-shell footer,
+html[data-theme="light"] .reference-editorial-section {
+  background-color: hsl(var(--background)) !important;
+  background-image: none !important;
+  color: hsl(var(--foreground));
+}
+
+/* Re-skin legacy hard-coded panels as clear light surfaces. */
+html[data-theme="light"] .hero-page-shell [class*="bg-[#"],
+html[data-theme="light"] .hero-page-shell [class*="bg-black"],
+html[data-theme="light"] .hero-page-shell [class*="bg-white/"] {
+  background-color: hsl(var(--card)) !important;
+  background-image: none !important;
+}
+
+html[data-theme="light"] .hero-page-shell [class*="border-white"],
+html[data-theme="light"] .hero-page-shell [class*="border-[#"],
+html[data-theme="light"] .hero-page-shell [class*="border-blue-"],
+html[data-theme="light"] .hero-page-shell [class*="border-purple-"],
+html[data-theme="light"] .hero-page-shell [class*="border-violet-"] {
+  border-color: hsl(var(--border)) !important;
+}
+
+/* Text roles use semantic tokens; saturated action controls are restored below. */
+html[data-theme="light"] .hero-page-shell h1,
+html[data-theme="light"] .hero-page-shell h2,
+html[data-theme="light"] .hero-page-shell h3,
+html[data-theme="light"] .hero-page-shell h4,
+html[data-theme="light"] .hero-page-shell h5,
+html[data-theme="light"] .hero-page-shell h6 {
+  color: hsl(var(--foreground)) !important;
+  -webkit-text-fill-color: hsl(var(--foreground)) !important;
+  text-shadow: none !important;
+}
+
+html[data-theme="light"] .hero-page-shell p,
+html[data-theme="light"] .hero-page-shell li,
+html[data-theme="light"] .hero-page-shell label,
+html[data-theme="light"] .hero-page-shell small,
+html[data-theme="light"] .hero-page-shell strong,
+html[data-theme="light"] .hero-page-shell span,
+html[data-theme="light"] .hero-page-shell a,
+html[data-theme="light"] .hero-page-shell button,
+html[data-theme="light"] .hero-page-shell input,
+html[data-theme="light"] .hero-page-shell textarea,
+html[data-theme="light"] .hero-page-shell select {
+  -webkit-text-fill-color: currentColor;
+}
+
+html[data-theme="light"] .hero-page-shell p,
+html[data-theme="light"] .hero-page-shell li,
+html[data-theme="light"] .hero-page-shell label,
+html[data-theme="light"] .hero-page-shell small,
+html[data-theme="light"] .hero-page-shell strong {
+  color: hsl(var(--foreground)) !important;
+}
+
+html[data-theme="light"] .hero-page-shell [class*="text-white"],
+html[data-theme="light"] .hero-page-shell [class*="text-zinc-"],
+html[data-theme="light"] .hero-page-shell [class*="text-slate-"],
+html[data-theme="light"] .hero-page-shell [class*="text-blue-"],
+html[data-theme="light"] .hero-page-shell [class*="text-purple-"],
+html[data-theme="light"] .hero-page-shell [class*="text-violet-"],
+html[data-theme="light"] .hero-page-shell [class*="text-cyan-"],
+html[data-theme="light"] .hero-page-shell [class*="text-fuchsia-"],
+html[data-theme="light"] .hero-page-shell [class*="text-yellow-"] {
+  color: hsl(var(--foreground)) !important;
+  -webkit-text-fill-color: hsl(var(--foreground)) !important;
+}
+
+html[data-theme="light"] .hero-page-shell [class*="text-[#eaff22]"],
+html[data-theme="light"] .hero-page-shell [class*="text-lime-"] {
+  color: #4f6000 !important;
+  -webkit-text-fill-color: #4f6000 !important;
+}
+
+/* Keep readable light text only on genuinely saturated action controls. */
+html[data-theme="light"] .hero-page-shell a[class*="bg-[#071baf]"],
+html[data-theme="light"] .hero-page-shell a[class*="bg-[#06158f]"],
+html[data-theme="light"] .hero-page-shell button[class*="bg-[#071baf]"],
+html[data-theme="light"] .hero-page-shell button[class*="bg-[#06158f]"],
+html[data-theme="light"] .hero-page-shell a[class*="bg-blue-500"],
+html[data-theme="light"] .hero-page-shell button[class*="bg-blue-500"],
+html[data-theme="light"] .hero-page-shell a[class*="bg-violet-500"],
+html[data-theme="light"] .hero-page-shell button[class*="bg-violet-500"] {
+  background-color: hsl(var(--primary)) !important;
+  color: hsl(var(--primary-foreground)) !important;
+  -webkit-text-fill-color: hsl(var(--primary-foreground)) !important;
+}
+
+html[data-theme="light"] .hero-page-shell a[class*="bg-[#071baf]"] *,
+html[data-theme="light"] .hero-page-shell a[class*="bg-[#06158f]"] *,
+html[data-theme="light"] .hero-page-shell button[class*="bg-[#071baf]"] *,
+html[data-theme="light"] .hero-page-shell button[class*="bg-[#06158f]"] *,
+html[data-theme="light"] .hero-page-shell a[class*="bg-blue-500"] *,
+html[data-theme="light"] .hero-page-shell button[class*="bg-blue-500"] *,
+html[data-theme="light"] .hero-page-shell a[class*="bg-violet-500"] *,
+html[data-theme="light"] .hero-page-shell button[class*="bg-violet-500"] * {
+  color: hsl(var(--primary-foreground)) !important;
+  -webkit-text-fill-color: hsl(var(--primary-foreground)) !important;
+}
+
+html[data-theme="light"] .hero-page-shell input,
+html[data-theme="light"] .hero-page-shell textarea,
+html[data-theme="light"] .hero-page-shell select {
+  background: hsl(var(--card)) !important;
+  color: hsl(var(--foreground)) !important;
+  border-color: hsl(var(--border)) !important;
+}
+
+html[data-theme="light"] .hero-page-shell input::placeholder,
+html[data-theme="light"] .hero-page-shell textarea::placeholder {
+  color: hsl(var(--muted-foreground)) !important;
+  opacity: 1;
+}
+
+html[data-theme="light"] nav,
+html[data-theme="light"] footer {
+  background-color: hsl(var(--card)) !important;
+  color: hsl(var(--foreground));
+  border-color: hsl(var(--border)) !important;
+}
+
+html[data-theme="light"] nav a,
+html[data-theme="light"] nav button,
+html[data-theme="light"] footer a,
+html[data-theme="light"] footer button {
+  color: hsl(var(--foreground)) !important;
+  -webkit-text-fill-color: hsl(var(--foreground)) !important;
+}
+
+html[data-theme="light"] .theme-toggle {
+  background: hsl(var(--secondary)) !important;
+  border-color: hsl(var(--border)) !important;
+  color: hsl(var(--foreground)) !important;
+}
+
+html[data-theme="light"] .hero-global-grid,
+html[data-theme="light"] .hero-global-vignette {
+  opacity: 0.12;
+}
+
+html[data-theme="light"] .editorial-rule {
+  background: hsl(var(--border));
+}
+
+html[data-theme="light"] .reference-editorial-label {
+  color: hsl(var(--muted-foreground)) !important;
+}
+
+@media (max-width: 768px) {
+  .hero-page-shell h1 {
+    max-width: 13ch;
+  }
+}
+
+/* Footer contrast contract: the cinematic footer is semantic in both themes; light mode must not inherit decorative white text from the dark reference treatment. */
+html[data-theme="light"] footer h2,
+html[data-theme="light"] footer h3,
+html[data-theme="light"] footer p,
+html[data-theme="light"] footer li,
+html[data-theme="light"] footer span,
+html[data-theme="light"] footer a,
+html[data-theme="light"] footer button {
+  color: hsl(var(--foreground)) !important;
+  -webkit-text-fill-color: hsl(var(--foreground)) !important;
+}
+
+html[data-theme="light"] footer [class*="text-zinc-"],
+html[data-theme="light"] footer [class*="text-white"],
+html[data-theme="light"] footer [class*="text-blue-"],
+html[data-theme="light"] footer [class*="text-purple-"],
+html[data-theme="light"] footer [class*="text-pink-"],
+html[data-theme="light"] footer [class*="text-red-"] {
+  color: hsl(var(--muted-foreground)) !important;
+  -webkit-text-fill-color: hsl(var(--muted-foreground)) !important;
+}
+
+html[data-theme="light"] footer h2,
+html[data-theme="light"] footer h3,
+html[data-theme="light"] footer a:hover,
+html[data-theme="light"] footer a:hover * {
+  color: hsl(var(--foreground)) !important;
+  -webkit-text-fill-color: hsl(var(--foreground)) !important;
+}
+
+html[data-theme="light"] footer [class*="border-white"],
+html[data-theme="light"] footer [class*="border-blue-"] {
+  border-color: hsl(var(--border)) !important;
+}
+
+html[data-theme="light"] footer [class*="bg-white/"],
+html[data-theme="light"] footer [class*="bg-[#05070b]"] {
+  background-color: hsl(var(--secondary)) !important;
+  background-image: none !important;
+}
+
+html[data-theme="light"] footer [class*="bg-[radial-gradient"],
+html[data-theme="light"] footer [class*="bg-[linear-gradient"] {
+  opacity: 0.08;
+}
+
+/* Footer hierarchy: headings and the wordmark stay foreground even when their legacy utility classes contain decorative white/zinc roles. */
+html[data-theme="light"] footer h2[class*="text-white"],
+html[data-theme="light"] footer h3[class*="text-zinc-"],
+html[data-theme="light"] footer a span[class*="text-white"] {
+  color: hsl(var(--foreground)) !important;
+  -webkit-text-fill-color: hsl(var(--foreground)) !important;
+}
+
+/* Join route refinement: preserve the editorial hierarchy while giving the application form a calm, high-contrast light-mode surface. */
+html[data-theme="light"] .join-page-shell main {
+  background:
+    radial-gradient(circle at 84% 10%, rgba(37, 99, 235, 0.07), transparent 25%),
+    hsl(var(--background)) !important;
+}
+
+html[data-theme="light"] .join-page-shell .glass-panel {
+  background: rgba(255, 255, 255, 0.94) !important;
+  border-color: hsl(var(--border)) !important;
+  box-shadow: 0 24px 70px rgba(15, 23, 42, 0.09) !important;
+  color: hsl(var(--foreground));
+}
+
+html[data-theme="light"] .join-page-shell .glass-panel > div[class*="border-b"] {
+  border-color: hsl(var(--border)) !important;
+}
+
+html[data-theme="light"] .join-page-shell .glass-panel h2,
+html[data-theme="light"] .join-page-shell .glass-panel h3,
+html[data-theme="light"] .join-page-shell .glass-panel label,
+html[data-theme="light"] .join-page-shell .glass-panel span:not([class*="text-red-"]):not([class*="text-blue-"]):not([class*="text-indigo-"]):not([class*="text-emerald-"]) {
+  color: hsl(var(--foreground)) !important;
+  -webkit-text-fill-color: hsl(var(--foreground)) !important;
+}
+
+html[data-theme="light"] .join-page-shell .glass-panel p[class*="text-zinc-"],
+html[data-theme="light"] .join-page-shell .glass-panel label[class*="text-zinc-"],
+html[data-theme="light"] .join-page-shell .glass-panel span[class*="text-zinc-"] {
+  color: hsl(var(--muted-foreground)) !important;
+  -webkit-text-fill-color: hsl(var(--muted-foreground)) !important;
+}
+
+html[data-theme="light"] .join-page-shell .glass-panel input,
+html[data-theme="light"] .join-page-shell .glass-panel textarea,
+html[data-theme="light"] .join-page-shell .glass-panel select {
+  background: hsl(var(--background)) !important;
+  border-color: hsl(var(--border)) !important;
+  color: hsl(var(--foreground)) !important;
+  box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.04);
+}
+
+html[data-theme="light"] .join-page-shell .glass-panel input::placeholder,
+html[data-theme="light"] .join-page-shell .glass-panel textarea::placeholder {
+  color: hsl(var(--muted-foreground)) !important;
+  opacity: 0.82;
+}
+
+html[data-theme="light"] .join-page-shell .glass-panel button[type="button"] {
+  background: hsl(var(--background)) !important;
+  border-color: hsl(var(--border)) !important;
+  color: hsl(var(--foreground)) !important;
+}
+
+html[data-theme="light"] .join-page-shell .glass-panel button[type="button"]:hover {
+  background: hsl(var(--secondary)) !important;
+  border-color: hsl(var(--primary)) !important;
+}
+
+html[data-theme="light"] .join-page-shell .glass-panel button[type="button"][class*="bg-blue-600"],
+html[data-theme="light"] .join-page-shell .glass-panel button[type="button"][class*="bg-emerald-600"] {
+  background: color-mix(in srgb, hsl(var(--primary)) 12%, white) !important;
+  border-color: hsl(var(--primary)) !important;
+  color: hsl(var(--foreground)) !important;
+}
+
+html[data-theme="light"] .join-page-shell .glass-panel button[type="submit"] {
+  color: white !important;
+  -webkit-text-fill-color: white !important;
+}
+
+html[data-theme="light"] .join-page-shell .glass-panel input[type="checkbox"] {
+  background: white !important;
+  border-color: hsl(var(--border)) !important;
+}
+
+/* Team leadership hierarchy: role titles are an explicit reading level, not a low-contrast metadata line. */
+.team-founder-role {
+  display: inline-flex;
+  width: fit-content;
+  margin-top: 0.2rem;
+  padding: 0.28rem 0.55rem;
+  border: 1px solid rgba(167, 139, 250, 0.38);
+  border-radius: 0.45rem;
+  background: rgba(139, 92, 246, 0.12);
+  color: #c4b5fd;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.045em;
+  line-height: 1.25;
+  text-transform: uppercase;
+}
+
+html[data-theme="light"] .team-page-shell .team-founder-role {
+  border-color: rgba(91, 33, 182, 0.28);
+  background: rgba(124, 58, 237, 0.09);
+  color: #5b21b6 !important;
+  -webkit-text-fill-color: #5b21b6 !important;
+}
+
+.team-founder-department {
+  display: block;
+  margin-top: 0.35rem;
+  color: rgba(161, 161, 170, 0.86);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.035em;
+  line-height: 1.35;
+}
+
+html[data-theme="light"] .team-page-shell .team-founder-department {
+  color: hsl(var(--muted-foreground)) !important;
+  -webkit-text-fill-color: hsl(var(--muted-foreground)) !important;
+}
+
+/* Auth route refinement: the bright theme uses a light Auth Fuse surface, not a dark card carried over from the editorial night palette. */
+html[data-theme="light"] .auth-page-shell {
+  background: hsl(var(--background)) !important;
+  color: hsl(var(--foreground)) !important;
+}
+
+html[data-theme="light"] .auth-page-shell main {
+  background:
+    radial-gradient(circle at 78% 38%, rgba(79, 70, 229, 0.08), transparent 34%),
+    hsl(var(--background));
+}
+
+html[data-theme="light"] .auth-page-shell main > div:first-child {
+  opacity: 0.45;
+}
+
+html[data-theme="light"] .auth-page-shell .auth-fuse-card {
+  background: hsl(var(--card)) !important;
+  border-color: hsl(var(--border)) !important;
+  box-shadow: 0 28px 80px rgba(15, 23, 42, 0.12) !important;
+}
+
+html[data-theme="light"] .auth-page-shell .auth-fuse-form {
+  background: hsl(var(--card));
+  color: hsl(var(--foreground));
+}
+
+html[data-theme="light"] .auth-page-shell .auth-fuse-aside {
+  border-color: hsl(var(--border)) !important;
+  background: linear-gradient(145deg, #ffffff 0%, #eef2ff 68%, #f4fce8 100%) !important;
+  color: hsl(var(--foreground));
+}
+
+html[data-theme="light"] .auth-page-shell .auth-fuse-aside [class*="text-white"],
+html[data-theme="light"] .auth-page-shell .auth-fuse-aside [class*="text-white/"] {
+  color: hsl(var(--foreground)) !important;
+  -webkit-text-fill-color: hsl(var(--foreground)) !important;
+}
+
+html[data-theme="light"] .auth-page-shell .auth-fuse-aside [class*="text-white/"] {
+  opacity: 0.7;
+}
+
+html[data-theme="light"] .auth-page-shell .auth-fuse-aside h2 {
+  color: hsl(var(--foreground)) !important;
+  -webkit-text-fill-color: hsl(var(--foreground)) !important;
+}
+
+html[data-theme="light"] .auth-page-shell .auth-fuse-form label,
+html[data-theme="light"] .auth-page-shell .auth-fuse-form p,
+html[data-theme="light"] .auth-page-shell .auth-fuse-form span:not([class*="text-red-"]) {
+  color: hsl(var(--muted-foreground));
+  -webkit-text-fill-color: hsl(var(--muted-foreground));
+}
+
+html[data-theme="light"] .auth-page-shell .auth-fuse-form input,
+html[data-theme="light"] .auth-page-shell .auth-fuse-form select {
+  background: hsl(var(--background)) !important;
+  border-color: hsl(var(--border)) !important;
+  color: hsl(var(--foreground)) !important;
+  box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.04);
+}
+
+html[data-theme="light"] .auth-page-shell .auth-fuse-form input::placeholder {
+  color: hsl(var(--muted-foreground)) !important;
+  opacity: 0.82;
+}
+
+html[data-theme="light"] .auth-page-shell .auth-fuse-form .auth-fuse-tabs {
+  background: hsl(var(--secondary)) !important;
+  border-color: hsl(var(--border)) !important;
+  box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.06);
+}
+
+html[data-theme="light"] .auth-page-shell .auth-fuse-form .auth-fuse-tabs button:not([class*="bg-white"]) {
+  color: hsl(var(--muted-foreground)) !important;
+  -webkit-text-fill-color: hsl(var(--muted-foreground)) !important;
+}
+
+html[data-theme="light"] .auth-page-shell .auth-fuse-form .auth-fuse-tabs button[class*="bg-white"] {
+  color: hsl(var(--foreground)) !important;
+  -webkit-text-fill-color: hsl(var(--foreground)) !important;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.1);
+}
+
+html[data-theme="light"] .auth-page-shell .auth-fuse-form button[class*="bg-white/"] {
+  background: hsl(var(--secondary)) !important;
+  border-color: hsl(var(--border)) !important;
+  color: hsl(var(--foreground)) !important;
+  -webkit-text-fill-color: hsl(var(--foreground)) !important;
+}
+
+html[data-theme="light"] .auth-page-shell .auth-fuse-form button[type="submit"] {
+  color: white !important;
+  -webkit-text-fill-color: white !important;
+}
+
+html[data-theme="light"] .auth-page-shell .auth-fuse-form [class*="border-white"] {
+  border-color: hsl(var(--border)) !important;
+}
+
+/* The marquee is a deliberate moving reading line; keep it inside the footer’s visible stack. */
+.aurix-marquee {
+  will-change: transform;
+}
+
+html[data-theme="light"] footer .aurix-marquee {
+  z-index: 20;
+  background: rgba(255, 255, 255, 0.92) !important;
+  border-color: hsl(var(--border)) !important;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+}
+
+html[data-theme="light"] footer .aurix-marquee > div {
+  color: hsl(var(--foreground)) !important;
+  -webkit-text-fill-color: hsl(var(--foreground)) !important;
+}
+
+html[data-theme="light"] footer .aurix-marquee span {
+  color: hsl(var(--foreground)) !important;
+  -webkit-text-fill-color: hsl(var(--foreground)) !important;
+}
+
+html[data-theme="light"] .auth-page-shell .auth-fuse-form button[type="submit"] *,
+html[data-theme="light"] .auth-page-shell .auth-fuse-form button[type="submit"] svg {
+  color: white !important;
+  -webkit-text-fill-color: white !important;
+}
+
+/* Auth tab refinement: light mode needs a deliberate selected state instead of the dark tab treatment leaking into a pale surface. */
+html[data-theme="light"] .auth-page-shell .auth-fuse-tabs {
+  background: hsl(var(--secondary)) !important;
+  border-color: hsl(var(--border)) !important;
+}
+
+html[data-theme="light"] .auth-page-shell .auth-fuse-tabs .auth-fuse-tab[data-active="false"] {
+  background: transparent !important;
+  color: hsl(var(--muted-foreground)) !important;
+  -webkit-text-fill-color: hsl(var(--muted-foreground)) !important;
+}
+
+html[data-theme="light"] .auth-page-shell .auth-fuse-tabs .auth-fuse-tab[data-active="false"]:hover {
+  background: rgba(15, 23, 42, 0.06) !important;
+  color: hsl(var(--foreground)) !important;
+  -webkit-text-fill-color: hsl(var(--foreground)) !important;
+}
+
+html[data-theme="light"] .auth-page-shell .auth-fuse-tabs .auth-fuse-tab[data-active="true"] {
+  background: #111827 !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.18) !important;
+}
+
+html[data-theme="light"] .auth-page-shell .auth-fuse-tabs .auth-fuse-tab[data-active="false"] .auth-fuse-tab-label {
+  color: hsl(var(--muted-foreground)) !important;
+  -webkit-text-fill-color: hsl(var(--muted-foreground)) !important;
+}
+
+html[data-theme="light"] .auth-page-shell .auth-fuse-tabs .auth-fuse-tab[data-active="true"] .auth-fuse-tab-label {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
 }

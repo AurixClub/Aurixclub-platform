@@ -3,7 +3,11 @@
 import React, { useEffect, useRef } from "react";
 import * as THREE from "three";
 
-export default function HeroCanvas3D() {
+type HeroCanvas3DProps = {
+  className?: string;
+};
+
+export default function HeroCanvas3D({ className = "" }: HeroCanvas3DProps) {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -178,7 +182,7 @@ export default function HeroCanvas3D() {
   return (
     <div
       ref={containerRef}
-      className="absolute inset-0 pointer-events-none -z-10 overflow-hidden"
+      className={`pointer-events-none absolute inset-0 -z-10 overflow-hidden ${className}`}
     />
   );
 }

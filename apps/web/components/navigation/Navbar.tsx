@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
@@ -11,10 +11,14 @@ import {
   ShieldCheck,
   User,
   LogOut,
-  Sparkles,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import type { SessionData } from "@aurix/types";
+import { ThreeDButton } from "@/components/ui/three-d-button";
+import { ThemeToggle } from "@/components/navigation/ThemeToggle";
+
+// Reference fidelity: this frontend-only header recreates the Limelight Nav active-tab treatment
+// while preserving the official AurixClub routes, session actions, and backend boundaries.
 
 export function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -24,7 +28,6 @@ export function Navbar() {
   const router = useRouter();
   const isHome = pathname === "/";
 
-  // Check auth session
   useEffect(() => {
     async function fetchSession() {
       try {
@@ -43,17 +46,12 @@ export function Navbar() {
   }, [pathname]);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 30);
-    };
-
+    const handleScroll = () => setIsScrolled(window.scrollY > 30);
     window.addEventListener("scroll", handleScroll, { passive: true });
     handleScroll();
-
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Close menu on route change
   useEffect(() => {
     setIsMobileMenuOpen(false);
   }, [pathname]);
@@ -64,8 +62,8 @@ export function Navbar() {
       setSession(null);
       router.push("/login");
       router.refresh();
-    } catch (e) {
-      console.error("Logout failed", e);
+    } catch (error) {
+      console.error("Logout failed", error);
     }
   };
 
@@ -80,192 +78,182 @@ export function Navbar() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-out ${
-        isScrolled
-          ? "bg-[#0a0f1c]/90 backdrop-blur-xl border-b border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.4)]"
-          : isHome
-          ? "bg-transparent border-b border-transparent"
-          : "bg-[#0a0f1c]/70 backdrop-blur-md border-b border-white/5"
+      className={`fixed left-0 right-0 top-0 z-50 px-3 pt-3 transition-all duration-300 sm:px-5 sm:pt-5 lg:px-8 ${
+        isScrolled || !isHome ? "" : "lg:pt-5"
       }`}
     >
-      <nav className="w-full px-4 sm:px-6 lg:px-10">
-        <div className="flex h-16 md:h-20 items-center justify-between">
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-3 group relative z-10">
-            <div className="flex-shrink-0 w-9 h-9 md:w-10 md:h-10 rounded-xl overflow-hidden shadow-lg group-hover:shadow-blue-500/40 group-hover:scale-105 transition-all duration-300 ring-1 ring-white/15 bg-slate-900">
-              <Image
-                src="/aurix-logo.jpeg"
-                alt="AURIX Club Logo"
-                width={40}
-                height={40}
-                className="w-full h-full object-cover"
-                priority
-              />
-            </div>
-
-            <div className="flex flex-col leading-none">
-              <div className="flex items-center gap-2">
-                <span className="text-lg md:text-xl font-black tracking-tight text-white group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-blue-300 transition-all duration-300">
-                  AURIX
-                </span>
-                <span className="hidden sm:inline-block text-[10px] font-mono px-2 py-0.5 rounded-full bg-blue-500/10 border border-blue-500/25 text-blue-300 font-semibold">
-                  Dr. AIT
-                </span>
-              </div>
-              <span className="text-[9px] uppercase font-mono tracking-[0.22em] text-blue-400/90 font-semibold -mt-0.5">
-                Club • Bengaluru
+      <nav
+        aria-label="Primary navigation"
+        className={`mx-auto flex max-w-7xl items-center justify-between gap-3 rounded-2xl border px-2.5 py-2 shadow-2xl transition-all duration-300 sm:gap-6 sm:px-3 ${
+          isScrolled || !isHome
+            ? "border-white/15 bg-[#080b12]/90 shadow-black/40 backdrop-blur-2xl"
+            : "border-white/10 bg-[#080b12]/65 shadow-black/20 backdrop-blur-xl"
+        }`}
+      >
+        <Link
+          href="/"
+          className="group flex min-w-0 items-center gap-2.5 rounded-xl px-1.5 py-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#080b12]"
+        >
+          <span className="flex h-9 w-9 flex-shrink-0 items-center justify-center overflow-hidden rounded-xl bg-slate-900 ring-1 ring-white/15 transition-all duration-300 group-hover:scale-105 group-hover:ring-blue-400/50 sm:h-10 sm:w-10">
+            <Image
+              src="/aurix-logo.jpeg"
+              alt="AURIX Club Logo"
+              width={40}
+              height={40}
+              className="h-full w-full object-cover"
+              priority
+            />
+          </span>
+          <span className="flex min-w-0 flex-col leading-none">
+            <span className="flex items-center gap-2">
+              <span className="text-base font-black tracking-tight text-white transition-colors group-hover:text-blue-200 sm:text-lg">
+                AURIX
               </span>
-            </div>
-          </Link>
+              <span className="hidden rounded-full border border-blue-400/25 bg-blue-400/10 px-2 py-0.5 text-[9px] font-semibold text-blue-200 sm:inline-block">
+                Dr. AIT
+              </span>
+            </span>
+            <span className="truncate text-[8px] font-semibold uppercase tracking-[0.2em] text-blue-300/80 sm:text-[9px]">
+              Club • Bengaluru
+            </span>
+          </span>
+        </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center gap-1">
+        <div className="hidden min-w-0 flex-1 items-center justify-center lg:flex">
+          <div className="flex items-center gap-0.5 rounded-xl border border-white/[0.07] bg-black/20 p-1">
             {navLinks.map((link) => {
               const isActive =
                 link.href === "/"
                   ? pathname === "/"
                   : pathname.startsWith(link.href);
+
               return (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`relative px-3.5 py-2 text-sm font-medium transition-colors duration-300 group ${
+                  aria-current={isActive ? "page" : undefined}
+                  className={`group relative rounded-lg px-3 py-2 text-xs font-medium transition-colors duration-200 xl:px-3.5 xl:text-sm ${
                     isActive ? "text-white" : "text-zinc-400 hover:text-white"
                   }`}
                 >
-                  <span>{link.label}</span>
+                  {isActive && (
+                    <motion.span
+                      layoutId="aurix-limelight"
+                      transition={{ type: "spring", stiffness: 420, damping: 30 }}
+                      className="absolute inset-0 -z-0 rounded-lg bg-gradient-to-b from-white/[0.15] to-white/[0.04] shadow-[0_0_22px_rgba(96,165,250,0.24)]"
+                    />
+                  )}
+                  <span className="relative z-10">{link.label}</span>
                   <span
-                    className={`absolute left-3 right-3 -bottom-0.5 h-[2px] rounded-full transition-all duration-300 ${
-                      isActive
-                        ? "bg-gradient-to-r from-blue-500 to-purple-500 scale-x-100"
-                        : "bg-white/40 scale-x-0 group-hover:scale-x-100"
+                    className={`absolute inset-x-3 bottom-0.5 h-px origin-center rounded-full bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 transition-transform duration-200 ${
+                      isActive ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
                     }`}
                   />
                 </Link>
               );
             })}
           </div>
+        </div>
 
-          {/* Desktop Actions based on Auth */}
-          <div className="hidden md:flex items-center gap-3">
-            {session && session.user ? (
-              <div className="flex items-center gap-3">
-                {session.user.role === "super_admin" ? (
-                  <>
-                    <Link
-                      href="/admin"
-                      className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-violet-600/20 hover:bg-violet-600/30 border border-violet-500/40 text-violet-300 text-xs font-semibold shadow-[0_0_15px_rgba(139,92,246,0.2)] transition-all hover:scale-105"
-                    >
-                      <ShieldCheck className="h-3.5 w-3.5 text-violet-400" />
-                      <span>Admin Portal</span>
-                    </Link>
-                    <Link
-                      href="/profile"
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 text-zinc-300 hover:text-white text-xs font-medium transition-colors"
-                    >
-                      <User className="h-3.5 w-3.5 text-blue-400" />
-                      <span>Profile</span>
-                    </Link>
-                  </>
-                ) : (
+        <div className="hidden items-center gap-2 md:flex">
+          {session && session.user ? (
+            <div className="flex items-center gap-2">
+              {session.user.role === "super_admin" ? (
+                <>
+                  <Link
+                    href="/admin"
+                    className="inline-flex items-center gap-1.5 rounded-xl border border-violet-400/30 bg-violet-400/10 px-3 py-2 text-xs font-semibold text-violet-200 transition-colors hover:bg-violet-400/20"
+                  >
+                    <ShieldCheck className="h-3.5 w-3.5" />
+                    <span className="hidden xl:inline">Admin Portal</span>
+                  </Link>
                   <Link
                     href="/profile"
-                    className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-blue-600/20 hover:bg-blue-600/30 border border-blue-500/30 text-blue-300 text-xs font-semibold transition-colors"
+                    className="inline-flex items-center gap-1.5 rounded-xl border border-white/10 bg-white/[0.04] px-3 py-2 text-xs font-medium text-zinc-300 transition-colors hover:bg-white/[0.09] hover:text-white"
                   >
-                    <User className="h-3.5 w-3.5 text-blue-400" />
-                    <span>My Profile</span>
+                    <User className="h-3.5 w-3.5 text-blue-300" />
+                    <span className="hidden xl:inline">Profile</span>
                   </Link>
-                )}
-
-                <div className="text-right pl-1 pr-1 hidden xl:block">
-                  <div className="text-xs font-semibold text-white leading-tight">
-                    {session.user.full_name}
-                  </div>
-                  <div className="text-[10px] font-mono text-zinc-400">
-                    {session.user.role}
-                  </div>
-                </div>
-
-                <button
-                  onClick={handleLogout}
-                  title="Sign Out"
-                  className="inline-flex items-center gap-1 p-2 rounded-xl bg-white/[0.04] hover:bg-red-500/15 hover:text-red-300 border border-white/10 text-zinc-300 text-xs transition-colors"
-                >
-                  <LogOut className="h-4 w-4" />
-                </button>
-              </div>
-            ) : (
-              <div className="flex items-center gap-4">
-                <Link
-                  href="/login"
-                  className="text-sm font-medium text-zinc-300 hover:text-white transition-colors duration-300"
-                >
-                  Sign In
-                </Link>
-
-                <Link
-                  href="/join"
-                  className="group relative inline-flex items-center gap-2 overflow-hidden rounded-lg bg-white px-5 py-2.5 text-sm font-semibold text-black transition-all duration-300 hover:shadow-[0_0_20px_rgba(255,255,255,0.25)] hover:-translate-y-0.5 active:translate-y-0"
-                >
-                  <span className="relative z-10">Join Now</span>
-                  <ArrowRight className="relative z-10 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-                  <div className="absolute inset-0 bg-gradient-to-r from-blue-100 to-purple-100 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                </Link>
-              </div>
-            )}
-          </div>
-
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="lg:hidden relative z-10 flex h-10 w-10 items-center justify-center rounded-lg text-zinc-300 hover:text-white hover:bg-white/10 transition-colors"
-            aria-label="Toggle menu"
-          >
-            <AnimatePresence mode="wait">
-              {isMobileMenuOpen ? (
-                <motion.div
-                  key="close"
-                  initial={{ rotate: -90, opacity: 0 }}
-                  animate={{ rotate: 0, opacity: 1 }}
-                  exit={{ rotate: 90, opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <X className="h-5 w-5" />
-                </motion.div>
+                </>
               ) : (
-                <motion.div
-                  key="menu"
-                  initial={{ rotate: 90, opacity: 0 }}
-                  animate={{ rotate: 0, opacity: 1 }}
-                  exit={{ rotate: -90, opacity: 0 }}
-                  transition={{ duration: 0.2 }}
+                <Link
+                  href="/profile"
+                  className="inline-flex items-center gap-1.5 rounded-xl border border-blue-400/30 bg-blue-400/10 px-3 py-2 text-xs font-semibold text-blue-200 transition-colors hover:bg-blue-400/20"
                 >
-                  <Menu className="h-5 w-5" />
-                </motion.div>
+                  <User className="h-3.5 w-3.5" />
+                  <span className="hidden xl:inline">My Profile</span>
+                </Link>
               )}
-            </AnimatePresence>
-          </button>
+              <button
+                onClick={handleLogout}
+                title="Sign Out"
+                aria-label="Sign Out"
+                className="inline-flex items-center rounded-xl border border-white/10 bg-white/[0.04] p-2 text-zinc-300 transition-colors hover:border-red-400/30 hover:bg-red-400/10 hover:text-red-200"
+              >
+                <LogOut className="h-4 w-4" />
+              </button>
+            </div>
+          ) : (
+            <div className="flex items-center gap-2">
+              <Link
+                href="/login"
+                className="rounded-xl px-3 py-2 text-xs font-medium text-zinc-300 transition-colors hover:text-white sm:text-sm"
+              >
+                Sign In
+              </Link>
+              <ThemeToggle />
+              <ThreeDButton href="/join" className="px-3.5 py-2 text-xs sm:px-4 sm:text-sm">Join Now</ThreeDButton>
+            </div>
+          )}
         </div>
+
+        <button
+          onClick={() => setIsMobileMenuOpen((open) => !open)}
+          aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+          aria-expanded={isMobileMenuOpen}
+          className="relative z-10 flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/[0.04] text-zinc-300 transition-colors hover:bg-white/[0.1] hover:text-white md:hidden"
+        >
+          <AnimatePresence mode="wait" initial={false}>
+            {isMobileMenuOpen ? (
+              <motion.span
+                key="close"
+                initial={{ rotate: -90, opacity: 0 }}
+                animate={{ rotate: 0, opacity: 1 }}
+                exit={{ rotate: 90, opacity: 0 }}
+                transition={{ duration: 0.18 }}
+              >
+                <X className="h-5 w-5" />
+              </motion.span>
+            ) : (
+              <motion.span
+                key="menu"
+                initial={{ rotate: 90, opacity: 0 }}
+                animate={{ rotate: 0, opacity: 1 }}
+                exit={{ rotate: -90, opacity: 0 }}
+                transition={{ duration: 0.18 }}
+              >
+                <Menu className="h-5 w-5" />
+              </motion.span>
+            )}
+          </AnimatePresence>
+        </button>
       </nav>
 
-      {/* Mobile Menu */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="lg:hidden overflow-hidden border-t border-white/10 bg-[#0a0f1c]/95 backdrop-blur-xl"
+            initial={{ opacity: 0, y: -10, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -10, scale: 0.98 }}
+            transition={{ duration: 0.2, ease: [0.23, 1, 0.32, 1] }}
+            className="mx-auto mt-2 max-w-7xl overflow-hidden rounded-2xl border border-white/10 bg-[#080b12]/95 p-2 shadow-2xl shadow-black/40 backdrop-blur-2xl md:hidden"
           >
-            <div className="px-4 py-5 space-y-1.5 max-h-[80vh] overflow-y-auto">
+            <div className="max-h-[78vh] space-y-1 overflow-y-auto p-1">
               {session && session.user && (
-                <div className="p-3 mb-3 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-between">
+                <div className="mb-2 flex items-center justify-between rounded-xl border border-white/10 bg-white/[0.04] p-3">
                   <div>
-                    <div className="text-sm font-semibold text-white">
-                      {session.user.full_name}
-                    </div>
-                    <div className="text-xs font-mono text-zinc-400">
+                    <div className="text-sm font-semibold text-white">{session.user.full_name}</div>
+                    <div className="text-xs text-zinc-400">
                       {session.user.email} • {session.user.role}
                     </div>
                   </div>
@@ -273,7 +261,7 @@ export function Navbar() {
                     <Link
                       href="/admin"
                       onClick={() => setIsMobileMenuOpen(false)}
-                      className="px-2.5 py-1 rounded-lg bg-violet-600/30 text-violet-300 text-xs font-mono font-semibold"
+                      className="rounded-lg bg-violet-400/15 px-2.5 py-1 text-xs font-semibold text-violet-200"
                     >
                       Admin
                     </Link>
@@ -281,7 +269,7 @@ export function Navbar() {
                     <Link
                       href="/profile"
                       onClick={() => setIsMobileMenuOpen(false)}
-                      className="px-2.5 py-1 rounded-lg bg-blue-600/30 text-blue-300 text-xs font-mono font-semibold"
+                      className="rounded-lg bg-blue-400/15 px-2.5 py-1 text-xs font-semibold text-blue-200"
                     >
                       Profile
                     </Link>
@@ -299,25 +287,35 @@ export function Navbar() {
                     key={link.href}
                     href={link.href}
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className={`block px-4 py-2.5 rounded-lg text-base font-medium transition-colors ${
-                      isActive
-                        ? "bg-white/10 text-white font-semibold"
-                        : "text-zinc-400 hover:text-white"
+                    aria-current={isActive ? "page" : undefined}
+                    className={`group relative flex items-center justify-between overflow-hidden rounded-xl px-4 py-3 text-sm font-medium transition-colors ${
+                      isActive ? "text-white" : "text-zinc-400 hover:text-white"
                     }`}
                   >
-                    {link.label}
+                    {isActive && (
+                      <motion.span
+                        layoutId="aurix-mobile-limelight"
+                        className="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-400/15 via-purple-400/10 to-transparent"
+                      />
+                    )}
+                    <span className="relative z-10">{link.label}</span>
+                    <ArrowRight className="relative z-10 h-3.5 w-3.5 text-zinc-600 transition-transform group-hover:translate-x-1 group-hover:text-white" />
                   </Link>
                 );
               })}
 
-              <div className="pt-4 mt-3 border-t border-white/10 space-y-3">
+              <div className="mt-2 space-y-2 border-t border-white/10 px-1 pt-3">
+                <div className="flex items-center justify-between rounded-xl border border-white/10 bg-white/[0.04] px-3 py-2">
+                  <span className="text-xs font-medium text-zinc-400">Theme</span>
+                  <ThemeToggle />
+                </div>
                 {session && session.user ? (
                   <>
                     {session.user.role === "super_admin" ? (
                       <Link
                         href="/admin"
                         onClick={() => setIsMobileMenuOpen(false)}
-                        className="flex w-full items-center justify-center gap-2 rounded-lg bg-violet-600 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-violet-600/30"
+                        className="flex w-full items-center justify-center gap-2 rounded-xl bg-violet-500 px-4 py-3 text-sm font-semibold text-white"
                       >
                         <ShieldCheck className="h-4 w-4" />
                         <span>Open Admin Portal</span>
@@ -326,16 +324,15 @@ export function Navbar() {
                       <Link
                         href="/profile"
                         onClick={() => setIsMobileMenuOpen(false)}
-                        className="flex w-full items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 py-3 text-sm font-semibold text-white"
+                        className="flex w-full items-center justify-center gap-2 rounded-xl bg-blue-500 px-4 py-3 text-sm font-semibold text-white"
                       >
                         <User className="h-4 w-4" />
-                        <span>My Profile & Passes</span>
+                        <span>My Profile &amp; Passes</span>
                       </Link>
                     )}
-
                     <button
                       onClick={handleLogout}
-                      className="block w-full text-center px-4 py-2.5 rounded-lg border border-red-500/20 text-xs font-medium text-red-300 hover:bg-red-500/10 transition-colors"
+                      className="block w-full rounded-xl border border-red-400/20 px-4 py-3 text-center text-xs font-medium text-red-200 transition-colors hover:bg-red-400/10"
                     >
                       Sign Out
                     </button>
@@ -345,19 +342,17 @@ export function Navbar() {
                     <Link
                       href="/login"
                       onClick={() => setIsMobileMenuOpen(false)}
-                      className="block w-full text-center px-4 py-3 rounded-lg border border-white/15 text-sm font-medium text-white hover:bg-white/10 transition-colors"
+                      className="block w-full rounded-xl border border-white/15 px-4 py-3 text-center text-sm font-medium text-white transition-colors hover:bg-white/10"
                     >
                       Sign In
                     </Link>
-
-                    <Link
+                    <ThreeDButton
                       href="/join"
                       onClick={() => setIsMobileMenuOpen(false)}
-                      className="flex w-full items-center justify-center gap-2 rounded-lg bg-white px-4 py-3 text-sm font-semibold text-black"
+                      className="w-full rounded-xl px-4 py-3 text-sm"
                     >
                       Join Now
-                      <ArrowRight className="h-4 w-4" />
-                    </Link>
+                    </ThreeDButton>
                   </>
                 )}
               </div>
