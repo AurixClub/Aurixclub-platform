@@ -4,25 +4,25 @@
 
 @layer base {
   :root {
-    --background: 230 25% 5%;
-    --foreground: 210 40% 98%;
-    --card: 228 22% 8%;
-    --card-foreground: 210 40% 98%;
-    --popover: 228 22% 8%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 217 91% 60%;
-    --primary-foreground: 222 47% 11%;
-    --secondary: 226 20% 16%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 224 18% 14%;
-    --muted-foreground: 215 20% 65%;
-    --accent: 260 84% 65%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62% 30%;
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 243 75% 59%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 262 83% 58%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
-    --border: 226 20% 16%;
-    --input: 226 20% 16%;
-    --ring: 217 91% 60%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 243 75% 59%;
     --radius: 0.75rem;
   }
 }
@@ -47,7 +47,7 @@
     overflow: hidden;
   }
   body {
-    @apply bg-[#07090e] text-foreground antialiased selection:bg-primary/30 selection:text-white;
+    @apply bg-white text-zinc-900 antialiased selection:bg-indigo-500/20 selection:text-indigo-900;
     font-feature-settings: "rlig" 1, "calt" 1;
     overflow-x: hidden;
   }
@@ -57,31 +57,31 @@
     width: 8px;
   }
   ::-webkit-scrollbar-track {
-    background: #07090e;
+    background: #ffffff;
   }
   ::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(0, 0, 0, 0.15);
     border-radius: 4px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.25);
+    background: rgba(0, 0, 0, 0.25);
   }
 }
 
 /* Glassmorphism and lighting utilities */
 .glass-panel {
-  background: rgba(13, 17, 28, 0.7);
+  background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.08);
 }
 
 .glass-card {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
+  background: #ffffff;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.05);
 }
 
 .glass-card-hover {
@@ -89,12 +89,12 @@
 }
 .glass-card-hover:hover {
   border-color: rgba(99, 102, 241, 0.4);
-  box-shadow: 0 12px 40px -10px rgba(99, 102, 241, 0.25);
+  box-shadow: 0 12px 40px -10px rgba(99, 102, 241, 0.15);
   transform: translateY(-4px);
 }
 
 .text-gradient {
-  background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 50%, #94a3b8 100%);
+  background: linear-gradient(135deg, #0f172a 0%, #334155 50%, #475569 100%);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;

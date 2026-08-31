@@ -2,7 +2,8 @@
 
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import React, { useEffect, useState } from "react";
-import { Calendar, Clock, MapPin, ArrowRight, Users, ExternalLink } from "lucide-react";
+import Image from "next/image";
+import { Calendar, Clock, MapPin, ArrowRight, Users, ExternalLink, Sparkles } from "lucide-react";
 import Link from "next/link";
 import type { Event } from "@aurix/types";
 
@@ -11,14 +12,13 @@ interface EventCardProps {
 }
 
 function EventCard({ event }: EventCardProps) {
-  const isFull = event.max_participants !== null && event.registration_count >= event.max_participants;
   const isPast = new Date(event.ends_at) < new Date();
   const isOngoing = new Date(event.starts_at) <= new Date() && new Date(event.ends_at) >= new Date();
 
   const getStatusVariant = () => {
-    if (isPast) return "bg-slate-500/20 text-slate-400 border-slate-500/30";
-    if (isOngoing) return "bg-emerald-500/20 text-emerald-300 border-emerald-500/30";
-    return "bg-blue-500/20 text-blue-300 border-blue-500/30";
+    if (isPast) return "bg-slate-200/80 text-slate-700 border-slate-300";
+    if (isOngoing) return "bg-emerald-100 text-emerald-800 border-emerald-300";
+    return "bg-indigo-100 text-indigo-800 border-indigo-200";
   };
 
   const getStatusText = () => {
@@ -30,68 +30,95 @@ function EventCard({ event }: EventCardProps) {
   return (
     <Link
       href={`/events/${event.slug}`}
-      className="group flex-shrink-0 w-[360px] sm:w-[380px] md:w-[400px] rounded-2xl border border-white/[0.08] bg-white/[0.03] backdrop-blur-xl p-6 transition-all duration-500 hover:-translate-y-1 hover:border-white/20 hover:shadow-2xl flex flex-col justify-between min-h-[420px]"
+      className="group flex-shrink-0 w-72 sm:w-80 rounded-2xl border border-zinc-200/80 bg-zinc-100 p-5 transition-all duration-300 hover:-translate-y-1.5 hover:border-indigo-300 hover:bg-zinc-50 hover:shadow-xl shadow-sm flex flex-col justify-between cursor-pointer overflow-hidden"
     >
-      <div className="flex items-center justify-between gap-3 mb-4">
-        <span className={`text-[10px] font-mono uppercase px-2.5 py-1 rounded-full font-bold border ${getStatusVariant()}`}>
-          {getStatusText()}
-        </span>
+      <div>
+        {/* Box-Type Image / Banner */}
+        <div className="relative w-full aspect-[16/10] rounded-xl overflow-hidden mb-4 bg-slate-200 ring-1 ring-zinc-200/90 shadow-xs">
+          {event.banner_url ? (
+            <Image
+              src={event.banner_url}
+              alt={event.title}
+              fill
+              unoptimized
+              className="object-cover group-hover:scale-105 transition-transform duration-500"
+            />
+          ) : (
+            <div className="w-full h-full bg-gradient-to-br from-indigo-500/15 via-blue-500/10 to-indigo-600/25 flex flex-col items-center justify-center gap-1 p-3 text-center">
+              <Calendar className="h-7 w-7 text-indigo-600/80" />
+              <span className="text-[10px] font-mono font-bold tracking-wider uppercase text-indigo-700">
+                AURIX Event
+              </span>
+            </div>
+          )}
 
-        <span className="text-xs font-mono text-zinc-400 flex items-center gap-1">
-          <Users className="h-3.5 w-3.5 text-blue-400" />
-          <span>{event.registration_count} / {event.max_participants ?? "8"}</span>
-        </span>
-      </div>
+          {/* Status Overlay */}
+          <div className="absolute top-2.5 left-2.5">
+            <span className={`text-[10px] font-mono uppercase px-2 py-0.5 rounded-full font-bold border backdrop-blur-md shadow-xs ${getStatusVariant()}`}>
+              {getStatusText()}
+            </span>
+          </div>
 
-      <div className="flex-1 flex flex-col">
-        <h3 className="text-lg font-bold text-white mb-2 leading-tight group-hover:text-blue-300 transition-colors line-clamp-2">
+          {event.max_participants && (
+            <div className="absolute top-2.5 right-2.5">
+              <span className="text-[10px] font-mono bg-white/90 backdrop-blur-md text-zinc-700 px-2 py-0.5 rounded-full border border-zinc-200 font-semibold flex items-center gap-1 shadow-xs">
+                <Users className="h-3 w-3 text-indigo-600" />
+                <span>{event.registration_count}/{event.max_participants}</span>
+              </span>
+            </div>
+          )}
+        </div>
+
+        {/* Title */}
+        <h3 className="font-montserrat text-base sm:text-lg font-bold text-zinc-900 leading-snug mb-1.5 group-hover:text-indigo-600 transition-colors line-clamp-2">
           {event.title}
         </h3>
 
-        <p className="text-xs text-zinc-300 leading-relaxed mb-6 line-clamp-3 flex-1">
+        {/* Short description */}
+        <p className="text-xs text-zinc-600 leading-relaxed mb-4 line-clamp-2">
           {event.short_description || event.description}
         </p>
-
-        <div className="space-y-2 pt-4 mt-auto border-t border-white/[0.06] text-xs text-zinc-400">
-          <div className="flex items-center gap-2">
-            <Calendar className="h-3.5 w-3.5 text-blue-400 shrink-0" />
-            <span>{new Date(event.starts_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <Clock className="h-3.5 w-3.5 text-purple-400 shrink-0" />
-            <span>
-              {new Date(event.starts_at).toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" })} -{" "}
-              {new Date(event.ends_at).toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" })}
-            </span>
-          </div>
-          {event.venue && (
-            <div className="flex items-center gap-2">
-              <MapPin className="h-3.5 w-3.5 text-purple-400 shrink-0" />
-              <span className="truncate">{event.venue}</span>
-            </div>
-          )}
-          {event.mode === "online" && event.meeting_link && (
-            <a
-              href={event.meeting_link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <ExternalLink className="h-3.5 w-3.5" />
-              <span>Join Online</span>
-            </a>
-          )}
-        </div>
       </div>
 
-      <div className="pt-4 mt-4 border-t border-white/[0.06]">
-        <span className="inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 px-4 py-2.5 text-xs font-semibold text-white shadow-lg shadow-blue-500/25 transition-all duration-300 group-hover:opacity-95 group-hover:shadow-blue-500/40 w-full">
+      {/* Meta & CTA Footer */}
+      <div className="pt-3 border-t border-zinc-200/70 space-y-2">
+        <div className="flex items-center justify-between text-xs text-zinc-500 font-medium">
+          <div className="flex items-center gap-1.5 truncate">
+            <Calendar className="h-3.5 w-3.5 text-indigo-600 shrink-0" />
+            <span>{new Date(event.starts_at).toLocaleDateString("en-US", { month: "short", day: "numeric" })}</span>
+          </div>
+          {event.venue ? (
+            <div className="flex items-center gap-1 truncate max-w-[140px]">
+              <MapPin className="h-3.5 w-3.5 text-violet-600 shrink-0" />
+              <span className="truncate">{event.venue}</span>
+            </div>
+          ) : event.mode === "online" ? (
+            <span className="text-indigo-600 font-semibold">Online</span>
+          ) : null}
+        </div>
+
+        <span className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-indigo-600 px-3.5 py-2 text-xs font-semibold text-white shadow-xs transition-all duration-300 group-hover:bg-indigo-700 w-full mt-1">
           <span>View Details</span>
           <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-1 transition-transform" />
         </span>
       </div>
     </Link>
+  );
+}
+
+function EventCardSkeleton() {
+  return (
+    <div className="flex-shrink-0 w-72 sm:w-80 rounded-2xl border border-zinc-200/80 bg-zinc-100 p-5 flex flex-col justify-between animate-pulse">
+      <div>
+        <div className="w-full aspect-[16/10] bg-zinc-200 rounded-xl mb-4" />
+        <div className="h-5 w-3/4 bg-zinc-200 rounded mb-2" />
+        <div className="h-3 w-full bg-zinc-200 rounded mb-4" />
+      </div>
+      <div className="pt-3 border-t border-zinc-200/70 space-y-2">
+        <div className="h-3 w-1/2 bg-zinc-200 rounded" />
+        <div className="h-8 w-full bg-zinc-200 rounded-xl" />
+      </div>
+    </div>
   );
 }
 
@@ -119,63 +146,43 @@ export function OngoingEventsMarquee() {
     loadEvents();
   }, []);
 
-  if (isLoading) {
-    return (
-      <section className="relative py-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
-        <div className="mx-auto max-w-7xl">
-          <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
-            <div className="inline-flex items-center gap-2 rounded-full border border-purple-500/20 bg-purple-500/10 px-3.5 py-1 text-xs font-medium text-purple-300">
-              <span className="h-3.5 w-3.5 rounded-full border-2 border-purple-500/30 border-t-purple-500 animate-spin" />
-              <span>Loading Events...</span>
-            </div>
-          </div>
-        </div>
-      </section>
-    );
-  }
-
-  if (events.length === 0) {
-    return (
-      <section className="relative pt-6 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden font-montserrat">
-        <div className="mx-auto max-w-7xl">
-          <div className="text-center max-w-3xl mx-auto mb-12 space-y-4">
-            <h2 className="font-montserrat text-3xl sm:text-3xl lg:text-4xl font-bold uppercase tracking-wider text-white">
-              FEATURED PROGRAMS
-            </h2>
-            <p className="font-montserrat text-base text-zinc-400">No programs scheduled at the moment.</p>
-          </div>
-        </div>
-      </section>
-    );
-  }
-
-  const duplicatedEvents = [...events, ...events, ...events];
+  const duplicatedEvents = events.length > 0 ? [...events, ...events, ...events] : [];
 
   return (
-    <section className="relative pt-6 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden font-montserrat">
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-gradient-to-br from-blue-900/10 via-indigo-900/10 to-transparent rounded-full blur-3xl pointer-events-none -z-10" />
+    <section className="relative pt-6 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden font-montserrat bg-white">
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-gradient-to-br from-indigo-100/40 via-violet-100/30 to-transparent rounded-full blur-3xl pointer-events-none -z-10" />
 
       <div className="mx-auto max-w-7xl">
         <ScrollReveal direction="up" duration={0.8}>
           <div className="text-center max-w-3xl mx-auto mb-12 space-y-4">
-            <h2 className="font-montserrat text-3xl sm:text-4xl lg:text-5xl font-extrabold uppercase tracking-wider text-white">
+            <h2 className="font-montserrat text-3xl sm:text-3xl lg:text-4xl font-bold uppercase tracking-wider text-zinc-900">
               FEATURED PROGRAMS
             </h2>
-            <p className="font-montserrat text-base sm:text-lg text-zinc-400">
-              Hackathons, deep-tech workshops, keynote sessions, and collaborative build sprints.
+            <p className="font-montserrat text-base text-zinc-600">
+              {isLoading || events.length > 0
+                ? "Hackathons, deep-tech workshops, keynote sessions, and collaborative build sprints."
+                : "No programs scheduled at the moment."}
             </p>
           </div>
         </ScrollReveal>
 
-        <div className="relative">
-          <div className="flex gap-6 animate-marquee-[20s] hover:pause-animation" style={{ willChange: "transform" }}>
-            {duplicatedEvents.map((event, index) => (
-              <EventCard key={`${event.id}-${index}`} event={event} />
-            ))}
+        {isLoading ? (
+          <div className="flex gap-6 overflow-hidden justify-center py-2">
+            <EventCardSkeleton />
+            <EventCardSkeleton />
+            <EventCardSkeleton />
           </div>
+        ) : events.length > 0 ? (
+          <div className="relative">
+            <div className="flex gap-6 animate-marquee-[20s] hover:pause-animation" style={{ willChange: "transform" }}>
+              {duplicatedEvents.map((event, index) => (
+                <EventCard key={`${event.id}-${index}`} event={event} />
+              ))}
+            </div>
 
-          <div className="absolute inset-0 pointer-events-none bg-gradient-to-r from-[#07090e] via-transparent to-[#07090e] z-10" />
-        </div>
+            <div className="absolute inset-0 pointer-events-none bg-gradient-to-r from-white via-transparent to-white z-10" />
+          </div>
+        ) : null}
       </div>
 
       <style jsx global>{`

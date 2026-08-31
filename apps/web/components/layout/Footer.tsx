@@ -79,14 +79,14 @@ export function Footer() {
   ];
 
   return (
-    <footer className="relative border-t border-white/10 bg-[#07090e] text-white overflow-hidden">
+    <footer className="relative border-t border-zinc-200 bg-white text-zinc-900 overflow-hidden">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
         <ScrollReveal direction="up" duration={0.8} distance={20}>
           <div className="grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-16">
             {/* Brand Col */}
             <div className="md:col-span-5 space-y-4">
               <Link href="/" className="inline-flex items-center gap-2.5 group">
-                <div className="flex-shrink-0 w-9 h-9 rounded-xl overflow-hidden shadow-md group-hover:scale-105 transition-transform duration-300 ring-1 ring-white/15 bg-slate-900">
+                <div className="flex-shrink-0 w-9 h-9 rounded-xl overflow-hidden shadow-sm group-hover:scale-105 transition-transform duration-300 ring-1 ring-zinc-200 bg-white">
                   <Image
                     src="/aurix-logo.jpeg"
                     alt="AURIX Club Logo"
@@ -95,24 +95,24 @@ export function Footer() {
                     className="w-full h-full object-cover"
                   />
                 </div>
-                <span className="text-xl font-bold tracking-wider text-white">AURIX</span>
+                <span className="text-xl font-bold tracking-wider text-zinc-900">AURIX</span>
               </Link>
-              <p className="max-w-sm text-sm text-zinc-400 leading-relaxed">
-                Initiated at <span className="text-zinc-200 font-medium">Dr. Ambedkar Institute of Technology, Bengaluru</span>. Learn. Build. Connect. Creating an impact that lasts across engineering, deep tech, and community.
+              <p className="max-w-sm text-sm text-zinc-600 leading-relaxed">
+                Initiated at <span className="text-zinc-900 font-semibold">Dr. Ambedkar Institute of Technology, Bengaluru</span>. Learn. Build. Connect. Creating an impact that lasts across engineering, deep tech, and community.
               </p>
 
               {/* Email direct contact */}
               <div className="pt-2">
                 <a
                   href="mailto:contact@aurix.club"
-                  className="inline-flex items-center gap-2 text-xs text-zinc-400 hover:text-blue-400 transition-colors py-1"
+                  className="inline-flex items-center gap-2 text-xs font-semibold text-zinc-600 hover:text-indigo-600 transition-colors py-1"
                 >
-                  <Mail className="h-3.5 w-3.5" />
+                  <Mail className="h-3.5 w-3.5 text-indigo-600" />
                   <span>contact@aurix.club</span>
                 </a>
               </div>
 
-              <div className="pt-2 flex items-center gap-3 text-xs text-zinc-500">
+              <div className="pt-2 flex items-center gap-3 text-xs text-zinc-500 font-medium">
                 <span className="inline-block h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
                 <span>Applications open for new cohort</span>
               </div>
@@ -120,7 +120,7 @@ export function Footer() {
 
             {/* Navigation Col */}
             <div className="md:col-span-3 space-y-4">
-              <h4 className="text-xs font-semibold uppercase tracking-wider text-zinc-300 font-mono">
+              <h4 className="text-xs font-bold uppercase tracking-wider text-zinc-900 font-mono">
                 Explore
               </h4>
               <ul className="space-y-2.5">
@@ -128,7 +128,7 @@ export function Footer() {
                   <li key={link.name}>
                     <Link
                       href={link.href}
-                      className="text-sm text-zinc-400 hover:text-white transition-colors inline-flex items-center gap-1 group"
+                      className="text-sm font-medium text-zinc-600 hover:text-indigo-600 transition-colors inline-flex items-center gap-1 group"
                     >
                       <span>{link.name}</span>
                       <ArrowUpRight className="h-3.5 w-3.5 opacity-0 -translate-y-0.5 group-hover:opacity-100 transition-all duration-200" />
@@ -140,7 +140,7 @@ export function Footer() {
 
             {/* Social Connect Col */}
             <div className="md:col-span-4 space-y-4">
-              <h4 className="text-xs font-semibold uppercase tracking-wider text-zinc-300 font-mono">
+              <h4 className="text-xs font-bold uppercase tracking-wider text-zinc-900 font-mono">
                 Official Channels
               </h4>
               <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -152,13 +152,13 @@ export function Footer() {
                         href={item.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className={`flex items-center gap-2.5 p-2 rounded-xl border border-white/[0.05] bg-white/[0.02] text-xs text-zinc-400 hover:text-white transition-all duration-300 group ${item.hoverColor}`}
+                        className="flex items-center gap-2.5 p-2 rounded-xl border border-zinc-200 bg-slate-50 text-xs text-zinc-700 hover:text-indigo-600 hover:border-indigo-200 hover:bg-indigo-50/50 transition-all duration-300 group shadow-xs"
                       >
-                        <div className={`p-1.5 rounded-lg bg-white/[0.04] border border-white/10 group-hover:scale-105 transition-all ${item.accentBg}`}>
+                        <div className="p-1.5 rounded-lg bg-white border border-zinc-200 text-indigo-600 group-hover:scale-105 transition-all">
                           <Icon className="h-3.5 w-3.5" />
                         </div>
                         <div className="flex flex-col min-w-0">
-                          <span className="font-medium truncate">{item.name}</span>
+                          <span className="font-semibold truncate text-zinc-900 group-hover:text-indigo-600">{item.name}</span>
                           <span className="text-[10px] text-zinc-500 truncate">{item.handle}</span>
                         </div>
                       </a>
@@ -170,7 +170,7 @@ export function Footer() {
           </div>
 
           {/* Bottom copyright */}
-          <div className="mt-16 pt-8 border-t border-white/[0.06] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-zinc-500">
+          <div className="mt-16 pt-8 border-t border-zinc-200 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-zinc-500 font-medium">
             <p>© 2026 AURIX. Initiated at Dr. Ambedkar Institute of Technology, Bengaluru.</p>
             <p className="flex items-center gap-2">
               <span>Built by students for innovators & builders</span>

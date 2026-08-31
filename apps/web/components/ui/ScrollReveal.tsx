@@ -14,80 +14,87 @@ interface ScrollRevealProps {
   amount?: number | "some" | "all";
 }
 
-const customEasing: [number, number, number, number] = [0.21, 0.47, 0.32, 0.98];
+const customEasing: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 export function ScrollReveal({
   children,
   direction = "up",
-  duration = 0.75,
+  duration = 0.85,
   delay = 0,
-  distance = 32,
+  distance = 36,
   className = "",
   once = true,
-  amount = 0.15,
+  amount = 0.12,
 }: ScrollRevealProps) {
   const getVariants = (): Variants => {
     switch (direction) {
       case "up":
         return {
-          hidden: { opacity: 0, y: distance },
+          hidden: { opacity: 0, y: distance, filter: "blur(6px)" },
           visible: {
             opacity: 1,
             y: 0,
+            filter: "blur(0px)",
             transition: { duration, delay, ease: customEasing },
           },
         };
       case "down":
         return {
-          hidden: { opacity: 0, y: -distance },
+          hidden: { opacity: 0, y: -distance, filter: "blur(6px)" },
           visible: {
             opacity: 1,
             y: 0,
+            filter: "blur(0px)",
             transition: { duration, delay, ease: customEasing },
           },
         };
       case "left":
         return {
-          hidden: { opacity: 0, x: distance },
+          hidden: { opacity: 0, x: distance, filter: "blur(6px)" },
           visible: {
             opacity: 1,
             x: 0,
+            filter: "blur(0px)",
             transition: { duration, delay, ease: customEasing },
           },
         };
       case "right":
         return {
-          hidden: { opacity: 0, x: -distance },
+          hidden: { opacity: 0, x: -distance, filter: "blur(6px)" },
           visible: {
             opacity: 1,
             x: 0,
+            filter: "blur(0px)",
             transition: { duration, delay, ease: customEasing },
           },
         };
       case "zoom":
         return {
-          hidden: { opacity: 0, scale: 0.92 },
+          hidden: { opacity: 0, scale: 0.94, filter: "blur(6px)" },
           visible: {
             opacity: 1,
             scale: 1,
+            filter: "blur(0px)",
             transition: { duration, delay, ease: customEasing },
           },
         };
       case "blur":
         return {
-          hidden: { opacity: 0, scale: 0.98 },
+          hidden: { opacity: 0, scale: 0.98, filter: "blur(8px)" },
           visible: {
             opacity: 1,
             scale: 1,
+            filter: "blur(0px)",
             transition: { duration, delay, ease: customEasing },
           },
         };
       case "fade":
       default:
         return {
-          hidden: { opacity: 0 },
+          hidden: { opacity: 0, filter: "blur(4px)" },
           visible: {
             opacity: 1,
+            filter: "blur(0px)",
             transition: { duration, delay, ease: customEasing },
           },
         };
@@ -101,6 +108,7 @@ export function ScrollReveal({
       viewport={{ once, amount }}
       variants={getVariants()}
       className={className}
+      style={{ willChange: "transform, opacity, filter" }}
     >
       {children}
     </motion.div>
@@ -118,7 +126,7 @@ interface StaggerContainerProps {
 
 export function StaggerContainer({
   children,
-  staggerDelay = 0.12,
+  staggerDelay = 0.1,
   delayChildren = 0.05,
   className = "",
   once = true,
@@ -158,11 +166,11 @@ interface StaggerItemProps {
 export function StaggerItem({
   children,
   className = "",
-  distance = 28,
-  duration = 0.7,
+  distance = 30,
+  duration = 0.8,
 }: StaggerItemProps) {
   const itemVariants: Variants = {
-    hidden: { opacity: 0, y: distance, scale: 0.96, filter: "blur(4px)" },
+    hidden: { opacity: 0, y: distance, scale: 0.96, filter: "blur(5px)" },
     visible: {
       opacity: 1,
       y: 0,
@@ -176,7 +184,7 @@ export function StaggerItem({
   };
 
   return (
-    <motion.div variants={itemVariants} className={className}>
+    <motion.div variants={itemVariants} className={className} style={{ willChange: "transform, opacity, filter" }}>
       {children}
     </motion.div>
   );
@@ -185,8 +193,8 @@ export function StaggerItem({
 export function ScrollProgress() {
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
+    stiffness: 140,
+    damping: 26,
     restDelta: 0.001,
   });
 

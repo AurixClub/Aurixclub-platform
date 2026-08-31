@@ -175,12 +175,12 @@ export default function DepartmentDetailPage() {
 
   if (!dept) {
     return (
-      <div className="min-h-screen bg-[#07090e] text-white flex flex-col">
+      <div className="min-h-screen bg-white text-zinc-900 flex flex-col">
         <Navbar />
         <main className="flex-grow flex items-center justify-center">
           <div className="text-center space-y-4">
-            <h1 className="text-4xl font-bold">Department Not Found</h1>
-            <Link href="/departments" className="text-blue-400 hover:text-blue-300 transition-colors">
+            <h1 className="text-4xl font-bold text-zinc-900">Department Not Found</h1>
+            <Link href="/departments" className="text-indigo-600 hover:text-indigo-700 transition-colors">
               ← Back to Departments
             </Link>
           </div>
@@ -193,50 +193,62 @@ export default function DepartmentDetailPage() {
   const Icon = dept.icon;
   const members = liveMembers
     ? liveMembers.map((member) => ({
-        name: member.name,
-        role: member.role,
-        image: member.avatar_url ?? "",
-      }))
+      name: member.name,
+      role: member.role,
+      image: member.avatar_url ?? "",
+    }))
     : dept.members;
   const currentIndex = deptOrder.indexOf(slug);
   const prevSlug = currentIndex > 0 ? deptOrder[currentIndex - 1] : null;
   const nextSlug = currentIndex < deptOrder.length - 1 ? deptOrder[currentIndex + 1] : null;
 
   return (
-    <div className="min-h-screen bg-[#07090e] text-white flex flex-col selection:bg-blue-500/30 selection:text-white">
+    <div className="min-h-screen bg-[#f5f8fc] text-zinc-900 flex flex-col selection:bg-indigo-500/20 selection:text-indigo-900">
       <Navbar />
 
-      <main className="flex-grow pt-36 pb-28 px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-5xl">
+      {/* Light Subtle Blue Top Banner */}
+      <section className="relative pt-28 pb-14 sm:pb-16 px-4 sm:px-6 lg:px-8 overflow-hidden bg-gradient-to-b from-blue-100/70 via-indigo-50/40 to-[#f5f8fc] text-zinc-900 border-b border-blue-100/70">
+        {/* Subtle Geometric Grid Overlay */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#0284c70a_1px,transparent_1px),linear-gradient(to_bottom,#0284c70a_1px,transparent_1px)] bg-[size:3.5rem_3.5rem] pointer-events-none z-0" />
+
+        {/* Light Ambient Glow Orbs */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[260px] bg-gradient-to-tr from-blue-400/20 via-indigo-300/20 to-sky-300/15 rounded-full blur-[90px] pointer-events-none z-0" />
+
+        <div className="mx-auto max-w-5xl relative z-10">
           {/* Back link */}
           <ScrollReveal direction="left" duration={0.6}>
             <Link
               href="/departments"
-              className="inline-flex items-center gap-2 text-sm text-zinc-400 hover:text-white transition-colors mb-10 group"
+              className="inline-flex items-center gap-2 text-sm font-semibold text-zinc-600 hover:text-indigo-600 transition-colors mb-6 group"
             >
               <ArrowLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform duration-300" />
               <span>All Departments</span>
             </Link>
           </ScrollReveal>
 
-          {/* Header */}
+          {/* Department Title & Badge */}
           <ScrollReveal direction="up" duration={0.8}>
-            <div className="flex items-start gap-5 mb-8">
-              <div className={`p-4 rounded-2xl bg-gradient-to-br ${dept.accentColor} text-white shadow-xl flex-shrink-0`}>
-                <Icon className="h-8 w-8" />
+            <div className="flex items-center gap-4 sm:gap-5 mb-2">
+              <div className="p-3.5 sm:p-4 rounded-2xl bg-white border border-zinc-200 text-indigo-600 shadow-sm flex-shrink-0">
+                <Icon className="h-7 w-7 sm:h-8 sm:w-8 text-indigo-600" />
               </div>
               <div>
-                <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white mb-2">
+                <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-zinc-900 mb-1">
                   {dept.name}
                 </h1>
-                <p className={`text-sm font-semibold ${dept.accentText}`}>{dept.tagline}</p>
+                <p className="text-xs sm:text-sm font-semibold text-indigo-600 font-mono tracking-wide">{dept.tagline}</p>
               </div>
             </div>
           </ScrollReveal>
+        </div>
+      </section>
+
+      <main className="flex-grow pt-8 pb-24 px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-5xl">
 
           {/* Description */}
           <ScrollReveal direction="up" duration={0.8} delay={0.1}>
-            <p className="text-base sm:text-lg text-zinc-300 leading-relaxed max-w-3xl mb-10">
+            <p className="text-base sm:text-lg text-zinc-600 leading-relaxed max-w-3xl mb-10">
               {dept.longDescription}
             </p>
           </ScrollReveal>
@@ -244,12 +256,12 @@ export default function DepartmentDetailPage() {
           {/* Focus Areas */}
           <ScrollReveal direction="up" duration={0.8} delay={0.15}>
             <div className="mb-16">
-              <h2 className="text-lg font-bold text-white mb-4">Focus Areas</h2>
+              <h2 className="text-lg font-bold text-zinc-900 mb-4">Focus Areas</h2>
               <div className="flex flex-wrap gap-2">
                 {dept.focusTags.map((tag) => (
                   <span
                     key={tag}
-                    className="rounded-lg bg-white/[0.05] border border-white/10 px-3 py-1.5 text-sm text-zinc-300"
+                    className="rounded-lg bg-slate-50 border border-zinc-200 px-3 py-1.5 text-sm text-zinc-700 font-medium"
                   >
                     {tag}
                   </span>
@@ -262,33 +274,31 @@ export default function DepartmentDetailPage() {
           <ScrollReveal direction="up" duration={0.8} delay={0.2}>
             <div className="mb-16">
               <div className="flex items-center gap-2 mb-6">
-                <Users className="h-5 w-5 text-zinc-400" />
-                <h2 className="text-lg font-bold text-white">Team Members</h2>
+                <Users className="h-5 w-5 text-indigo-600" />
+                <h2 className="text-lg font-bold text-zinc-900">Team Members</h2>
               </div>
-
               <StaggerContainer staggerDelay={0.08} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {members.map((member, i) => (
                   <StaggerItem key={i}>
-                    <div className="group rounded-3xl border border-white/10 bg-gradient-to-b from-white/[0.04] to-white/[0.01] p-4 text-center hover:border-violet-400/50 hover:shadow-[0_15px_35px_rgba(139,92,246,0.2)] hover:-translate-y-1.5 transition-all duration-500">
+                    <div className="group rounded-3xl border border-zinc-200 bg-white p-4 text-center hover:border-indigo-300 shadow-md shadow-slate-200/50 hover:shadow-xl hover:-translate-y-1.5 transition-all duration-500">
                       {/* Large Photo showcase */}
-                      <div className="relative w-full h-56 mx-auto mb-4 rounded-2xl overflow-hidden ring-1 ring-white/10 group-hover:ring-2 group-hover:ring-violet-400/80 bg-slate-900 shadow-xl transition-all duration-500">
+                      <div className="relative w-full aspect-[3/4] max-h-72 mx-auto mb-4 rounded-2xl overflow-hidden ring-1 ring-zinc-200 group-hover:ring-2 group-hover:ring-indigo-500 bg-slate-100 shadow-sm transition-all duration-500">
                         {member.image ? (
                           <Image
                             src={member.image}
                             alt={member.name}
                             fill
-                            className="object-cover object-top group-hover:scale-108 transition-transform duration-700 ease-out"
+                            className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                           />
                         ) : (
-                          <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-tr from-blue-950 to-purple-950 text-white">
-                            <span className="text-4xl font-black text-white/80">{member.name.charAt(0)}</span>
-                            <span className="text-[10px] text-zinc-400 font-mono mt-1 uppercase tracking-wider">{dept.name}</span>
+                          <div className="absolute inset-0 flex flex-col items-center justify-center bg-indigo-50 text-indigo-700">
+                            <span className="text-4xl font-black text-indigo-600">{member.name.charAt(0)}</span>
+                            <span className="text-[10px] text-indigo-500 font-mono mt-1 uppercase tracking-wider">{dept.name}</span>
                           </div>
                         )}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-70 group-hover:opacity-30 transition-opacity duration-500 pointer-events-none" />
                       </div>
-                      <h3 className="text-base font-bold text-white group-hover:text-violet-300 transition-colors truncate">{member.name}</h3>
-                      <p className={`text-xs font-mono font-semibold ${dept.accentText} mt-1`}>{member.role}</p>
+                      <h3 className="text-base font-bold text-zinc-900 group-hover:text-indigo-600 transition-colors truncate">{member.name}</h3>
+                      <p className="text-xs font-mono font-semibold text-indigo-600 mt-1">{member.role}</p>
                     </div>
                   </StaggerItem>
                 ))}
@@ -298,11 +308,11 @@ export default function DepartmentDetailPage() {
 
           {/* Navigation between departments */}
           <ScrollReveal direction="up" duration={0.8} delay={0.25}>
-            <div className="flex items-center justify-between pt-8 border-t border-white/10">
+            <div className="flex items-center justify-between pt-8 border-t border-zinc-200">
               {prevSlug ? (
                 <Link
                   href={`/departments/${prevSlug}`}
-                  className="flex items-center gap-2 text-sm text-zinc-400 hover:text-white transition-colors group"
+                  className="flex items-center gap-2 text-sm font-semibold text-zinc-600 hover:text-indigo-600 transition-colors group"
                 >
                   <ArrowLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform duration-300" />
                   <span>{departments[prevSlug]?.name}</span>
@@ -313,7 +323,7 @@ export default function DepartmentDetailPage() {
               {nextSlug ? (
                 <Link
                   href={`/departments/${nextSlug}`}
-                  className="flex items-center gap-2 text-sm text-zinc-400 hover:text-white transition-colors group"
+                  className="flex items-center gap-2 text-sm font-semibold text-zinc-600 hover:text-indigo-600 transition-colors group"
                 >
                   <span>{departments[nextSlug]?.name}</span>
                   <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform duration-300" />

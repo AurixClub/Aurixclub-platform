@@ -203,17 +203,17 @@ export function JoinForm() {
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5 }}
-        className="max-w-2xl mx-auto my-12 rounded-3xl glass-panel p-8 sm:p-14 text-center space-y-6 border border-emerald-500/30"
+        className="max-w-2xl mx-auto my-12 rounded-3xl bg-white p-8 sm:p-14 text-center space-y-6 border border-emerald-200 shadow-xl shadow-slate-200/50"
       >
-        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-600 border border-emerald-200">
           <CheckCircle2 className="h-8 w-8" />
         </div>
 
         <div className="space-y-2">
-          <h2 className="text-3xl font-extrabold text-white">
+          <h2 className="text-3xl font-extrabold text-zinc-900">
             Application Submitted Successfully
           </h2>
-          <p className="text-base text-zinc-300 max-w-md mx-auto leading-relaxed">
+          <p className="text-base text-zinc-600 max-w-md mx-auto leading-relaxed">
             Thank you for your interest in AURIX. Our team will review your application and get back to you soon.
           </p>
         </div>
@@ -221,13 +221,13 @@ export function JoinForm() {
         <div className="pt-6 flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link
             href="/"
-            className="w-full sm:w-auto px-6 py-3 rounded-xl bg-white/[0.08] hover:bg-white/[0.14] border border-white/10 text-sm font-semibold text-white transition-colors"
+            className="w-full sm:w-auto px-6 py-3 rounded-xl bg-zinc-100 hover:bg-zinc-200 border border-zinc-200 text-sm font-semibold text-zinc-800 transition-colors"
           >
             Back to Home
           </Link>
           <Link
             href="/events"
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-sm font-semibold text-white shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 transition-all"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-sm font-semibold text-white shadow-md shadow-indigo-500/20 transition-all"
           >
             <span>Explore Events</span>
             <ArrowRight className="h-4 w-4" />
@@ -240,12 +240,12 @@ export function JoinForm() {
   return (
     <form onSubmit={handleSubmit} className="max-w-3xl mx-auto space-y-8">
       {serverError && (
-        <div className="p-4 rounded-2xl bg-red-500/15 border border-red-500/30 text-red-300 text-sm font-semibold flex items-center gap-3">
-          <AlertCircle className="h-5 w-5 text-red-400 flex-shrink-0" />
+        <div className="p-4 rounded-2xl bg-red-50 border border-red-200 text-red-700 text-sm font-semibold flex items-center gap-3">
+          <AlertCircle className="h-5 w-5 text-red-600 flex-shrink-0" />
           <div className="flex-1">
             <span>{serverError}</span>
             {serverError.includes("sign in") && (
-              <Link href="/login" className="ml-2 underline text-white hover:text-blue-300 font-bold">
+              <Link href="/login" className="ml-2 underline text-red-800 hover:text-red-900 font-bold">
                 Sign In now →
               </Link>
             )}
@@ -254,22 +254,22 @@ export function JoinForm() {
       )}
 
       {/* 2. Personal Information */}
-      <div className="rounded-3xl glass-panel p-6 sm:p-10 space-y-6 border border-white/[0.08]">
-        <div className="flex items-center gap-3 border-b border-white/[0.08] pb-4">
-          <div className="p-2 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-400">
+      <div className="rounded-3xl bg-white p-6 sm:p-10 space-y-6 border border-zinc-200/90 shadow-xl shadow-slate-200/50">
+        <div className="flex items-center gap-3 border-b border-zinc-100 pb-4">
+          <div className="p-2 rounded-xl bg-indigo-50 border border-indigo-200 text-indigo-600">
             <User className="h-5 w-5" />
           </div>
           <div>
-            <h3 className="text-lg font-bold text-white">2. Personal Information</h3>
-            <p className="text-xs text-zinc-400">Tell us how to reach and identify you</p>
+            <h3 className="text-lg font-bold text-zinc-900">2. Personal Information</h3>
+            <p className="text-xs text-zinc-500">Tell us how to reach and identify you</p>
           </div>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           {/* Full Name */}
           <div className="sm:col-span-2 space-y-2">
-            <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-300">
-              Full Name <span className="text-red-400">*</span>
+            <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-700">
+              Full Name <span className="text-red-500">*</span>
             </label>
             <input
               type="text"
@@ -277,17 +277,17 @@ export function JoinForm() {
               placeholder="Enter your full name"
               value={formData.fullName}
               onChange={handleInputChange}
-              className={`w-full rounded-xl bg-white/[0.04] border ${
-                errors.fullName ? "border-red-500/60" : "border-white/10"
-              } px-4 py-3 text-sm text-white placeholder-zinc-500 focus:border-blue-500 focus:outline-none transition-colors`}
+              className={`w-full rounded-xl bg-slate-50 border ${
+                errors.fullName ? "border-red-400" : "border-zinc-200"
+              } px-4 py-3 text-sm text-zinc-900 placeholder-zinc-400 focus:border-indigo-500 focus:bg-white focus:outline-none transition-colors`}
             />
-            {errors.fullName && <p className="text-xs text-red-400">{errors.fullName}</p>}
+            {errors.fullName && <p className="text-xs text-red-500">{errors.fullName}</p>}
           </div>
 
           {/* College Email */}
           <div className="space-y-2">
-            <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-300">
-              College Email <span className="text-red-400">*</span>
+            <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-700">
+              College Email <span className="text-red-500">*</span>
             </label>
             <div className="relative">
               <input
@@ -296,241 +296,255 @@ export function JoinForm() {
                 placeholder="you@university.edu"
                 value={formData.email}
                 onChange={handleInputChange}
-                className={`w-full rounded-xl bg-white/[0.04] border ${
-                  errors.email ? "border-red-500/60" : "border-white/10"
-                } px-4 py-3 pl-10 text-sm text-white placeholder-zinc-500 focus:border-blue-500 focus:outline-none transition-colors`}
+                className={`w-full rounded-xl bg-slate-50 border ${
+                  errors.email ? "border-red-400" : "border-zinc-200"
+                } px-4 py-3 text-sm text-zinc-900 placeholder-zinc-400 focus:border-indigo-500 focus:bg-white focus:outline-none transition-colors`}
               />
-              <Mail className="absolute left-3.5 top-3.5 h-4 w-4 text-zinc-500" />
             </div>
-            {errors.email && <p className="text-xs text-red-400">{errors.email}</p>}
+            {errors.email && <p className="text-xs text-red-500">{errors.email}</p>}
           </div>
 
           {/* Phone Number */}
           <div className="space-y-2">
-            <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-300">
-              Phone Number <span className="text-red-400">*</span>
+            <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-700">
+              Phone Number <span className="text-red-500">*</span>
             </label>
             <div className="relative">
               <input
                 type="tel"
                 name="phone"
-                placeholder="Enter your contact number"
+                placeholder="+91 98765 43210"
                 value={formData.phone}
                 onChange={handleInputChange}
-                className={`w-full rounded-xl bg-white/[0.04] border ${
-                  errors.phone ? "border-red-500/60" : "border-white/10"
-                } px-4 py-3 pl-10 text-sm text-white placeholder-zinc-500 focus:border-blue-500 focus:outline-none transition-colors`}
+                className={`w-full rounded-xl bg-slate-50 border ${
+                  errors.phone ? "border-red-400" : "border-zinc-200"
+                } px-4 py-3 text-sm text-zinc-900 placeholder-zinc-400 focus:border-indigo-500 focus:bg-white focus:outline-none transition-colors`}
               />
-              <Phone className="absolute left-3.5 top-3.5 h-4 w-4 text-zinc-500" />
             </div>
-            {errors.phone && <p className="text-xs text-red-400">{errors.phone}</p>}
+            {errors.phone && <p className="text-xs text-red-500">{errors.phone}</p>}
           </div>
+        </div>
+      </div>
 
+      {/* 3. Academic Details */}
+      <div className="rounded-3xl bg-white p-6 sm:p-10 space-y-6 border border-zinc-200/90 shadow-xl shadow-slate-200/50">
+        <div className="flex items-center gap-3 border-b border-zinc-100 pb-4">
+          <div className="p-2 rounded-xl bg-indigo-50 border border-indigo-200 text-indigo-600">
+            <GraduationCap className="h-5 w-5" />
+          </div>
+          <div>
+            <h3 className="text-lg font-bold text-zinc-900">3. Academic Details</h3>
+            <p className="text-xs text-zinc-500">Your current academic status at Dr. AIT</p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           {/* Year of Study */}
           <div className="space-y-2">
-            <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-300">
-              Year of Study <span className="text-red-400">*</span>
+            <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-700">
+              Year of Study <span className="text-red-500">*</span>
             </label>
             <select
               name="yearOfStudy"
               value={formData.yearOfStudy}
               onChange={handleInputChange}
-              className={`w-full rounded-xl bg-[#0d111c] border ${
-                errors.yearOfStudy ? "border-red-500/60" : "border-white/10"
-              } px-4 py-3 text-sm text-white focus:border-blue-500 focus:outline-none transition-colors`}
+              className={`w-full rounded-xl bg-slate-50 border ${
+                errors.yearOfStudy ? "border-red-400" : "border-zinc-200"
+              } px-4 py-3 text-sm text-zinc-900 focus:border-indigo-500 focus:bg-white focus:outline-none transition-colors`}
             >
-              <option value="">Select your year</option>
+              <option value="">Select Year</option>
               {yearOptions.map((year) => (
                 <option key={year} value={year}>
                   {year}
                 </option>
               ))}
             </select>
-            {errors.yearOfStudy && <p className="text-xs text-red-400">{errors.yearOfStudy}</p>}
+            {errors.yearOfStudy && <p className="text-xs text-red-500">{errors.yearOfStudy}</p>}
           </div>
 
           {/* Branch / Department */}
           <div className="space-y-2">
-            <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-300">
-              Branch / Department <span className="text-red-400">*</span>
+            <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-700">
+              Branch / Department <span className="text-red-500">*</span>
             </label>
             <input
               type="text"
               name="department"
-              placeholder="e.g. Computer Science, Robotics, ECE"
+              placeholder="e.g. CSE, ISE, ECE, Mechanical"
               value={formData.department}
               onChange={handleInputChange}
-              className={`w-full rounded-xl bg-white/[0.04] border ${
-                errors.department ? "border-red-500/60" : "border-white/10"
-              } px-4 py-3 text-sm text-white placeholder-zinc-500 focus:border-blue-500 focus:outline-none transition-colors`}
+              className={`w-full rounded-xl bg-slate-50 border ${
+                errors.department ? "border-red-400" : "border-zinc-200"
+              } px-4 py-3 text-sm text-zinc-900 placeholder-zinc-400 focus:border-indigo-500 focus:bg-white focus:outline-none transition-colors`}
             />
-            {errors.department && <p className="text-xs text-red-400">{errors.department}</p>}
+            {errors.department && <p className="text-xs text-red-500">{errors.department}</p>}
           </div>
         </div>
       </div>
 
-      {/* 3. Department Preference */}
-      <div className="rounded-3xl glass-panel p-6 sm:p-10 space-y-6 border border-white/[0.08]">
-        <div className="flex items-center gap-3 border-b border-white/[0.08] pb-4">
-          <div className="p-2 rounded-xl bg-purple-500/10 border border-purple-500/20 text-purple-400">
+      {/* 4. Department Preferences */}
+      <div className="rounded-3xl bg-white p-6 sm:p-10 space-y-6 border border-zinc-200/90 shadow-xl shadow-slate-200/50">
+        <div className="flex items-center gap-3 border-b border-zinc-100 pb-4">
+          <div className="p-2 rounded-xl bg-indigo-50 border border-indigo-200 text-indigo-600">
             <Layers className="h-5 w-5" />
           </div>
           <div>
-            <h3 className="text-lg font-bold text-white">3. Department Preference</h3>
-            <p className="text-xs text-zinc-400">Where Would You Like to Contribute?</p>
+            <h3 className="text-lg font-bold text-zinc-900">4. Department Preferences</h3>
+            <p className="text-xs text-zinc-500">Choose the domains you wish to contribute to</p>
           </div>
         </div>
 
-        <div>
-          {/* Department Interest */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          {/* Primary Preference */}
           <div className="space-y-2">
-            <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-300">
-              Department Interest <span className="text-red-400">*</span>
+            <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-700">
+              Primary Preference <span className="text-red-500">*</span>
             </label>
             <select
               name="primaryDepartment"
               value={formData.primaryDepartment}
               onChange={handleInputChange}
-              className={`w-full rounded-xl bg-[#0d111c] border ${
-                errors.primaryDepartment ? "border-red-500/60" : "border-white/10"
-              } px-4 py-3 text-sm text-white focus:border-purple-500 focus:outline-none transition-colors`}
+              className={`w-full rounded-xl bg-slate-50 border ${
+                errors.primaryDepartment ? "border-red-400" : "border-zinc-200"
+              } px-4 py-3 text-sm text-zinc-900 focus:border-indigo-500 focus:bg-white focus:outline-none transition-colors`}
             >
-              <option value="">Select department</option>
-              {departments.map((dept) => (
-                <option key={dept} value={dept}>
-                  {dept}
+              <option value="">Select Primary Domain</option>
+              {departments.map((d) => (
+                <option key={d} value={d}>
+                  {d}
                 </option>
               ))}
             </select>
             {errors.primaryDepartment && (
-              <p className="text-xs text-red-400">{errors.primaryDepartment}</p>
+              <p className="text-xs text-red-500">{errors.primaryDepartment}</p>
             )}
+          </div>
+
+          {/* Secondary Preference */}
+          <div className="space-y-2">
+            <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-700">
+              Secondary Preference <span className="text-zinc-400 font-normal">(Optional)</span>
+            </label>
+            <select
+              name="secondaryDepartment"
+              value={formData.secondaryDepartment}
+              onChange={handleInputChange}
+              className="w-full rounded-xl bg-slate-50 border border-zinc-200 px-4 py-3 text-sm text-zinc-900 focus:border-indigo-500 focus:bg-white focus:outline-none transition-colors"
+            >
+              <option value="">Select Secondary Domain</option>
+              {departments
+                .filter((d) => d !== formData.primaryDepartment)
+                .map((d) => (
+                  <option key={d} value={d}>
+                    {d}
+                  </option>
+                ))}
+            </select>
           </div>
         </div>
       </div>
 
-      {/* 4. About You */}
-      <div className="rounded-3xl glass-panel p-6 sm:p-10 space-y-6 border border-white/[0.08]">
-        <div className="flex items-center gap-3 border-b border-white/[0.08] pb-4">
-          <div className="p-2 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-400">
+      {/* 5. Experience & Background */}
+      <div className="rounded-3xl bg-white p-6 sm:p-10 space-y-6 border border-zinc-200/90 shadow-xl shadow-slate-200/50">
+        <div className="flex items-center gap-3 border-b border-zinc-100 pb-4">
+          <div className="p-2 rounded-xl bg-indigo-50 border border-indigo-200 text-indigo-600">
             <FileText className="h-5 w-5" />
           </div>
           <div>
-            <h3 className="text-lg font-bold text-white">4. About You</h3>
-            <p className="text-xs text-zinc-400">Your background, interests, and aspirations</p>
+            <h3 className="text-lg font-bold text-zinc-900">5. Background & Motivation</h3>
+            <p className="text-xs text-zinc-500">Share your interests, skills, and drive</p>
           </div>
         </div>
 
         <div className="space-y-6">
-          {/* Tell us about yourself */}
+          {/* About You */}
           <div className="space-y-2">
-            <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-300">
-              Tell us about yourself <span className="text-red-400">*</span>
+            <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-700">
+              Brief Intro / About Yourself <span className="text-red-500">*</span>
             </label>
             <textarea
               name="aboutYou"
               rows={3}
-              placeholder="Briefly introduce yourself, your interests, and what you would like to explore at AURIX."
+              placeholder="Tell us a bit about your background, passion, or hobbies..."
               value={formData.aboutYou}
               onChange={handleInputChange}
-              className={`w-full rounded-xl bg-white/[0.04] border ${
-                errors.aboutYou ? "border-red-500/60" : "border-white/10"
-              } px-4 py-3 text-sm text-white placeholder-zinc-500 focus:border-indigo-500 focus:outline-none transition-colors`}
+              className={`w-full rounded-xl bg-slate-50 border ${
+                errors.aboutYou ? "border-red-400" : "border-zinc-200"
+              } p-4 text-sm text-zinc-900 placeholder-zinc-400 focus:border-indigo-500 focus:bg-white focus:outline-none transition-colors resize-none`}
             />
-            {errors.aboutYou && <p className="text-xs text-red-400">{errors.aboutYou}</p>}
+            {errors.aboutYou && <p className="text-xs text-red-500">{errors.aboutYou}</p>}
           </div>
 
-          {/* Skills & Interests */}
+          {/* Skills */}
           <div className="space-y-2">
-            <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-300">
-              Skills & Interests <span className="text-red-400">*</span>
+            <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-700">
+              Skills & Interests <span className="text-red-500">*</span>
             </label>
-            <textarea
+            <input
+              type="text"
               name="skills"
-              rows={2}
-              placeholder="What skills, technologies, or areas are you interested in?"
+              placeholder="e.g. Python, React, Event Design, Public Speaking, UI/UX"
               value={formData.skills}
               onChange={handleInputChange}
-              className={`w-full rounded-xl bg-white/[0.04] border ${
-                errors.skills ? "border-red-500/60" : "border-white/10"
-              } px-4 py-3 text-sm text-white placeholder-zinc-500 focus:border-indigo-500 focus:outline-none transition-colors`}
+              className={`w-full rounded-xl bg-slate-50 border ${
+                errors.skills ? "border-red-400" : "border-zinc-200"
+              } px-4 py-3 text-sm text-zinc-900 placeholder-zinc-400 focus:border-indigo-500 focus:bg-white focus:outline-none transition-colors`}
             />
-            {errors.skills && <p className="text-xs text-red-400">{errors.skills}</p>}
+            {errors.skills && <p className="text-xs text-red-500">{errors.skills}</p>}
           </div>
 
-          {/* Why do you want to join AURIX? */}
+          {/* Motivation */}
           <div className="space-y-2">
-            <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-300">
-              Why do you want to join AURIX? <span className="text-red-400">*</span>
+            <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-700">
+              Why do you want to join AURIX? <span className="text-red-500">*</span>
             </label>
             <textarea
               name="motivation"
               rows={3}
-              placeholder="Tell us what motivates you to become part of the community."
+              placeholder="What drives you to apply? What do you hope to learn or accomplish?"
               value={formData.motivation}
               onChange={handleInputChange}
-              className={`w-full rounded-xl bg-white/[0.04] border ${
-                errors.motivation ? "border-red-500/60" : "border-white/10"
-              } px-4 py-3 text-sm text-white placeholder-zinc-500 focus:border-indigo-500 focus:outline-none transition-colors`}
+              className={`w-full rounded-xl bg-slate-50 border ${
+                errors.motivation ? "border-red-400" : "border-zinc-200"
+              } p-4 text-sm text-zinc-900 placeholder-zinc-400 focus:border-indigo-500 focus:bg-white focus:outline-none transition-colors resize-none`}
             />
-            {errors.motivation && <p className="text-xs text-red-400">{errors.motivation}</p>}
+            {errors.motivation && <p className="text-xs text-red-500">{errors.motivation}</p>}
           </div>
 
-          {/* Previous Experience */}
+          {/* Links */}
           <div className="space-y-2">
-            <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-300">
-              Previous Experience <span className="text-zinc-500 font-normal">(Optional)</span>
+            <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-700">
+              Portfolio / GitHub / LinkedIn Links <span className="text-zinc-400 font-normal">(Optional)</span>
             </label>
-            <textarea
-              name="previousExperience"
-              rows={2}
-              placeholder="Optional — projects, hackathons, internships, leadership roles, events, or other relevant experience."
-              value={formData.previousExperience}
+            <input
+              type="text"
+              name="portfolioLinks"
+              placeholder="github.com/username or linkedin.com/in/username"
+              value={formData.portfolioLinks}
               onChange={handleInputChange}
-              className="w-full rounded-xl bg-white/[0.04] border border-white/10 px-4 py-3 text-sm text-white placeholder-zinc-500 focus:border-indigo-500 focus:outline-none transition-colors"
+              className="w-full rounded-xl bg-slate-50 border border-zinc-200 px-4 py-3 text-sm text-zinc-900 placeholder-zinc-400 focus:border-indigo-500 focus:bg-white focus:outline-none transition-colors"
             />
-          </div>
-
-          {/* Portfolio / GitHub / LinkedIn */}
-          <div className="space-y-2">
-            <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-300">
-              Portfolio / GitHub / LinkedIn <span className="text-zinc-500 font-normal">(Optional)</span>
-            </label>
-            <div className="relative">
-              <input
-                type="text"
-                name="portfolioLinks"
-                placeholder="https://github.com/... or https://linkedin.com/in/..."
-                value={formData.portfolioLinks}
-                onChange={handleInputChange}
-                className="w-full rounded-xl bg-white/[0.04] border border-white/10 px-4 py-3 pl-10 text-sm text-white placeholder-zinc-500 focus:border-indigo-500 focus:outline-none transition-colors"
-              />
-              <Link2 className="absolute left-3.5 top-3.5 h-4 w-4 text-zinc-500" />
-            </div>
-            <p className="text-[11px] text-zinc-500">
-              Optional — share links to your work or professional profile.
-            </p>
           </div>
         </div>
       </div>
 
-      {/* 5. Availability & Contribution */}
-      <div className="rounded-3xl glass-panel p-6 sm:p-10 space-y-6 border border-white/[0.08]">
-        <div className="flex items-center gap-3 border-b border-white/[0.08] pb-4">
-          <div className="p-2 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">
+      {/* 6. Availability & Final Step */}
+      <div className="rounded-3xl bg-white p-6 sm:p-10 space-y-6 border border-zinc-200/90 shadow-xl shadow-slate-200/50">
+        <div className="flex items-center gap-3 border-b border-zinc-100 pb-4">
+          <div className="p-2 rounded-xl bg-indigo-50 border border-indigo-200 text-indigo-600">
             <Clock className="h-5 w-5" />
           </div>
           <div>
-            <h3 className="text-lg font-bold text-white">5. Availability & Contribution</h3>
-            <p className="text-xs text-zinc-400">How you would like to be involved</p>
+            <h3 className="text-lg font-bold text-zinc-900">6. Availability & Final Step</h3>
+            <p className="text-xs text-zinc-500">Confirm your commitment and submit</p>
           </div>
         </div>
 
         <div className="space-y-6">
-          {/* How would you like to contribute? */}
+          {/* Contribution Types */}
           <div className="space-y-3">
-            <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-300">
-              How would you like to contribute? <span className="text-red-400">*</span>
+            <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-700">
+              How would you like to contribute? <span className="text-red-500">*</span>
             </label>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {contributionOptions.map((option) => {
@@ -542,15 +556,15 @@ export function JoinForm() {
                     onClick={() => handleCheckboxToggle(option)}
                     className={`flex items-center gap-3 p-3.5 rounded-xl border text-left text-xs sm:text-sm transition-all ${
                       isChecked
-                        ? "bg-blue-600/20 border-blue-500 text-white font-medium shadow-inner"
-                        : "bg-white/[0.02] border-white/10 text-zinc-400 hover:border-white/20 hover:text-white"
+                        ? "bg-indigo-50 border-indigo-300 text-indigo-900 font-semibold"
+                        : "bg-slate-50 border-zinc-200 text-zinc-700 hover:bg-zinc-100"
                     }`}
                   >
                     <div
                       className={`h-4 w-4 rounded flex items-center justify-center border transition-colors ${
                         isChecked
-                          ? "bg-blue-600 border-blue-500 text-white"
-                          : "border-zinc-600 bg-transparent"
+                          ? "bg-indigo-600 border-indigo-600 text-white"
+                          : "border-zinc-300 bg-white"
                       }`}
                     >
                       {isChecked && <CheckCircle2 className="h-3.5 w-3.5" />}
@@ -561,14 +575,14 @@ export function JoinForm() {
               })}
             </div>
             {errors.contributionTypes && (
-              <p className="text-xs text-red-400">{errors.contributionTypes}</p>
+              <p className="text-xs text-red-500">{errors.contributionTypes}</p>
             )}
           </div>
 
           {/* Weekly Availability */}
           <div className="space-y-3">
-            <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-300">
-              Weekly Availability <span className="text-red-400">*</span>
+            <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-700">
+              Weekly Availability <span className="text-red-500">*</span>
             </label>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               {availabilityOptions.map((avail) => {
@@ -589,8 +603,8 @@ export function JoinForm() {
                     }}
                     className={`p-3.5 rounded-xl border text-center text-sm font-semibold transition-all ${
                       isSelected
-                        ? "bg-emerald-600/20 border-emerald-500 text-white shadow-inner"
-                        : "bg-white/[0.02] border-white/10 text-zinc-400 hover:border-white/20 hover:text-white"
+                        ? "bg-indigo-50 border-indigo-300 text-indigo-700 shadow-xs font-bold"
+                        : "bg-slate-50 border-zinc-200 text-zinc-700 hover:bg-zinc-100"
                     }`}
                   >
                     {avail}
@@ -599,50 +613,40 @@ export function JoinForm() {
               })}
             </div>
             {errors.weeklyAvailability && (
-              <p className="text-xs text-red-400">{errors.weeklyAvailability}</p>
+              <p className="text-xs text-red-500">{errors.weeklyAvailability}</p>
             )}
           </div>
         </div>
-      </div>
-
-      {/* 6. Final Step */}
-      <div className="rounded-3xl glass-panel p-6 sm:p-10 space-y-6 border border-white/[0.08]">
-        <div className="space-y-2">
-          <h3 className="text-xl font-bold text-white">6. Final Step</h3>
-          <p className="text-sm font-medium text-gradient-primary">
-            Let&apos;s Build Something Together.
-          </p>
-        </div>
 
         {/* Declaration Checkbox */}
-        <label className="flex items-start gap-3 cursor-pointer select-none">
-          <input
-            type="checkbox"
-            checked={formData.agreedToTerms}
-            onChange={(e) => {
-              setFormData((prev) => ({ ...prev, agreedToTerms: e.target.checked }));
-              if (errors.agreedToTerms) {
-                setErrors((prev) => {
-                  const next = { ...prev };
-                  delete next.agreedToTerms;
-                  return next;
-                });
-              }
-            }}
-            className="mt-1 h-4 w-4 rounded border-zinc-600 bg-white/5 text-blue-600 focus:ring-0 focus:ring-offset-0"
-          />
-          <span className="text-xs sm:text-sm text-zinc-300 leading-relaxed">
-            By submitting this application, I confirm that the information provided is accurate and agree to participate responsibly in AURIX activities.
-          </span>
-        </label>
-        {errors.agreedToTerms && <p className="text-xs text-red-400">{errors.agreedToTerms}</p>}
+        <div className="pt-4 border-t border-zinc-100 space-y-4">
+          <label className="flex items-start gap-3 cursor-pointer select-none">
+            <input
+              type="checkbox"
+              checked={formData.agreedToTerms}
+              onChange={(e) => {
+                setFormData((prev) => ({ ...prev, agreedToTerms: e.target.checked }));
+                if (errors.agreedToTerms) {
+                  setErrors((prev) => {
+                    const next = { ...prev };
+                    delete next.agreedToTerms;
+                    return next;
+                  });
+                }
+              }}
+              className="mt-1 h-4 w-4 rounded border-zinc-300 text-indigo-600 focus:ring-indigo-500"
+            />
+            <span className="text-xs sm:text-sm text-zinc-600 leading-relaxed hover:text-zinc-900 transition-colors">
+              By submitting this application, I confirm that the information provided is accurate and agree to participate responsibly in AURIX activities.
+            </span>
+          </label>
+          {errors.agreedToTerms && <p className="text-xs text-red-500">{errors.agreedToTerms}</p>}
 
-        {/* Submit Button */}
-        <div className="pt-4">
+          {/* Submit Button */}
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 py-4 px-8 text-base font-semibold text-white shadow-xl shadow-indigo-500/25 hover:shadow-indigo-500/40 hover:scale-[1.01] active:scale-[0.99] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 py-4 px-8 text-base font-semibold text-white shadow-lg shadow-indigo-500/25 hover:scale-[1.01] active:scale-[0.99] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isSubmitting ? (
               <div className="flex items-center gap-2">

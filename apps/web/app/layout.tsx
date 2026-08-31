@@ -33,8 +33,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`dark ${montserrat.variable} ${playfair.variable} ${inter.variable}`}>
-      <body className="min-h-screen bg-background font-sans antialiased">
+    <html lang="en" className={`light ${montserrat.variable} ${playfair.variable} ${inter.variable}`}>
+      <body className="min-h-screen bg-white text-zinc-900 font-sans antialiased">
         <SmoothScrollProvider>{children}</SmoothScrollProvider>
       </body>
     </html>
