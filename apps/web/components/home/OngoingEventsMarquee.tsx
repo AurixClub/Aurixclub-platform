@@ -35,9 +35,9 @@ function EventCard({ event }: EventCardProps) {
       <div>
         {/* Box-Type Image / Banner */}
         <div className="relative w-full aspect-[16/10] rounded-xl overflow-hidden mb-4 bg-slate-200 ring-1 ring-zinc-200/90 shadow-xs">
-          {event.banner_url ? (
+          {event.cover_image_url ? (
             <Image
-              src={event.banner_url}
+              src={event.cover_image_url}
               alt={event.title}
               fill
               unoptimized
