@@ -88,15 +88,17 @@ export function DepartmentsSection() {
         x: xOffset,
         y: 45,
         scale: 0.95,
+        filter: "blur(6px)",
       },
       visible: {
         opacity: 1,
         x: 0,
         y: 0,
         scale: 1,
+        filter: "blur(0px)",
         transition: {
-          duration: 0.75,
-          ease: [0.21, 0.47, 0.32, 0.98],
+          duration: 0.85,
+          ease: [0.16, 1, 0.3, 1],
           delay: (index % 6) * 0.08,
         },
       },
@@ -104,13 +106,13 @@ export function DepartmentsSection() {
   };
 
   return (
-    <section className="relative py-24 px-4 sm:px-6 lg:px-8 overflow-hidden">
+    <section className="relative pt-8 sm:pt-12 pb-16 sm:pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden bg-transparent">
       {/* Ambient background glows */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[500px] bg-gradient-to-b from-indigo-600/15 via-violet-600/10 to-transparent rounded-full blur-3xl pointer-events-none -z-10" />
-      <div className="absolute bottom-0 right-0 w-[500px] h-[400px] bg-fuchsia-600/10 rounded-full blur-3xl pointer-events-none -z-10" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[500px] bg-gradient-to-b from-blue-200/30 via-indigo-100/20 to-transparent rounded-full blur-3xl pointer-events-none -z-10" />
+      <div className="absolute bottom-0 right-0 w-[500px] h-[400px] bg-sky-100/30 rounded-full blur-3xl pointer-events-none -z-10" />
 
       {/* Subtle grid */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff04_1px,transparent_1px),linear-gradient(to_bottom,#ffffff04_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_70%_60%_at_50%_40%,#000_60%,transparent_100%)] pointer-events-none -z-10" />
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#00000008_1px,transparent_1px),linear-gradient(to_bottom,#00000008_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_70%_60%_at_50%_40%,#000_60%,transparent_100%)] pointer-events-none -z-10" />
 
       <div className="mx-auto max-w-7xl">
         {/* Section Heading */}
@@ -121,21 +123,16 @@ export function DepartmentsSection() {
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
           className="text-center max-w-3xl mx-auto mb-16 space-y-5"
         >
-          <div className="inline-flex items-center gap-2 rounded-full border border-violet-500/25 bg-violet-500/10 backdrop-blur-md px-4 py-1.5 text-xs font-medium text-violet-300 shadow-lg shadow-violet-950/20">
+          <div className="inline-flex items-center gap-2 rounded-full border border-indigo-200 bg-indigo-50 px-4 py-1.5 text-xs font-medium text-indigo-700 shadow-sm">
             <Layers className="h-3.5 w-3.5" />
             <span>Core Domains & Structure</span>
           </div>
 
-          <h2
-            className="font-montserrat text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white"
-            style={{
-              textShadow: "0 2px 20px rgba(0,0,0,0.5)",
-            }}
-          >
+          <h2 className="font-montserrat text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-zinc-900">
             Explore Our Core Departments
           </h2>
 
-          <p className="text-base sm:text-lg text-zinc-400 leading-relaxed">
+          <p className="text-base sm:text-lg text-zinc-600 leading-relaxed">
             Six specialized domains driving engineering, partnerships,
             deep-tech research, and events across AURIX.
           </p>
@@ -144,7 +141,7 @@ export function DepartmentsSection() {
         {/* Loading State */}
         {isLoading && (
           <div className="flex flex-col items-center justify-center py-20 gap-4">
-            <div className="h-10 w-10 rounded-full border-2 border-violet-500/30 border-t-violet-400 animate-spin" />
+            <div className="h-10 w-10 rounded-full border-2 border-indigo-200 border-t-indigo-600 animate-spin" />
             <span className="text-sm text-zinc-500 font-medium tracking-wide">
               Loading Departments...
             </span>
@@ -186,44 +183,44 @@ export function DepartmentsSection() {
                   className="group relative h-full"
                 >
                   {/* Subtle Gradient Glow Ring on Hover */}
-                  <div className="absolute -inset-[1px] rounded-3xl bg-gradient-to-br from-indigo-500/0 via-violet-500/0 to-fuchsia-500/0 group-hover:from-indigo-500/30 group-hover:via-violet-500/25 group-hover:to-fuchsia-500/30 transition-all duration-500 opacity-0 group-hover:opacity-100 blur-[1px]" />
+                  <div className="absolute -inset-[1px] rounded-3xl bg-gradient-to-br from-indigo-500/0 via-violet-500/0 to-fuchsia-500/0 group-hover:from-indigo-500/20 group-hover:via-violet-500/15 group-hover:to-fuchsia-500/20 transition-all duration-500 opacity-0 group-hover:opacity-100 blur-[1px]" />
 
                   {/* Card Container */}
-                  <div className="relative h-full rounded-3xl bg-gradient-to-b from-[#0f1322]/90 via-[#0a0d18]/90 to-[#070912]/95 backdrop-blur-xl border border-white/[0.08] group-hover:border-violet-500/30 p-5 sm:p-6 flex flex-col justify-between shadow-xl shadow-black/30 group-hover:shadow-[0_20px_50px_rgba(99,102,241,0.18)] transition-all duration-400 overflow-hidden">
+                  <div className="relative h-full rounded-2xl bg-zinc-100 border border-zinc-200/80 group-hover:border-indigo-300 p-4 sm:p-5 flex flex-col justify-between shadow-sm group-hover:shadow-lg transition-all duration-400 overflow-hidden">
                     {/* Ambient corner glow */}
-                    <div className="absolute top-0 right-0 w-36 h-36 bg-violet-600/10 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                    <div className="absolute top-0 right-0 w-36 h-36 bg-indigo-500/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
-                    <div className="relative z-10 space-y-5">
+                    <div className="relative z-10 space-y-3">
                       {/* Department Logo Container */}
                       <div className="flex items-center justify-between gap-3 min-h-[56px]">
                         {customLogo ? (
                           <div className="flex h-14 items-center justify-start group-hover:scale-105 transition-transform duration-300">
-                            <img src={customLogo} alt={dept.name} className="h-12 w-auto max-w-[160px] object-contain rounded-lg" />
+                            <img src={customLogo} alt={dept.name} className="h-14 w-auto max-w-[160px] object-contain rounded-lg" />
                           </div>
                         ) : (
-                          <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-500/15 via-violet-500/15 to-purple-500/15 border border-violet-500/25 text-violet-300 group-hover:scale-105 group-hover:text-white group-hover:border-violet-400/40 transition-all duration-300 shadow-md">
+                          <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-indigo-50 border border-indigo-200 text-indigo-600 group-hover:scale-105 group-hover:bg-indigo-600 group-hover:text-white transition-all duration-300 shadow-sm">
                             <Icon className="h-6 w-6" />
                           </div>
                         )}
                       </div>
 
                       {/* Department Title & Description */}
-                      <div className="space-y-2.5">
-                        <h3 className="font-montserrat text-xl font-bold text-white group-hover:text-violet-200 transition-colors duration-300">
+                      <div className="space-y-1.5">
+                        <h3 className="font-montserrat text-base font-bold text-zinc-900 group-hover:text-indigo-600 transition-colors duration-300">
                           {dept.name}
                         </h3>
 
-                        <p className="text-sm text-zinc-300 leading-relaxed group-hover:text-zinc-200 transition-colors duration-300">
+                        <p className="text-xs text-zinc-600 leading-relaxed group-hover:text-zinc-800 transition-colors duration-300 line-clamp-3">
                           {dept.description}
                         </p>
                       </div>
                     </div>
 
                     {/* Clean Action Footer */}
-                    <div className="relative z-10 pt-6 mt-6 border-t border-white/[0.06] flex items-center justify-between gap-3">
+                    <div className="relative z-10 pt-4 mt-4 border-t border-zinc-200/60 flex items-center justify-between gap-3">
                       <Link
                         href={`/departments/${dept.slug}`}
-                        className="text-xs font-semibold text-violet-400 hover:text-violet-300 inline-flex items-center gap-1.5 transition-all group/link"
+                        className="text-xs font-semibold text-indigo-600 hover:text-indigo-700 inline-flex items-center gap-1.5 transition-all group/link"
                       >
                         <Users className="h-3.5 w-3.5" />
                         <span>Explore Domain</span>
@@ -232,7 +229,7 @@ export function DepartmentsSection() {
 
                       <Link
                         href="/join"
-                        className="px-3.5 py-1.5 rounded-xl bg-white/[0.04] hover:bg-violet-600/20 text-zinc-300 hover:text-white border border-white/10 hover:border-violet-500/40 text-xs font-medium transition-all duration-300"
+                        className="px-3.5 py-1.5 rounded-xl bg-zinc-100 hover:bg-indigo-50 hover:border-indigo-200 text-zinc-800 hover:text-indigo-700 border border-zinc-200 text-xs font-semibold transition-all duration-300"
                       >
                         Apply Now
                       </Link>

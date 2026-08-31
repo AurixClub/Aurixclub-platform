@@ -12,13 +12,13 @@ export function SmoothScrollProvider({ children }: { children: React.ReactNode }
         const LenisModule = await import("lenis");
         const Lenis = LenisModule.default || LenisModule;
         lenisInstance = new Lenis({
-          duration: 1.2,
-          easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+          duration: 1.4,
+          easing: (t: number) => 1 - Math.pow(1 - t, 4), // Quartic Out curve for buttery smooth stop
           orientation: "vertical",
           gestureOrientation: "vertical",
           smoothWheel: true,
-          wheelMultiplier: 1.0,
-          touchMultiplier: 1.5,
+          wheelMultiplier: 0.95,
+          touchMultiplier: 1.6,
           infinite: false,
         });
 

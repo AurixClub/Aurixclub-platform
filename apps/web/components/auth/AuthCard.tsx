@@ -262,15 +262,15 @@ export function AuthCard({ initialTab = "signin" }: AuthCardProps) {
         initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="rounded-3xl glass-panel p-6 sm:p-9 border border-white/10 shadow-2xl relative overflow-hidden bg-[#0d111c]/80 backdrop-blur-xl"
+        className="rounded-3xl bg-white p-6 sm:p-9 border border-zinc-200/90 shadow-xl shadow-slate-200/50 relative overflow-hidden text-zinc-900"
       >
-        {/* Subtle accent glow */}
-        <div className="absolute -top-24 -right-24 w-48 h-48 bg-blue-500/15 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-purple-500/15 rounded-full blur-3xl pointer-events-none" />
+        {/* Ambient accent glows */}
+        <div className="absolute -top-24 -right-24 w-48 h-48 bg-indigo-100/40 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-violet-100/40 rounded-full blur-3xl pointer-events-none" />
 
         {/* Tab Selector (hidden in forgot password mode) */}
         {activeTab !== "forgotPassword" && (
-          <div className="flex rounded-2xl bg-white/[0.04] p-1 border border-white/10 mb-8">
+          <div className="flex rounded-2xl bg-slate-100 p-1 border border-zinc-200 mb-8">
             <button
               type="button"
               onClick={() => {
@@ -279,8 +279,8 @@ export function AuthCard({ initialTab = "signin" }: AuthCardProps) {
               }}
               className={`flex-1 py-2.5 text-xs sm:text-sm font-semibold rounded-xl transition-all duration-300 ${
                 activeTab === "signin"
-                  ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md shadow-blue-500/25"
-                  : "text-zinc-400 hover:text-white"
+                  ? "bg-white text-zinc-900 shadow-sm font-bold"
+                  : "text-zinc-600 hover:text-zinc-900"
               }`}
             >
               Sign In
@@ -293,8 +293,8 @@ export function AuthCard({ initialTab = "signin" }: AuthCardProps) {
               }}
               className={`flex-1 py-2.5 text-xs sm:text-sm font-semibold rounded-xl transition-all duration-300 ${
                 activeTab === "signup"
-                  ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md shadow-indigo-500/25"
-                  : "text-zinc-400 hover:text-white"
+                  ? "bg-white text-zinc-900 shadow-sm font-bold"
+                  : "text-zinc-600 hover:text-zinc-900"
               }`}
             >
               Create Account
@@ -309,9 +309,9 @@ export function AuthCard({ initialTab = "signin" }: AuthCardProps) {
               initial={{ opacity: 0, y: -8 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
-              className="mb-6 flex items-start gap-3 rounded-xl bg-red-500/10 border border-red-500/30 p-3.5 text-xs sm:text-sm text-red-300"
+              className="mb-6 flex items-start gap-3 rounded-xl bg-red-50 border border-red-200 p-3.5 text-xs sm:text-sm text-red-700 font-medium"
             >
-              <AlertCircle className="h-4 w-4 text-red-400 shrink-0 mt-0.5" />
+              <AlertCircle className="h-4 w-4 text-red-600 shrink-0 mt-0.5" />
               <span>{errorMessage}</span>
             </motion.div>
           )}
@@ -321,9 +321,9 @@ export function AuthCard({ initialTab = "signin" }: AuthCardProps) {
               initial={{ opacity: 0, y: -8 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
-              className="mb-6 flex items-start gap-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30 p-3.5 text-xs sm:text-sm text-emerald-300"
+              className="mb-6 flex items-start gap-3 rounded-xl bg-emerald-50 border border-emerald-200 p-3.5 text-xs sm:text-sm text-emerald-700 font-medium"
             >
-              <CheckCircle2 className="h-4 w-4 text-emerald-400 shrink-0 mt-0.5" />
+              <CheckCircle2 className="h-4 w-4 text-emerald-600 shrink-0 mt-0.5" />
               <div className="space-y-2">
                 <span>{successMessage}</span>
                 {confirmationPending && (
@@ -331,7 +331,7 @@ export function AuthCard({ initialTab = "signin" }: AuthCardProps) {
                     type="button"
                     onClick={handleResendConfirmation}
                     disabled={isLoading}
-                    className="block text-left underline text-emerald-200 hover:text-white disabled:opacity-50"
+                    className="block text-left underline text-emerald-800 hover:text-emerald-900 disabled:opacity-50 font-bold"
                   >
                     Resend confirmation email
                   </button>
@@ -345,7 +345,7 @@ export function AuthCard({ initialTab = "signin" }: AuthCardProps) {
         {activeTab === "signin" && (
           <form onSubmit={handleLogin} className="space-y-4">
             <div className="space-y-1.5">
-              <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-300">
+              <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-700">
                 Email
               </label>
               <div className="relative">
@@ -356,15 +356,14 @@ export function AuthCard({ initialTab = "signin" }: AuthCardProps) {
                   onChange={(e) => setLoginEmail(e.target.value)}
                   disabled={isLoading}
                   required
-                  className="w-full rounded-xl bg-white/[0.04] border border-white/10 px-4 py-3 pl-10 text-sm text-white placeholder-zinc-500 focus:border-blue-500 focus:outline-none transition-colors disabled:opacity-50"
+                  className="w-full rounded-xl bg-slate-50 border border-zinc-200 px-4 py-3 text-sm text-zinc-900 placeholder-zinc-400 focus:border-indigo-500 focus:bg-white focus:outline-none transition-colors disabled:opacity-50"
                 />
-                <Mail className="absolute left-3.5 top-3.5 h-4 w-4 text-zinc-500" />
               </div>
             </div>
 
             <div className="space-y-1.5">
               <div className="flex items-center justify-between">
-                <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-300">
+                <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-700">
                   Password
                 </label>
                 <button
@@ -373,7 +372,7 @@ export function AuthCard({ initialTab = "signin" }: AuthCardProps) {
                     setActiveTab("forgotPassword");
                     clearAlerts();
                   }}
-                  className="text-xs font-medium text-blue-400 hover:text-blue-300 transition-colors"
+                  className="text-xs font-semibold text-indigo-600 hover:text-indigo-700 transition-colors"
                 >
                   Forgot Password?
                 </button>
@@ -386,16 +385,15 @@ export function AuthCard({ initialTab = "signin" }: AuthCardProps) {
                   onChange={(e) => setLoginPassword(e.target.value)}
                   disabled={isLoading}
                   required
-                  className="w-full rounded-xl bg-white/[0.04] border border-white/10 px-4 py-3 pl-10 text-sm text-white placeholder-zinc-500 focus:border-blue-500 focus:outline-none transition-colors disabled:opacity-50"
+                  className="w-full rounded-xl bg-slate-50 border border-zinc-200 px-4 py-3 text-sm text-zinc-900 placeholder-zinc-400 focus:border-indigo-500 focus:bg-white focus:outline-none transition-colors disabled:opacity-50"
                 />
-                <Lock className="absolute left-3.5 top-3.5 h-4 w-4 text-zinc-500" />
               </div>
             </div>
 
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full mt-2 inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 py-3.5 px-6 text-sm font-semibold text-white shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 hover:scale-[1.01] active:scale-[0.99] transition-all disabled:opacity-50"
+              className="w-full mt-2 inline-flex items-center justify-center gap-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 py-3.5 px-6 text-sm font-semibold text-white shadow-md shadow-indigo-500/20 transition-all disabled:opacity-50"
             >
               {isLoading ? (
                 <div className="flex items-center gap-2">
@@ -410,14 +408,12 @@ export function AuthCard({ initialTab = "signin" }: AuthCardProps) {
               )}
             </button>
 
-
-
             {/* Divider */}
             <div className="relative my-4 flex items-center justify-center">
               <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-white/10" />
+                <div className="w-full border-t border-zinc-200" />
               </div>
-              <span className="relative bg-[#0d111c] px-3 text-[11px] uppercase tracking-wider text-zinc-500 font-mono">
+              <span className="relative bg-white px-3 text-[11px] uppercase tracking-wider text-zinc-500 font-mono">
                 Or continue with
               </span>
             </div>
@@ -446,7 +442,7 @@ export function AuthCard({ initialTab = "signin" }: AuthCardProps) {
                   setIsLoading(false);
                 }
               }}
-              className="w-full flex items-center justify-center gap-3 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 py-3 px-4 text-sm font-medium text-white transition-colors disabled:opacity-50"
+              className="w-full flex items-center justify-center gap-3 rounded-xl bg-slate-50 hover:bg-zinc-100 border border-zinc-200 py-3 px-4 text-sm font-medium text-zinc-800 transition-colors disabled:opacity-50"
             >
               <svg className="h-4 w-4" viewBox="0 0 24 24">
                 <path
@@ -470,15 +466,15 @@ export function AuthCard({ initialTab = "signin" }: AuthCardProps) {
             </button>
 
             {/* Footer switcher */}
-            <div className="mt-6 pt-5 border-t border-white/[0.06] text-center space-y-1.5">
-              <p className="text-xs text-zinc-400">Don&apos;t have an account yet?</p>
+            <div className="mt-6 pt-5 border-t border-zinc-100 text-center space-y-1.5">
+              <p className="text-xs text-zinc-500">Don&apos;t have an account yet?</p>
               <button
                 type="button"
                 onClick={() => {
                   setActiveTab("signup");
                   clearAlerts();
                 }}
-                className="inline-flex items-center gap-1 text-xs sm:text-sm font-semibold text-blue-400 hover:text-blue-300 transition-colors group"
+                className="inline-flex items-center gap-1 text-xs sm:text-sm font-bold text-indigo-600 hover:text-indigo-700 transition-colors group"
               >
                 <span>Create an Account</span>
                 <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-1 transition-transform" />
@@ -491,100 +487,86 @@ export function AuthCard({ initialTab = "signin" }: AuthCardProps) {
         {activeTab === "signup" && (
           <form onSubmit={handleSignup} className="space-y-4">
             <div className="space-y-1.5">
-              <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-300">
-                Full Name <span className="text-red-400">*</span>
+              <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-700">
+                Full Name <span className="text-red-500">*</span>
               </label>
-              <div className="relative">
-                <input
-                  type="text"
-                  placeholder="e.g. Alex Sharma"
-                  value={fullName}
-                  onChange={(e) => setFullName(e.target.value)}
-                  disabled={isLoading}
-                  required
-                  className="w-full rounded-xl bg-white/[0.04] border border-white/10 px-4 py-3 pl-10 text-sm text-white placeholder-zinc-500 focus:border-blue-500 focus:outline-none transition-colors disabled:opacity-50"
-                />
-                <User className="absolute left-3.5 top-3.5 h-4 w-4 text-zinc-500" />
-              </div>
+              <input
+                type="text"
+                placeholder="e.g. Alex Sharma"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+                disabled={isLoading}
+                required
+                className="w-full rounded-xl bg-slate-50 border border-zinc-200 px-4 py-3 text-sm text-zinc-900 placeholder-zinc-400 focus:border-indigo-500 focus:bg-white focus:outline-none transition-colors disabled:opacity-50"
+              />
             </div>
 
             <div className="space-y-1.5">
-              <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-300">
-                Email Address <span className="text-red-400">*</span>
+              <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-700">
+                Email Address <span className="text-red-500">*</span>
               </label>
-              <div className="relative">
-                <input
-                  type="email"
-                  placeholder="you@example.com"
-                  value={signupEmail}
-                  onChange={(e) => setSignupEmail(e.target.value)}
-                  disabled={isLoading}
-                  required
-                  className="w-full rounded-xl bg-white/[0.04] border border-white/10 px-4 py-3 pl-10 text-sm text-white placeholder-zinc-500 focus:border-blue-500 focus:outline-none transition-colors disabled:opacity-50"
-                />
-                <Mail className="absolute left-3.5 top-3.5 h-4 w-4 text-zinc-500" />
-              </div>
+              <input
+                type="email"
+                placeholder="you@example.com"
+                value={signupEmail}
+                onChange={(e) => setSignupEmail(e.target.value)}
+                disabled={isLoading}
+                required
+                className="w-full rounded-xl bg-slate-50 border border-zinc-200 px-4 py-3 text-sm text-zinc-900 placeholder-zinc-400 focus:border-indigo-500 focus:bg-white focus:outline-none transition-colors disabled:opacity-50"
+              />
             </div>
 
             <div className="space-y-1.5">
-              <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-300">
+              <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-700">
                 Phone Number
               </label>
-              <div className="relative">
-                <input
-                  type="tel"
-                  placeholder="+91 98765 43210"
-                  value={signupPhone}
-                  onChange={(e) => setSignupPhone(e.target.value)}
-                  disabled={isLoading}
-                  className="w-full rounded-xl bg-white/[0.04] border border-white/10 px-4 py-3 pl-10 text-sm text-white placeholder-zinc-500 focus:border-blue-500 focus:outline-none transition-colors disabled:opacity-50"
-                />
-                <Phone className="absolute left-3.5 top-3.5 h-4 w-4 text-zinc-500" />
-              </div>
+              <input
+                type="tel"
+                placeholder="+91 98765 43210"
+                value={signupPhone}
+                onChange={(e) => setSignupPhone(e.target.value)}
+                disabled={isLoading}
+                className="w-full rounded-xl bg-slate-50 border border-zinc-200 px-4 py-3 text-sm text-zinc-900 placeholder-zinc-400 focus:border-indigo-500 focus:bg-white focus:outline-none transition-colors disabled:opacity-50"
+              />
             </div>
 
             <div className="grid grid-cols-2 gap-3">
               <div className="space-y-1.5">
-                <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-300">
+                <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-700">
                   Branch / Dept
                 </label>
-                <div className="relative">
-                  <input
-                    type="text"
-                    placeholder="e.g. CSE / ECE"
-                    value={signupBranch}
-                    onChange={(e) => setSignupBranch(e.target.value)}
-                    disabled={isLoading}
-                    className="w-full rounded-xl bg-white/[0.04] border border-white/10 px-3.5 py-3 pl-9 text-xs text-white placeholder-zinc-500 focus:border-blue-500 focus:outline-none transition-colors disabled:opacity-50"
-                  />
-                  <Building2 className="absolute left-3 top-3.5 h-3.5 w-3.5 text-zinc-500" />
-                </div>
+                <input
+                  type="text"
+                  placeholder="e.g. CSE"
+                  value={signupBranch}
+                  onChange={(e) => setSignupBranch(e.target.value)}
+                  disabled={isLoading}
+                  className="w-full rounded-xl bg-slate-50 border border-zinc-200 px-4 py-3 text-sm text-zinc-900 placeholder-zinc-400 focus:border-indigo-500 focus:bg-white focus:outline-none transition-colors disabled:opacity-50"
+                />
               </div>
 
               <div className="space-y-1.5">
-                <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-300">
+                <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-700">
                   Year of Study
                 </label>
-                <div className="relative">
-                  <select
-                    value={signupYear}
-                    onChange={(e) => setSignupYear(e.target.value)}
-                    disabled={isLoading}
-                    className="w-full rounded-xl bg-[#0d111c] border border-white/10 px-3 py-3 text-xs text-white focus:border-blue-500 focus:outline-none transition-colors disabled:opacity-50"
-                  >
-                    <option value="">Select Year</option>
-                    <option value="1">1st Year</option>
-                    <option value="2">2nd Year</option>
-                    <option value="3">3rd Year</option>
-                    <option value="4">4th Year</option>
-                  </select>
-                </div>
+                <select
+                  value={signupYear}
+                  onChange={(e) => setSignupYear(e.target.value)}
+                  disabled={isLoading}
+                  className="w-full rounded-xl bg-slate-50 border border-zinc-200 px-4 py-3 text-sm text-zinc-900 focus:border-indigo-500 focus:bg-white focus:outline-none transition-colors disabled:opacity-50"
+                >
+                  <option value="">Year</option>
+                  <option value="1">1st Year</option>
+                  <option value="2">2nd Year</option>
+                  <option value="3">3rd Year</option>
+                  <option value="4">4th Year</option>
+                </select>
               </div>
             </div>
 
             <div className="space-y-1.5">
-              <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-300">
-                Password <span className="text-red-400">*</span>
+              <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-700">
+                Password <span className="text-red-500">*</span>
               </label>
               <div className="relative">
                 <input
@@ -594,13 +576,12 @@ export function AuthCard({ initialTab = "signin" }: AuthCardProps) {
                   onChange={(e) => setSignupPassword(e.target.value)}
                   disabled={isLoading}
                   required
-                  className="w-full rounded-xl bg-white/[0.04] border border-white/10 px-4 py-3 pl-10 pr-10 text-sm text-white placeholder-zinc-500 focus:border-blue-500 focus:outline-none transition-colors disabled:opacity-50"
+                  className="w-full rounded-xl bg-slate-50 border border-zinc-200 px-4 py-3 pr-10 text-sm text-zinc-900 placeholder-zinc-400 focus:border-indigo-500 focus:bg-white focus:outline-none transition-colors disabled:opacity-50"
                 />
-                <Lock className="absolute left-3.5 top-3.5 h-4 w-4 text-zinc-500" />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3.5 top-3.5 text-zinc-500 hover:text-zinc-300"
+                  className="absolute right-3 top-3 text-zinc-500 hover:text-zinc-700"
                 >
                   {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                 </button>
@@ -608,24 +589,23 @@ export function AuthCard({ initialTab = "signin" }: AuthCardProps) {
             </div>
 
             <div className="space-y-1.5">
-              <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-300">
-                Confirm Password <span className="text-red-400">*</span>
+              <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-700">
+                Confirm Password <span className="text-red-500">*</span>
               </label>
               <div className="relative">
                 <input
                   type={showConfirmPassword ? "text" : "password"}
-                  placeholder="Repeat your password"
+                  placeholder="Re-enter password"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   disabled={isLoading}
                   required
-                  className="w-full rounded-xl bg-white/[0.04] border border-white/10 px-4 py-3 pl-10 pr-10 text-sm text-white placeholder-zinc-500 focus:border-blue-500 focus:outline-none transition-colors disabled:opacity-50"
+                  className="w-full rounded-xl bg-slate-50 border border-zinc-200 px-4 py-3 pr-10 text-sm text-zinc-900 placeholder-zinc-400 focus:border-indigo-500 focus:bg-white focus:outline-none transition-colors disabled:opacity-50"
                 />
-                <Lock className="absolute left-3.5 top-3.5 h-4 w-4 text-zinc-500" />
                 <button
                   type="button"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="absolute right-3.5 top-3.5 text-zinc-500 hover:text-zinc-300"
+                  className="absolute right-3 top-3 text-zinc-500 hover:text-zinc-700"
                 >
                   {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                 </button>
@@ -635,13 +615,10 @@ export function AuthCard({ initialTab = "signin" }: AuthCardProps) {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full mt-3 inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 py-3.5 px-6 text-sm font-semibold text-white shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 hover:scale-[1.01] active:scale-[0.99] transition-all disabled:opacity-50"
+              className="w-full mt-4 inline-flex items-center justify-center gap-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 py-3.5 px-6 text-sm font-semibold text-white shadow-md shadow-indigo-500/20 transition-all disabled:opacity-50"
             >
               {isLoading ? (
-                <div className="flex items-center gap-2">
-                  <span className="h-4 w-4 rounded-full border-2 border-white/20 border-t-white animate-spin" />
-                  <span>Creating Account...</span>
-                </div>
+                <span>Creating Account...</span>
               ) : (
                 <>
                   <span>Create Account</span>
@@ -650,16 +627,15 @@ export function AuthCard({ initialTab = "signin" }: AuthCardProps) {
               )}
             </button>
 
-            {/* Footer switcher */}
-            <div className="mt-6 pt-5 border-t border-white/[0.06] text-center space-y-1.5">
-              <p className="text-xs text-zinc-400">Already have an account?</p>
+            <div className="mt-6 pt-5 border-t border-zinc-100 text-center space-y-1.5">
+              <p className="text-xs text-zinc-500">Already have an account?</p>
               <button
                 type="button"
                 onClick={() => {
                   setActiveTab("signin");
                   clearAlerts();
                 }}
-                className="inline-flex items-center gap-1 text-xs sm:text-sm font-semibold text-blue-400 hover:text-blue-300 transition-colors group"
+                className="inline-flex items-center gap-1 text-xs sm:text-sm font-bold text-indigo-600 hover:text-indigo-700 transition-colors group"
               >
                 <span>Sign In</span>
                 <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-1 transition-transform" />
@@ -672,34 +648,31 @@ export function AuthCard({ initialTab = "signin" }: AuthCardProps) {
         {activeTab === "forgotPassword" && (
           <form onSubmit={handleForgotPassword} className="space-y-4">
             <div className="space-y-1.5">
-              <h4 className="text-base font-bold text-white">Reset Password</h4>
-              <p className="text-xs text-zinc-400 leading-relaxed">
+              <h4 className="text-base font-bold text-zinc-900">Reset Password</h4>
+              <p className="text-xs text-zinc-600 leading-relaxed">
                 Enter your registered email address and we&apos;ll send you a recovery link.
               </p>
             </div>
 
             <div className="space-y-1.5 pt-2">
-              <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-300">
+              <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-700">
                 Registered Email
               </label>
-              <div className="relative">
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  value={forgotEmail}
-                  onChange={(e) => setForgotEmail(e.target.value)}
-                  disabled={isLoading}
-                  required
-                  className="w-full rounded-xl bg-white/[0.04] border border-white/10 px-4 py-3 pl-10 text-sm text-white placeholder-zinc-500 focus:border-blue-500 focus:outline-none transition-colors disabled:opacity-50"
-                />
-                <Mail className="absolute left-3.5 top-3.5 h-4 w-4 text-zinc-500" />
-              </div>
+              <input
+                type="email"
+                placeholder="Enter your email"
+                value={forgotEmail}
+                onChange={(e) => setForgotEmail(e.target.value)}
+                disabled={isLoading}
+                required
+                className="w-full rounded-xl bg-slate-50 border border-zinc-200 px-4 py-3 text-sm text-zinc-900 placeholder-zinc-400 focus:border-indigo-500 focus:bg-white focus:outline-none transition-colors disabled:opacity-50"
+              />
             </div>
 
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full mt-2 inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 py-3.5 px-6 text-sm font-semibold text-white shadow-lg transition-all disabled:opacity-50"
+              className="w-full mt-2 inline-flex items-center justify-center gap-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 py-3.5 px-6 text-sm font-semibold text-white shadow-md shadow-indigo-500/20 transition-all disabled:opacity-50"
             >
               {isLoading ? (
                 <span>Sending reset link...</span>
@@ -714,7 +687,7 @@ export function AuthCard({ initialTab = "signin" }: AuthCardProps) {
                 setActiveTab("signin");
                 clearAlerts();
               }}
-              className="w-full inline-flex items-center justify-center gap-1.5 text-xs text-zinc-400 hover:text-white pt-2 transition-colors"
+              className="w-full inline-flex items-center justify-center gap-1.5 text-xs text-zinc-600 hover:text-zinc-900 pt-2 transition-colors font-medium"
             >
               <ArrowLeft className="h-3.5 w-3.5" />
               <span>Back to Sign In</span>
