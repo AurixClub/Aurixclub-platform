@@ -287,8 +287,11 @@ ON CONFLICT (id) DO NOTHING;
 
 INSERT INTO public.team_members (id, full_name, designation, department_id, avatar_url, bio, github_url, linkedin_url, display_order, is_visible, joined_year)
 VALUES
-    ('team_founder_01', 'Advaith Kolkar', 'Founder & Lead Architect', 'dept_tech_01', 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80', 'Founding visionary of AURIX club. Architecting distributed platforms, engineering curricula, and inspiring the next generation of builders and technology leaders.', 'https://github.com/advaithkolkar', 'https://linkedin.com/in/advaithkolkar', 1, true, 2023),
-    ('team_cofounder_02', 'Anish Sharma', 'Co-Founder & Head of Operations', 'dept_sponsors_02', 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=400&auto=format&fit=crop&q=80', 'Co-founder orchestrating club strategy, corporate partnerships, flagship ecosystem programs, and cross-department collaboration across universities.', 'https://github.com/anishsharma', 'https://linkedin.com/in/anishsharma', 2, true, 2023)
+    ('team_founder_01', 'Advaith Kolkar', 'Founder & Lead Architect', 'dept_tech_01', '/team/team-4.png', 'Founding visionary of AURIX club. Architecting distributed platforms, engineering curricula, and inspiring the next generation of builders and technology leaders.', 'https://github.com/advaithkolkar', 'https://linkedin.com/in/advaithkolkar', 1, true, 2023),
+    ('team_cofounder_02', 'Anish Sharma', 'Co-Founder & Head of Operations', 'dept_sponsors_02', 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=400&auto=format&fit=crop&q=80', 'Co-founder orchestrating club strategy, corporate partnerships, flagship ecosystem programs, and cross-department collaboration across universities.', 'https://github.com/anishsharma', 'https://linkedin.com/in/anishsharma', 2, true, 2023),
+    ('team_006', 'Adithya P', 'EM Department Head', 'dept_event_04', '/team/team-1.jpg', 'Department Head of Event Management. Leading event planning, hackathons, and campus experiences.', NULL, NULL, 4, true, 2024),
+    ('team_007', 'Sony', 'IRS Co-Lead', 'dept_sponsors_02', '/team/team-3.jpg', 'IRS Co-Lead, 3rd Year, IEM Branch. Managing corporate sponsorships, alumni relations, and industry partnerships.', NULL, NULL, 5, true, 2024),
+    ('team_008', 'Rajveer Singh', 'IRS Co-Lead', 'dept_sponsors_02', '/team/team-2.jpg', 'IRS Co-Lead. Spearheading corporate sponsorships, industry partnerships, and campus outreach.', NULL, NULL, 6, true, 2024)
 ON CONFLICT (id) DO NOTHING;
 -- 12. ANNOUNCEMENTS
 CREATE TABLE IF NOT EXISTS public.announcements (

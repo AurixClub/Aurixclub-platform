@@ -34,6 +34,18 @@
   html {
     scroll-behavior: smooth;
   }
+  html.lenis, html.lenis body {
+    height: auto;
+  }
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+  .lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
   body {
     @apply bg-[#07090e] text-foreground antialiased selection:bg-primary/30 selection:text-white;
     font-feature-settings: "rlig" 1, "calt" 1;
@@ -101,4 +113,126 @@
 
 .glow-purple {
   box-shadow: 0 0 50px -10px rgba(168, 85, 247, 0.3);
+}
+
+/* ─── ADMIN PORTAL DARK THEME OVERRIDES ─────────────────────────────
+   The admin portal uses the same dark visual language as the rest of the
+   app. Every light-theme utility class is remapped to dark equivalents
+   so cards, modals, inputs, and text are all legible and polished.
+   Keep these overrides scoped so public-facing pages stay untouched. */
+
+/* ── Background Overrides ──────────────────────────────────────────── */
+.admin-shell .bg-white,
+.admin-shell .bg-white\/90 {
+  background-color: rgba(17, 21, 33, 0.92) !important;
+  backdrop-filter: blur(12px);
+}
+
+.admin-shell .bg-gray-50 {
+  background-color: rgba(15, 19, 29, 0.85) !important;
+}
+
+.admin-shell .bg-gray-100 {
+  background-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+.admin-shell .bg-gray-200 {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+.admin-shell .bg-rose-50 {
+  background-color: rgba(244, 63, 94, 0.08) !important;
+}
+
+/* ── Text Overrides ────────────────────────────────────────────────── */
+.admin-shell .text-gray-900 {
+  color: #f1f5f9 !important;
+}
+
+.admin-shell .text-gray-800 {
+  color: #e2e8f0 !important;
+}
+
+.admin-shell .text-gray-700 {
+  color: #cbd5e1 !important;
+}
+
+.admin-shell .text-gray-600 {
+  color: #94a3b8 !important;
+}
+
+.admin-shell .text-gray-500 {
+  color: #7c8ba4 !important;
+}
+
+.admin-shell .text-gray-400 {
+  color: #64748b !important;
+}
+
+/* ── Border Overrides ──────────────────────────────────────────────── */
+.admin-shell .border-gray-200 {
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+.admin-shell .border-gray-300 {
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.admin-shell .border-rose-200 {
+  border-color: rgba(244, 63, 94, 0.25) !important;
+}
+
+.admin-shell .border-zinc-700 {
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* ── Hover Overrides ───────────────────────────────────────────────── */
+.admin-shell .hover\:border-rose-200:hover {
+  border-color: rgba(244, 63, 94, 0.35) !important;
+}
+
+.admin-shell .hover\:bg-gray-200:hover {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* ── Form / Input Overrides ────────────────────────────────────────── */
+.admin-shell input,
+.admin-shell textarea,
+.admin-shell select {
+  background-color: rgba(255, 255, 255, 0.04) !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  color: #e2e8f0 !important;
+}
+
+.admin-shell input:focus,
+.admin-shell textarea:focus,
+.admin-shell select:focus {
+  border-color: rgba(139, 92, 246, 0.5) !important;
+  box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.15) !important;
+}
+
+.admin-shell input::placeholder,
+.admin-shell textarea::placeholder {
+  color: #4b5a6e !important;
+}
+
+.admin-shell select option {
+  background-color: #111521;
+  color: #e2e8f0;
+}
+
+/* ── Modal / Overlay Cards ─────────────────────────────────────────── */
+.admin-shell .shadow-2xl {
+  box-shadow: 0 25px 60px -12px rgba(0, 0, 0, 0.6),
+              0 0 40px -10px rgba(139, 92, 246, 0.08) !important;
+}
+
+/* Datetime-local inputs in dark mode */
+.admin-shell input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.7);
+}
+
+/* Checkbox styling */
+.admin-shell input[type="checkbox"] {
+  accent-color: #8b5cf6;
 }

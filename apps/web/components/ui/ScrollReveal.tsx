@@ -30,60 +30,54 @@ export function ScrollReveal({
     switch (direction) {
       case "up":
         return {
-          hidden: { opacity: 0, y: distance, filter: "blur(4px)" },
+          hidden: { opacity: 0, y: distance },
           visible: {
             opacity: 1,
             y: 0,
-            filter: "blur(0px)",
             transition: { duration, delay, ease: customEasing },
           },
         };
       case "down":
         return {
-          hidden: { opacity: 0, y: -distance, filter: "blur(4px)" },
+          hidden: { opacity: 0, y: -distance },
           visible: {
             opacity: 1,
             y: 0,
-            filter: "blur(0px)",
             transition: { duration, delay, ease: customEasing },
           },
         };
       case "left":
         return {
-          hidden: { opacity: 0, x: distance, filter: "blur(4px)" },
+          hidden: { opacity: 0, x: distance },
           visible: {
             opacity: 1,
             x: 0,
-            filter: "blur(0px)",
             transition: { duration, delay, ease: customEasing },
           },
         };
       case "right":
         return {
-          hidden: { opacity: 0, x: -distance, filter: "blur(4px)" },
+          hidden: { opacity: 0, x: -distance },
           visible: {
             opacity: 1,
             x: 0,
-            filter: "blur(0px)",
             transition: { duration, delay, ease: customEasing },
           },
         };
       case "zoom":
         return {
-          hidden: { opacity: 0, scale: 0.92, filter: "blur(6px)" },
+          hidden: { opacity: 0, scale: 0.92 },
           visible: {
             opacity: 1,
             scale: 1,
-            filter: "blur(0px)",
             transition: { duration, delay, ease: customEasing },
           },
         };
       case "blur":
         return {
-          hidden: { opacity: 0, filter: "blur(12px)", scale: 0.98 },
+          hidden: { opacity: 0, scale: 0.98 },
           visible: {
             opacity: 1,
-            filter: "blur(0px)",
             scale: 1,
             transition: { duration, delay, ease: customEasing },
           },

@@ -79,7 +79,7 @@ export function Footer() {
   ];
 
   return (
-    <footer className="relative border-t border-white/[0.08] bg-black/40 backdrop-blur-xl overflow-hidden">
+    <footer className="relative border-t border-white/10 bg-[#07090e] text-white overflow-hidden">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
         <ScrollReveal direction="up" duration={0.8} distance={20}>
           <div className="grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-16">

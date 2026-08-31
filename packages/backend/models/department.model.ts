@@ -108,8 +108,43 @@ class MockDepartmentStore {
       this.departments.set(d.id, d);
     }
 
-    // Empty initial department members — ready for fresh entry via Admin Portal
+    // Seed initial department leadership
     this.members.clear();
+    const initialMembers: DepartmentMemberRecord[] = [
+      {
+        id: "mem_dept_event_01",
+        department_id: "dept_event_04",
+        name: "Adithya P",
+        role: "Department Head",
+        description: "Department Head of Event Management. Leading event planning, hackathons, and campus experiences.",
+        avatar_url: "/team/team-1.jpg",
+        email: null,
+        created_at: now,
+      },
+      {
+        id: "mem_dept_sponsors_01",
+        department_id: "dept_sponsors_02",
+        name: "Sony",
+        role: "IRS Co-Lead",
+        description: "IRS Co-Lead, 3rd Year, IEM Branch. Managing corporate sponsorships, alumni relations, and partnerships.",
+        avatar_url: "/team/team-3.jpg",
+        email: null,
+        created_at: now,
+      },
+      {
+        id: "mem_dept_sponsors_02",
+        department_id: "dept_sponsors_02",
+        name: "Rajveer Singh",
+        role: "IRS Co-Lead",
+        description: "IRS Co-Lead. Spearheading corporate sponsorships, industry partnerships, and campus outreach.",
+        avatar_url: "/team/team-2.jpg",
+        email: null,
+        created_at: now,
+      },
+    ];
+    for (const m of initialMembers) {
+      this.members.set(m.id, m);
+    }
     this.isInitialized = true;
   }
 

@@ -129,9 +129,9 @@ export default function ProfilePage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-50 text-gray-900 flex items-center justify-center">
-        <div className="flex items-center gap-3 text-gray-500 font-mono text-sm">
-          <span className="h-5 w-5 rounded-full border-2 border-blue-500/30 border-t-blue-500 animate-spin" />
+      <div className="min-h-screen bg-[#07090e] text-white flex items-center justify-center">
+        <div className="flex items-center gap-3 text-zinc-400 font-mono text-sm">
+          <span className="h-5 w-5 rounded-full border-2 border-violet-500/30 border-t-violet-500 animate-spin" />
           <span>Loading Member Profile...</span>
         </div>
       </div>
@@ -140,26 +140,26 @@ export default function ProfilePage() {
 
   if (!session || !session.user) {
     return (
-      <div className="min-h-screen bg-gray-50 text-gray-900 flex flex-col items-center justify-center px-4">
-        <div className="w-full max-w-md p-8 rounded-3xl bg-white/90 border border-gray-200 text-center shadow-2xl backdrop-blur-xl">
+      <div className="min-h-screen bg-[#07090e] text-white flex flex-col items-center justify-center px-4">
+        <div className="w-full max-w-md p-8 rounded-3xl bg-[#111521]/95 border border-white/10 text-center shadow-2xl backdrop-blur-xl">
           <div className="inline-flex p-3.5 rounded-2xl bg-blue-500/10 border border-blue-500/30 text-blue-400 mb-5">
             <User className="h-8 w-8" />
           </div>
-          <h1 className="text-2xl font-bold mb-2">Sign In Required</h1>
-          <p className="text-sm text-gray-500 mb-6 leading-relaxed">
+          <h1 className="text-2xl font-bold mb-2 text-white">Sign In Required</h1>
+          <p className="text-sm text-zinc-400 mb-6 leading-relaxed">
             Please sign in to view your AURIX member profile and activity passes.
           </p>
 
           <div className="space-y-3">
             <Link
               href="/login"
-              className="w-full inline-flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 font-semibold text-sm text-gray-900 hover:opacity-95 transition-opacity"
+              className="w-full inline-flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 font-semibold text-sm text-white hover:opacity-95 transition-opacity shadow-lg shadow-indigo-600/25"
             >
               <span>Go to Sign In</span>
             </Link>
             <Link
               href="/"
-              className="w-full inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-gray-50 hover:bg-gray-200 text-xs text-gray-500 hover:text-gray-900 transition-colors"
+              className="w-full inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-white/[0.06] hover:bg-white/[0.1] text-xs text-zinc-400 hover:text-white border border-white/10 transition-colors"
             >
               <ArrowLeft className="h-3.5 w-3.5" />
               <span>Back to Home</span>
@@ -171,27 +171,27 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-900 flex flex-col selection:bg-blue-500/30">
+    <div className="min-h-screen bg-[#07090e] text-white flex flex-col selection:bg-blue-500/30 selection:text-white">
       <ScrollProgress />
       <Navbar />
 
       <main className="flex-grow pt-32 pb-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full space-y-8">
         {/* Profile Banner */}
-        <div className="rounded-3xl bg-gradient-to-r from-blue-900/30 via-indigo-900/20 to-purple-900/30 border border-blue-500/20 p-6 sm:p-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+        <div className="rounded-3xl bg-gradient-to-r from-blue-950/40 via-[#131728] to-purple-950/40 border border-white/10 p-6 sm:p-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 shadow-2xl backdrop-blur-xl">
           <div className="flex items-center gap-5">
-            <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-tr from-blue-600 to-purple-600 ring-2 ring-white/20 flex items-center justify-center text-2xl font-black text-gray-900 shadow-xl">
+            <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-purple-600 ring-2 ring-white/20 flex items-center justify-center text-2xl font-black text-white shadow-xl">
               {session.user.full_name?.charAt(0) || "U"}
             </div>
 
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-0.5 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs font-mono mb-1.5">
-                <CheckCircle2 className="h-3.5 w-3.5" />
+              <div className="inline-flex items-center gap-2 px-3 py-0.5 rounded-full bg-blue-500/15 border border-blue-500/30 text-blue-300 text-xs font-mono mb-1.5 font-semibold">
+                <CheckCircle2 className="h-3.5 w-3.5 text-blue-400" />
                 <span>Role: {session.user.role.toUpperCase()}</span>
               </div>
-              <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-gray-900">
+              <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
                 {profile?.full_name || session.user.full_name}
               </h1>
-              <p className="text-xs sm:text-sm font-mono text-gray-500">
+              <p className="text-xs sm:text-sm font-mono text-zinc-400">
                 {profile?.email || session.user.email}
               </p>
             </div>
@@ -201,23 +201,23 @@ export default function ProfilePage() {
             {session.user.role === "super_admin" && (
               <Link
                 href="/admin"
-                className="px-4 py-2 rounded-xl bg-rose-500/30 hover:bg-rose-500/50 border border-violet-500/40 text-xs font-bold text-violet-200 shadow-lg shadow-violet-600/20 transition-all flex items-center gap-1.5"
+                className="px-4 py-2 rounded-xl bg-violet-600/30 hover:bg-violet-600/50 border border-violet-500/40 text-xs font-bold text-violet-200 shadow-lg shadow-violet-600/20 transition-all flex items-center gap-1.5"
               >
-                <ShieldCheck className="h-4 w-4 text-rose-600" />
+                <ShieldCheck className="h-4 w-4 text-violet-400" />
                 <span>Admin Portal</span>
               </Link>
             )}
 
             <Link
               href="/events"
-              className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-xs font-semibold text-gray-900 shadow-lg shadow-blue-600/30 transition-all"
+              className="px-4 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:opacity-95 text-xs font-semibold text-white shadow-lg shadow-blue-600/30 transition-all"
             >
               Browse Events
             </Link>
 
             <button
               onClick={handleLogout}
-              className="px-3 py-2 rounded-xl bg-gray-100 hover:bg-red-500/15 hover:text-red-300 border border-gray-200 text-xs font-medium text-gray-600 transition-colors flex items-center gap-1.5"
+              className="px-3.5 py-2 rounded-xl bg-white/[0.06] hover:bg-red-500/20 hover:text-red-300 border border-white/10 text-xs font-medium text-zinc-300 transition-colors flex items-center gap-1.5"
             >
               <LogOut className="h-3.5 w-3.5" />
               <span>Sign Out</span>
@@ -235,17 +235,17 @@ export default function ProfilePage() {
         {/* 3 Column Grid: Profile Information (1 col) + Applications & Passes (2 cols) */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Profile Card */}
-          <div className="p-6 rounded-3xl bg-white/90 border border-gray-200 space-y-6 self-start">
+          <div className="p-6 rounded-3xl bg-white/[0.03] border border-white/[0.08] space-y-6 self-start backdrop-blur-xl shadow-xl">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <User className="h-4 w-4 text-blue-400" />
-                <h2 className="text-sm font-bold uppercase tracking-wider text-gray-600">
+                <h2 className="text-sm font-bold uppercase tracking-wider text-zinc-300">
                   Profile Details
                 </h2>
               </div>
               <button
                 onClick={() => setIsEditing(!isEditing)}
-                className="text-xs text-blue-400 hover:text-blue-300 font-semibold inline-flex items-center gap-1"
+                className="text-xs text-blue-400 hover:text-blue-300 font-semibold inline-flex items-center gap-1 transition-colors"
               >
                 <Edit3 className="h-3.5 w-3.5" />
                 <span>{isEditing ? "Cancel" : "Edit Profile"}</span>
@@ -255,54 +255,54 @@ export default function ProfilePage() {
             {isEditing ? (
               <div className="space-y-4 text-xs">
                 <div>
-                  <label className="text-gray-500 font-mono block mb-1">Branch / Department</label>
+                  <label className="text-zinc-400 font-mono block mb-1">Branch / Department</label>
                   <input
                     type="text"
                     value={branch}
                     onChange={(e) => setBranch(e.target.value)}
                     placeholder="e.g. Computer Science"
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-gray-50 border border-gray-200 text-gray-900 focus:outline-none focus:border-blue-500"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.04] border border-white/10 text-white placeholder:text-zinc-600 focus:outline-none focus:border-blue-500"
                   />
                 </div>
 
                 <div>
-                  <label className="text-gray-500 font-mono block mb-1">Year of Study (1-5)</label>
+                  <label className="text-zinc-400 font-mono block mb-1">Year of Study (1-5)</label>
                   <input
                     type="number"
                     min={1}
                     max={5}
                     value={year}
                     onChange={(e) => setYear(parseInt(e.target.value) || 1)}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-gray-50 border border-gray-200 text-gray-900 focus:outline-none focus:border-blue-500"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.04] border border-white/10 text-white placeholder:text-zinc-600 focus:outline-none focus:border-blue-500"
                   />
                 </div>
 
                 <div>
-                  <label className="text-gray-500 font-mono block mb-1">Phone Number</label>
+                  <label className="text-zinc-400 font-mono block mb-1">Phone Number</label>
                   <input
                     type="text"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     placeholder="+91 98765 43210"
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-gray-50 border border-gray-200 text-gray-900 focus:outline-none focus:border-blue-500"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.04] border border-white/10 text-white placeholder:text-zinc-600 focus:outline-none focus:border-blue-500"
                   />
                 </div>
 
                 <div>
-                  <label className="text-gray-500 font-mono block mb-1">Short Bio</label>
+                  <label className="text-zinc-400 font-mono block mb-1">Short Bio</label>
                   <textarea
                     rows={3}
                     value={bio}
                     onChange={(e) => setBio(e.target.value)}
                     placeholder="Tell us about yourself and what you build..."
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-gray-50 border border-gray-200 text-gray-900 focus:outline-none focus:border-blue-500 leading-relaxed"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.04] border border-white/10 text-white placeholder:text-zinc-600 focus:outline-none focus:border-blue-500 leading-relaxed resize-none"
                   />
                 </div>
 
                 <button
                   onClick={handleSaveProfile}
                   disabled={isSaving}
-                  className="w-full py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-gray-900 font-semibold flex items-center justify-center gap-2 hover:opacity-95 transition-opacity"
+                  className="w-full py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold flex items-center justify-center gap-2 hover:opacity-95 transition-opacity disabled:opacity-50 shadow-lg shadow-blue-600/25"
                 >
                   <Save className="h-3.5 w-3.5" />
                   <span>{isSaving ? "Saving..." : "Save Changes"}</span>
@@ -310,33 +310,33 @@ export default function ProfilePage() {
               </div>
             ) : (
               <dl className="space-y-3.5 text-xs">
-                <div className="flex justify-between py-1.5 border-b border-gray-200">
-                  <dt className="text-gray-500">Full Name</dt>
-                  <dd className="font-semibold text-gray-900">{profile?.full_name || session.user.full_name}</dd>
+                <div className="flex justify-between py-1.5 border-b border-white/[0.06]">
+                  <dt className="text-zinc-400">Full Name</dt>
+                  <dd className="font-semibold text-white">{profile?.full_name || session.user.full_name}</dd>
                 </div>
-                <div className="flex justify-between py-1.5 border-b border-gray-200">
-                  <dt className="text-gray-500">Email</dt>
-                  <dd className="font-mono text-gray-600">{profile?.email || session.user.email}</dd>
+                <div className="flex justify-between py-1.5 border-b border-white/[0.06]">
+                  <dt className="text-zinc-400">Email</dt>
+                  <dd className="font-mono text-zinc-300">{profile?.email || session.user.email}</dd>
                 </div>
-                <div className="flex justify-between py-1.5 border-b border-gray-200">
-                  <dt className="text-gray-500">College</dt>
-                  <dd className="text-gray-900">{profile?.college || "Dr. Ambedkar Institute of Technology"}</dd>
+                <div className="flex justify-between py-1.5 border-b border-white/[0.06]">
+                  <dt className="text-zinc-400">College</dt>
+                  <dd className="text-white">{profile?.college || "Dr. Ambedkar Institute of Technology"}</dd>
                 </div>
-                <div className="flex justify-between py-1.5 border-b border-gray-200">
-                  <dt className="text-gray-500">Branch</dt>
-                  <dd className="text-gray-900">{profile?.branch || "Not specified"}</dd>
+                <div className="flex justify-between py-1.5 border-b border-white/[0.06]">
+                  <dt className="text-zinc-400">Branch</dt>
+                  <dd className="text-white">{profile?.branch || "Not specified"}</dd>
                 </div>
-                <div className="flex justify-between py-1.5 border-b border-gray-200">
-                  <dt className="text-gray-500">Year</dt>
-                  <dd className="text-gray-900">{profile?.year ? `Year ${profile.year}` : "Not set"}</dd>
+                <div className="flex justify-between py-1.5 border-b border-white/[0.06]">
+                  <dt className="text-zinc-400">Year</dt>
+                  <dd className="text-white">{profile?.year ? `Year ${profile.year}` : "Not set"}</dd>
                 </div>
-                <div className="flex justify-between py-1.5 border-b border-gray-200">
-                  <dt className="text-gray-500">Phone</dt>
-                  <dd className="font-mono text-gray-600">{profile?.phone || "Not set"}</dd>
+                <div className="flex justify-between py-1.5 border-b border-white/[0.06]">
+                  <dt className="text-zinc-400">Phone</dt>
+                  <dd className="font-mono text-zinc-300">{profile?.phone || "Not set"}</dd>
                 </div>
                 {profile?.bio && (
-                  <div className="pt-2 text-gray-600 leading-relaxed">
-                    <span className="text-[10px] font-mono uppercase text-gray-400 block mb-1">Bio</span>
+                  <div className="pt-2 text-zinc-300 leading-relaxed">
+                    <span className="text-[10px] font-mono uppercase text-zinc-500 block mb-1">Bio</span>
                     {profile.bio}
                   </div>
                 )}
@@ -347,15 +347,15 @@ export default function ProfilePage() {
           {/* Activity Center: Applications & Event Passes (2 cols) */}
           <div className="lg:col-span-2 space-y-8">
             {/* My Event Passes */}
-            <div className="p-6 rounded-3xl bg-white/90 border border-gray-200 space-y-4">
+            <div className="p-6 rounded-3xl bg-white/[0.03] border border-white/[0.08] space-y-4 backdrop-blur-xl shadow-xl">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Calendar className="h-4 w-4 text-emerald-400" />
-                  <h2 className="text-sm font-bold uppercase tracking-wider text-gray-600">
+                  <h2 className="text-sm font-bold uppercase tracking-wider text-zinc-300">
                     My Event Passes ({registrations.length})
                   </h2>
                 </div>
-                <Link href="/events" className="text-xs text-blue-400 hover:text-blue-300 font-semibold inline-flex items-center gap-1">
+                <Link href="/events" className="text-xs text-blue-400 hover:text-blue-300 font-semibold inline-flex items-center gap-1 transition-colors">
                   <span>Browse Events</span>
                   <ChevronRight className="h-3.5 w-3.5" />
                 </Link>
@@ -366,11 +366,11 @@ export default function ProfilePage() {
                   {registrations.map(({ registration, event }) => (
                     <div
                       key={registration.id}
-                      className="p-5 rounded-2xl bg-gray-50 border border-gray-200 space-y-3 hover:border-emerald-500/30 transition-all flex flex-col justify-between"
+                      className="p-5 rounded-2xl bg-white/[0.02] border border-white/[0.06] space-y-3 hover:border-emerald-500/30 transition-all flex flex-col justify-between"
                     >
                       <div className="space-y-2">
                         <div className="flex items-start justify-between gap-2">
-                          <h3 className="text-sm font-bold text-gray-900 leading-snug">{event.title}</h3>
+                          <h3 className="text-sm font-bold text-white leading-snug">{event.title}</h3>
                           <span
                             className={`text-[10px] font-mono uppercase px-2.5 py-0.5 rounded-full font-bold flex-shrink-0 ${
                               registration.status === "attended"
@@ -382,7 +382,7 @@ export default function ProfilePage() {
                           </span>
                         </div>
 
-                        <div className="text-xs text-gray-500 space-y-1 font-mono">
+                        <div className="text-xs text-zinc-400 space-y-1 font-mono">
                           <div className="flex items-center gap-1.5">
                             <Clock className="h-3.5 w-3.5 text-blue-400" />
                             <span>{new Date(event.starts_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</span>
@@ -394,14 +394,14 @@ export default function ProfilePage() {
                         </div>
                       </div>
 
-                      <div className="text-[10px] font-mono text-gray-400 pt-2 border-t border-white/[0.04]">
+                      <div className="text-[10px] font-mono text-zinc-500 pt-2 border-t border-white/[0.04]">
                         Pass ID: {registration.id}
                       </div>
                     </div>
                   ))}
                 </div>
               ) : (
-                <div className="text-center py-10 px-4 text-xs text-gray-500 border border-dashed border-gray-200 rounded-2xl space-y-2">
+                <div className="text-center py-10 px-4 text-xs text-zinc-400 border border-dashed border-white/10 rounded-2xl space-y-2">
                   <p>You have not registered for any events or hackathons yet.</p>
                   <Link href="/events" className="inline-block text-blue-400 hover:text-blue-300 font-semibold underline">
                     Explore upcoming hackathons & workshops →
@@ -411,15 +411,15 @@ export default function ProfilePage() {
             </div>
 
             {/* My Club Applications */}
-            <div className="p-6 rounded-3xl bg-white/90 border border-gray-200 space-y-4">
+            <div className="p-6 rounded-3xl bg-white/[0.03] border border-white/[0.08] space-y-4 backdrop-blur-xl shadow-xl">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <FileText className="h-4 w-4 text-purple-400" />
-                  <h2 className="text-sm font-bold uppercase tracking-wider text-gray-600">
+                  <h2 className="text-sm font-bold uppercase tracking-wider text-zinc-300">
                     My Join Applications ({applications.length})
                   </h2>
                 </div>
-                <Link href="/join" className="text-xs text-purple-400 hover:text-purple-300 font-semibold inline-flex items-center gap-1">
+                <Link href="/join" className="text-xs text-purple-400 hover:text-purple-300 font-semibold inline-flex items-center gap-1 transition-colors">
                   <span>New Application</span>
                   <ChevronRight className="h-3.5 w-3.5" />
                 </Link>
@@ -430,14 +430,14 @@ export default function ProfilePage() {
                   {applications.map((app) => (
                     <div
                       key={app.id}
-                      className="p-5 rounded-2xl bg-gray-50 border border-gray-200 space-y-3 hover:border-purple-500/30 transition-all"
+                      className="p-5 rounded-2xl bg-white/[0.02] border border-white/[0.06] space-y-3 hover:border-purple-500/30 transition-all"
                     >
                       <div className="flex items-start justify-between gap-3">
                         <div>
-                          <div className="text-sm font-bold text-gray-900">
+                          <div className="text-sm font-bold text-white">
                             {app.department_interests?.join(", ") || "General Application"}
                           </div>
-                          <div className="text-xs text-gray-500 mt-0.5">
+                          <div className="text-xs text-zinc-400 mt-0.5">
                             Submitted on {new Date(app.created_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
                           </div>
                         </div>
@@ -458,7 +458,7 @@ export default function ProfilePage() {
                       </div>
 
                       {app.why_join && (
-                        <p className="text-xs text-gray-600 line-clamp-2 leading-relaxed bg-white/[0.02] p-2.5 rounded-xl border border-white/[0.04]">
+                        <p className="text-xs text-zinc-300 line-clamp-2 leading-relaxed bg-white/[0.02] p-2.5 rounded-xl border border-white/[0.04]">
                           {app.why_join}
                         </p>
                       )}
@@ -466,7 +466,7 @@ export default function ProfilePage() {
                   ))}
                 </div>
               ) : (
-                <div className="text-center py-10 px-4 text-xs text-gray-500 border border-dashed border-gray-200 rounded-2xl space-y-2">
+                <div className="text-center py-10 px-4 text-xs text-zinc-400 border border-dashed border-white/10 rounded-2xl space-y-2">
                   <p>You have not submitted a join application yet.</p>
                   <Link href="/join" className="inline-block text-purple-400 hover:text-purple-300 font-semibold underline">
                     Apply to join AURIX departments & teams →

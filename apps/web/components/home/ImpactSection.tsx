@@ -1,6 +1,6 @@
 "use client";
 
-import { Users, Calendar, Code2, Presentation, TrendingUp } from "lucide-react";
+import { Users, Calendar, Code2, TrendingUp } from "lucide-react";
 import { ScrollReveal, StaggerContainer, StaggerItem } from "@/components/ui/ScrollReveal";
 
 export function ImpactSection() {
@@ -31,15 +31,6 @@ export function ImpactSection() {
       color: "from-purple-500/20 to-pink-500/20",
       accent: "text-purple-400",
       borderColor: "hover:border-purple-500/40 hover:shadow-[0_0_30px_rgba(168,85,247,0.15)]",
-    },
-    {
-      value: "10+",
-      label: "Industry Sessions",
-      description: "Direct mentorship and masterclasses with industry leaders",
-      icon: Presentation,
-      color: "from-emerald-500/20 to-teal-500/20",
-      accent: "text-emerald-400",
-      borderColor: "hover:border-emerald-500/40 hover:shadow-[0_0_30px_rgba(16,185,129,0.15)]",
     },
   ];
 

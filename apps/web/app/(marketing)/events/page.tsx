@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { Navbar } from "@/components/navigation/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { ScrollProgress } from "@/components/ui/ScrollReveal";
+import { ScrollProgress, ScrollReveal, StaggerContainer, StaggerItem } from "@/components/ui/ScrollReveal";
 import { Calendar, Clock, MapPin, ArrowRight, CheckCircle2, AlertCircle, Users } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -225,3 +225,4 @@ export default function EventsPage() {
     </div>
   );
 }
+

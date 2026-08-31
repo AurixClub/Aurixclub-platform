@@ -36,7 +36,7 @@ const FOUNDERS: FounderProfile[] = [
     name: "Advaith Kolkar",
     role: "Founder & Lead Architect",
     badge: "FOUNDER",
-    avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80",
+    avatar: "/team/team-4.png",
     bio: "Founding visionary of AURIX club. Architecting distributed platforms, engineering curricula, and inspiring the next generation of builders and technology leaders.",
     department: "Executive & Core Engineering",
     github: "https://github.com/advaithkolkar",
@@ -272,50 +272,58 @@ export default function TeamPage() {
                         return (
                           <div
                             key={member.id}
-                            className={`rounded-2xl p-6 flex flex-col justify-between space-y-5 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-2xl group ${
+                            className={`rounded-3xl p-4 flex flex-col justify-between space-y-4 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(139,92,246,0.22)] group ${
                               isLead
-                                ? "bg-gradient-to-b from-[#131728] to-[#0d111c] border border-violet-500/40 hover:border-violet-400 hover:shadow-violet-600/15"
-                                : "bg-[#0d111c]/90 border border-white/10 hover:border-white/25"
+                                ? "bg-gradient-to-b from-[#141828] via-[#0e1220] to-[#090c15] border border-violet-500/40 hover:border-violet-400"
+                                : "bg-gradient-to-b from-[#111422] to-[#090c15] border border-white/10 hover:border-violet-500/40"
                             }`}
                           >
                             <div className="space-y-4">
-                              {/* Avatar Photo */}
-                              <div className="relative w-20 h-20 mx-auto rounded-2xl overflow-hidden bg-slate-900 ring-2 ring-white/15 group-hover:ring-violet-400 transition-all shadow-xl">
+                              {/* Large Showcase Portrait Photo */}
+                              <div className="relative w-full h-64 sm:h-72 rounded-2xl overflow-hidden bg-slate-900/80 ring-1 ring-white/15 group-hover:ring-2 group-hover:ring-violet-400/80 transition-all duration-500 shadow-2xl">
                                 {member.avatar_url ? (
                                   <img
                                     src={member.avatar_url}
                                     alt={member.name}
-                                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                    className="w-full h-full object-cover object-top group-hover:scale-108 transition-transform duration-700 ease-out"
                                   />
                                 ) : (
-                                  <div className="w-full h-full flex items-center justify-center bg-gradient-to-tr from-blue-900 to-purple-900 text-white font-bold text-xl">
-                                    {member.name.charAt(0)}
+                                  <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-tr from-blue-950 via-indigo-900 to-purple-950 text-white group-hover:scale-105 transition-transform duration-500">
+                                    <span className="text-5xl font-black bg-clip-text text-transparent bg-gradient-to-br from-white to-slate-400">
+                                      {member.name.charAt(0)}
+                                    </span>
+                                    <span className="text-xs text-zinc-400 font-mono mt-2 uppercase tracking-wider">{dept.name}</span>
                                   </div>
                                 )}
 
+                                {/* Gradient Vignette on bottom of image for text readability */}
+                                <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-[#090c15] via-transparent to-black/20 opacity-80 group-hover:opacity-40 transition-opacity duration-500" />
+
                                 {isLead && (
-                                  <span className="absolute bottom-1 right-1 p-1 rounded-md bg-amber-500/90 text-black shadow-md" title="Department Leadership">
-                                    <Crown className="h-3 w-3" />
-                                  </span>
+                                  <div className="absolute top-3 right-3 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-400 text-slate-950 text-[11px] font-mono font-extrabold uppercase tracking-wider shadow-xl ring-2 ring-black/30 backdrop-blur-md">
+                                    <Crown className="h-3.5 w-3.5 text-slate-950 fill-slate-950" />
+                                    <span>Lead</span>
+                                  </div>
                                 )}
                               </div>
 
-                              {/* Info */}
-                              <div className="text-center space-y-1.5">
-                                <h4 className="text-base font-bold text-white group-hover:text-violet-300 transition-colors">
-                                  {member.name}
-                                </h4>
-
-                                <div>
-                                  <span
-                                    className={`inline-block text-[10px] font-mono uppercase px-2.5 py-0.5 rounded-full font-bold tracking-wider ${
-                                      isLead
-                                        ? "bg-amber-500/15 text-amber-300 border border-amber-500/30"
-                                        : "bg-blue-500/15 text-blue-300 border border-blue-500/30"
-                                    }`}
-                                  >
-                                    {member.role}
-                                  </span>
+                              {/* Info Content */}
+                              <div className="space-y-2 px-1">
+                                <div className="flex items-start justify-between gap-2">
+                                  <div>
+                                    <h4 className="text-lg font-bold text-white group-hover:text-violet-300 transition-colors leading-snug">
+                                      {member.name}
+                                    </h4>
+                                    <span
+                                      className={`inline-block text-[11px] font-mono uppercase px-2.5 py-0.5 rounded-full font-bold tracking-wider mt-1 ${
+                                        isLead
+                                          ? "bg-amber-500/15 text-amber-300 border border-amber-500/30"
+                                          : "bg-blue-500/15 text-blue-300 border border-blue-500/30"
+                                      }`}
+                                    >
+                                      {member.role}
+                                    </span>
+                                  </div>
                                 </div>
 
                                 {member.description && (
@@ -328,13 +336,13 @@ export default function TeamPage() {
 
                             {/* Email / Contact Footer */}
                             {member.email && (
-                              <div className="pt-3 border-t border-white/[0.06] text-center">
+                              <div className="pt-3 border-t border-white/[0.06] px-1">
                                 <a
                                   href={`mailto:${member.email}`}
-                                  className="inline-flex items-center gap-1.5 text-[11px] font-mono text-zinc-400 hover:text-white transition-colors"
+                                  className="w-full py-2 px-3 rounded-xl bg-white/[0.04] hover:bg-violet-600/20 border border-white/10 hover:border-violet-500/40 text-zinc-300 hover:text-white text-xs font-mono transition-all flex items-center justify-center gap-2 group/email"
                                 >
-                                  <Mail className="h-3 w-3 text-violet-400" />
-                                  <span>{member.email}</span>
+                                  <Mail className="h-3.5 w-3.5 text-violet-400 group-hover/email:scale-110 transition-transform" />
+                                  <span className="truncate">{member.email}</span>
                                 </a>
                               </div>
                             )}

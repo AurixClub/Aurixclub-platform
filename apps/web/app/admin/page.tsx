@@ -358,9 +358,10 @@ export default function AdminPage() {
     }
   };
 
+
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-50 text-gray-900 flex items-center justify-center">
+      <div className="admin-shell min-h-screen bg-[#07090e] text-white flex items-center justify-center">
         <div className="flex items-center gap-3 text-gray-500 font-mono text-sm">
           <span className="h-5 w-5 rounded-full border-2 border-rose-200 border-t-violet-500 animate-spin" />
           <span>Authenticating Super Admin Portal...</span>
@@ -371,27 +372,27 @@ export default function AdminPage() {
 
   if (!session || !session.user || session.user.role !== "super_admin") {
     return (
-      <div className="min-h-screen bg-gray-50 text-gray-900 flex flex-col items-center justify-center px-4 relative">
-        <div className="w-full max-w-md p-8 rounded-3xl bg-white/90 border border-red-500/20 text-center shadow-2xl backdrop-blur-xl">
+      <div className="admin-shell min-h-screen bg-[#07090e] text-white flex flex-col items-center justify-center px-4 relative">
+        <div className="w-full max-w-md p-8 rounded-3xl bg-[#111521]/95 border border-red-500/20 text-center shadow-2xl backdrop-blur-xl">
           <div className="inline-flex p-3.5 rounded-2xl bg-red-500/10 border border-red-500/30 text-red-400 mb-5">
             <ShieldAlert className="h-8 w-8" />
           </div>
           <h1 className="text-2xl font-bold mb-2">Restricted Access</h1>
-          <p className="text-sm text-gray-500 mb-6 leading-relaxed">
+          <p className="text-sm text-zinc-400 mb-6 leading-relaxed">
             This module requires <span className="text-red-300 font-semibold">Super Admin</span> authorization.
           </p>
 
           <div className="space-y-3">
             <Link
               href="/login"
-              className="w-full inline-flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 font-semibold text-sm text-gray-900 hover:opacity-95 transition-opacity"
+              className="w-full inline-flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 font-semibold text-sm text-white hover:opacity-95 transition-opacity"
             >
               <Lock className="h-4 w-4" />
               <span>Sign in as Super Admin</span>
             </Link>
             <Link
               href="/"
-              className="w-full inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-gray-50 hover:bg-gray-200 text-xs text-gray-500 hover:text-gray-900 transition-colors"
+              className="w-full inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-white/[0.06] hover:bg-white/[0.1] text-xs text-zinc-400 hover:text-white border border-white/10 transition-colors"
             >
               <ArrowLeft className="h-3.5 w-3.5" />
               <span>Return to Home</span>
@@ -403,8 +404,7 @@ export default function AdminPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#07090e] text-white flex flex-col selection:bg-violet-500/30">
-      {/* Top Header */}
+    <div className="admin-shell min-h-screen bg-[#07090e] text-white flex flex-col selection:bg-violet-500/30">
       <header className="border-b border-white/[0.06] bg-[#07090e]/90 backdrop-blur-xl sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center gap-4">
@@ -510,7 +510,7 @@ export default function AdminPage() {
                   <button
                     key={idx}
                     onClick={() => setActiveTab(m.tab as AdminTab)}
-                    className="p-4 rounded-2xl bg-[#1a1d2b] border-zinc-700 hover:border-violet-500 text-left transition-all hover:scale-[1.02] group"
+                    className="p-4 rounded-2xl bg-[#12162180] border border-white/[0.06] hover:border-violet-500/40 text-left transition-all hover:scale-[1.02] group backdrop-blur-sm"
                   >
                     <div className="flex items-center justify-between mb-2">
                       <span className="text-[11px] font-mono uppercase tracking-wider text-gray-500">
@@ -528,7 +528,7 @@ export default function AdminPage() {
             {/* Two Column Layout: Recent Applications & Upcoming Events */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* Recent Applications Queue */}
-              <div className="p-6 rounded-2xl bg-[#1a1d2b] border-zinc-700 space-y-4">
+              <div className="p-6 rounded-2xl bg-[#12162180] border border-white/[0.06] space-y-4 backdrop-blur-sm">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <UserCheck className="h-4 w-4 text-amber-400" />
@@ -550,7 +550,7 @@ export default function AdminPage() {
                     overview.recent_applications.map((app: any) => (
                       <div
                         key={app.id}
-                        className="p-3.5 rounded-xl bg-[#2a2e3b] border-zinc-700 flex items-center justify-between gap-3"
+                        className="p-3.5 rounded-xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-between gap-3"
                       >
                         <div className="min-w-0">
                           <div className="text-xs font-bold text-gray-900 truncate">{app.full_name}</div>
@@ -600,7 +600,7 @@ export default function AdminPage() {
               </div>
 
               {/* Upcoming Events / Hackathons */}
-              <div className="p-6 rounded-2xl bg-white/90 border border-gray-200 space-y-4">
+              <div className="p-6 rounded-2xl bg-[#12162180] border border-white/[0.06] space-y-4 backdrop-blur-sm">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <Calendar className="h-4 w-4 text-emerald-400" />
@@ -622,7 +622,7 @@ export default function AdminPage() {
                     overview.upcoming_events.map((ev: any) => (
                       <div
                         key={ev.id}
-                        className="p-3.5 rounded-xl bg-gray-50 border border-gray-200 flex items-center justify-between gap-3"
+                        className="p-3.5 rounded-xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-between gap-3"
                       >
                         <div className="min-w-0">
                           <div className="text-xs font-bold text-gray-900 truncate">{ev.title}</div>
@@ -658,7 +658,7 @@ export default function AdminPage() {
           <div className="space-y-6">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div>
-                <h2 className="text-2xl font-bold text-gray-900">Departments & Leads</h2>
+                <h2 className="text-2xl font-bold text-gradient-primary">Departments & Leads</h2>
                 <p className="text-xs text-gray-500">
                   Select a department to view and manage its Leads, Co-Leads, and Member profiles.
                 </p>
@@ -675,7 +675,7 @@ export default function AdminPage() {
                   });
                   if (res.ok) loadData();
                 }}
-                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-rose-500 hover:bg-rose-600 text-gray-900 text-xs font-semibold shadow-lg shadow-rose-500/20 transition-all"
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-rose-500 hover:bg-rose-600 text-white text-xs font-semibold shadow-lg shadow-rose-500/20 transition-all"
               >
                 <Plus className="h-4 w-4" />
                 <span>Create Department</span>
@@ -692,10 +692,10 @@ export default function AdminPage() {
                   <div
                     key={dept.id}
                     onClick={() => setSelectedDept(isSelected ? null : dept)}
-                    className={`p-6 rounded-2xl bg-white/90 border cursor-pointer transition-all ${
+                    className={`p-6 rounded-2xl border cursor-pointer transition-all backdrop-blur-sm ${
                       isSelected
-                        ? "border-violet-500 shadow-xl shadow-rose-500/10 bg-rose-50"
-                        : "border-gray-200 hover:border-rose-200"
+                        ? "border-violet-500/50 shadow-xl shadow-violet-500/10 bg-violet-950/30"
+                        : "bg-white/[0.03] border-white/[0.06] hover:border-violet-500/30 hover:bg-white/[0.05]"
                     }`}
                   >
                     <div className="flex items-start justify-between">
@@ -735,7 +735,7 @@ export default function AdminPage() {
 
             {/* Department Member Management Roster Panel */}
             {selectedDept && (
-              <div className="p-6 sm:p-8 rounded-3xl bg-white border border-rose-200 shadow-2xl space-y-8">
+              <div className="p-6 sm:p-8 rounded-3xl bg-[#0d111c]/95 border border-violet-500/20 shadow-2xl space-y-8 backdrop-blur-xl">
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-gray-200 pb-5">
                   <div>
                     <div className="inline-flex items-center gap-2 text-xs font-mono text-rose-500 uppercase tracking-wider mb-1">
@@ -762,7 +762,7 @@ export default function AdminPage() {
                     </button>
                     <button
                       onClick={() => setSelectedDept(null)}
-                      className="px-3 py-1.5 rounded-xl bg-gray-100 hover:bg-white/[0.1] text-gray-500 hover:text-gray-900 text-xs font-medium transition-colors"
+                      className="px-3 py-1.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.1] text-zinc-400 hover:text-white border border-white/10 text-xs font-medium transition-colors"
                     >
                       Close Panel
                     </button>
@@ -770,7 +770,7 @@ export default function AdminPage() {
                 </div>
 
                 {/* Add Member / Lead / Co-Lead Form */}
-                <div className="p-6 rounded-2xl bg-gray-50 border border-gray-200 space-y-4">
+                <div className="p-6 rounded-2xl bg-white/[0.03] border border-white/[0.08] space-y-4">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2 text-sm font-bold text-gray-900">
                       <UserPlus className="h-4 w-4 text-emerald-400" />
@@ -787,7 +787,7 @@ export default function AdminPage() {
                         placeholder="e.g. Harshith Gowda"
                         value={newMemberName}
                         onChange={(e) => setNewMemberName(e.target.value)}
-                        className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-gray-200 text-gray-900 placeholder:text-zinc-600 focus:outline-none focus:border-violet-500"
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.04] border border-white/10 text-white placeholder:text-zinc-500 focus:outline-none focus:border-violet-500"
                       />
                     </div>
 
@@ -798,7 +798,7 @@ export default function AdminPage() {
                         placeholder="e.g. Lead, Co-Lead, Core Member"
                         value={newMemberRole}
                         onChange={(e) => setNewMemberRole(e.target.value)}
-                        className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-gray-200 text-gray-900 placeholder:text-zinc-600 focus:outline-none focus:border-violet-500"
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.04] border border-white/10 text-white placeholder:text-zinc-500 focus:outline-none focus:border-violet-500"
                       />
                     </div>
 
@@ -827,7 +827,7 @@ export default function AdminPage() {
                           placeholder="Upload or paste image URL..."
                           value={newMemberAvatar}
                           onChange={(e) => setNewMemberAvatar(e.target.value)}
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-gray-200 text-gray-900 placeholder:text-zinc-600 focus:outline-none focus:border-violet-500 font-mono text-[11px]"
+                          className="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.04] border border-white/10 text-white placeholder:text-zinc-500 focus:outline-none focus:border-violet-500 font-mono text-[11px]"
                         />
                       </div>
                     </div>
@@ -839,7 +839,7 @@ export default function AdminPage() {
                         placeholder="member@aurix.club"
                         value={newMemberEmail}
                         onChange={(e) => setNewMemberEmail(e.target.value)}
-                        className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-gray-200 text-gray-900 placeholder:text-zinc-600 focus:outline-none focus:border-violet-500 font-mono text-[11px]"
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.04] border border-white/10 text-white placeholder:text-zinc-500 focus:outline-none focus:border-violet-500 font-mono text-[11px]"
                       />
                     </div>
                   </div>
@@ -851,7 +851,7 @@ export default function AdminPage() {
                       placeholder="e.g. Full-stack architect & AI workflow specialist leading software engineering tracks."
                       value={newMemberDesc}
                       onChange={(e) => setNewMemberDesc(e.target.value)}
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-gray-200 text-xs text-gray-900 placeholder:text-zinc-600 focus:outline-none focus:border-violet-500"
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.04] border border-white/10 text-xs text-white placeholder:text-zinc-500 focus:outline-none focus:border-violet-500"
                     />
                   </div>
 
@@ -887,7 +887,7 @@ export default function AdminPage() {
                     <button
                       onClick={() => handleAddDepartmentMember(selectedDept.id)}
                       disabled={isAddingMember || !newMemberName.trim()}
-                      className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:opacity-95 disabled:opacity-40 text-gray-900 text-xs font-bold shadow-lg shadow-emerald-600/25 transition-all flex items-center gap-1.5"
+                      className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:opacity-95 disabled:opacity-40 text-white text-xs font-bold shadow-lg shadow-emerald-600/25 transition-all flex items-center gap-1.5"
                     >
                       <Plus className="h-4 w-4" />
                       <span>{isAddingMember ? "Adding..." : "Add to Department"}</span>
@@ -910,30 +910,32 @@ export default function AdminPage() {
                         return (
                           <div
                             key={member.id}
-                            className={`p-5 rounded-2xl border flex flex-col justify-between space-y-4 transition-all ${
+                            className={`group p-5 rounded-2xl border flex flex-col justify-between space-y-4 transition-all ${
                               isLead
-                                ? "bg-gradient-to-br from-violet-950/40 via-[#0d111c] to-[#0d111c] border-rose-200"
-                                : "bg-white/[0.02] border-gray-200"
+                                ? "bg-gradient-to-br from-violet-950/40 via-[#0d111c] to-[#0d111c] border-violet-500/20"
+                                : "bg-white/[0.03] border-white/[0.06]"
                             }`}
                           >
                             <div className="space-y-3">
                               <div className="flex items-start justify-between gap-3">
-                                <div className="flex items-center gap-3">
+                                <div className="flex items-center gap-3.5">
                                   {member.avatar_url ? (
-                                    <img
-                                      src={member.avatar_url}
-                                      alt={member.name}
-                                      className="w-12 h-12 rounded-xl object-cover ring-2 ring-violet-500/30 flex-shrink-0"
-                                    />
+                                    <div className="w-16 h-16 rounded-2xl overflow-hidden ring-2 ring-violet-500/30 flex-shrink-0 bg-slate-900 shadow-md">
+                                      <img
+                                        src={member.avatar_url}
+                                        alt={member.name}
+                                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                      />
+                                    </div>
                                   ) : (
-                                    <div className="w-12 h-12 rounded-xl bg-rose-500/30 border border-rose-200 flex items-center justify-center font-bold text-base text-rose-500 flex-shrink-0">
+                                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-violet-600/30 to-indigo-600/30 border border-violet-500/30 flex items-center justify-center font-bold text-lg text-white flex-shrink-0 shadow-md">
                                       {member.name.charAt(0)}
                                     </div>
                                   )}
                                   <div>
-                                    <h5 className="text-sm font-bold text-gray-900 leading-tight">{member.name}</h5>
+                                    <h5 className="text-sm font-bold text-white leading-tight">{member.name}</h5>
                                     <span
-                                      className={`inline-block text-[10px] font-mono uppercase px-2 py-0.5 rounded-full font-bold mt-1 ${
+                                      className={`inline-block text-[10px] font-mono uppercase px-2.5 py-0.5 rounded-full font-bold mt-1 ${
                                         isLead
                                           ? "bg-amber-500/20 text-amber-300 border border-amber-500/30"
                                           : "bg-blue-500/20 text-blue-300 border border-blue-500/30"
@@ -946,7 +948,7 @@ export default function AdminPage() {
 
                                 <button
                                   onClick={() => handleRemoveDepartmentMember(member.id)}
-                                  className="p-1.5 rounded-lg text-gray-400 hover:text-red-400 hover:bg-red-500/10 transition-colors"
+                                  className="p-1.5 rounded-lg text-zinc-400 hover:text-red-400 hover:bg-red-500/10 transition-colors"
                                   title="Remove Member"
                                 >
                                   <Trash2 className="h-4 w-4" />
@@ -986,7 +988,7 @@ export default function AdminPage() {
           <div className="space-y-6">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div>
-                <h2 className="text-2xl font-bold text-gray-900">Join Applications</h2>
+                <h2 className="text-2xl font-bold text-gradient-primary">Join Applications</h2>
                 <p className="text-xs text-gray-500">Review student club applications and send approvals.</p>
               </div>
 
@@ -997,8 +999,8 @@ export default function AdminPage() {
                     onClick={() => setAppStatusFilter(status)}
                     className={`px-3 py-1 rounded-xl text-xs font-mono font-semibold uppercase transition-all ${
                       appStatusFilter === status
-                        ? "bg-rose-500 text-gray-900"
-                        : "bg-gray-50 text-gray-500 hover:text-gray-900"
+                        ? "bg-rose-500 text-white"
+                        : "bg-white/[0.06] text-zinc-400 hover:text-white hover:bg-white/[0.1]"
                     }`}
                   >
                     {status}
@@ -1011,7 +1013,7 @@ export default function AdminPage() {
               {applications.map((app) => (
                 <div
                   key={app.id}
-                  className="p-5 rounded-2xl bg-white/90 border border-gray-200 space-y-4 hover:border-rose-200 transition-all"
+                  className="p-5 rounded-2xl bg-white/[0.03] border border-white/[0.06] space-y-4 hover:border-violet-500/30 transition-all backdrop-blur-sm"
                 >
                   <div className="flex items-start justify-between gap-3">
                     <div>
@@ -1049,7 +1051,7 @@ export default function AdminPage() {
                     </div>
                   )}
 
-                  <div className="p-3 rounded-xl bg-white/[0.02] border border-white/[0.04] text-xs text-gray-600 leading-relaxed">
+                  <div className="p-3 rounded-xl bg-white/[0.03] border border-white/[0.06] text-xs text-slate-300 leading-relaxed">
                     <span className="text-[10px] font-mono uppercase text-gray-500 block mb-1">Statement:</span>
                     {app.why_join}
                   </div>
@@ -1102,13 +1104,13 @@ export default function AdminPage() {
           <div className="space-y-6">
             <div className="flex items-center justify-between">
               <div>
-                <h2 className="text-2xl font-bold text-gray-900">Events & Hackathons</h2>
+                <h2 className="text-2xl font-bold text-gradient-primary">Events & Hackathons</h2>
                 <p className="text-xs text-gray-500">Create, schedule, publish events and track attendee registrations.</p>
               </div>
 
               <button
                 onClick={() => setShowCreateEventModal(true)}
-                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-rose-500 hover:bg-rose-600 text-gray-900 text-xs font-semibold shadow-lg shadow-rose-500/20 transition-all"
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-rose-500 hover:bg-rose-600 text-white text-xs font-semibold shadow-lg shadow-rose-500/20 transition-all"
               >
                 <Plus className="h-4 w-4" />
                 <span>Create Event</span>
@@ -1118,7 +1120,7 @@ export default function AdminPage() {
             {/* Create Event Modal */}
             {showCreateEventModal && (
               <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-                <div className="w-full max-w-2xl rounded-3xl bg-white border border-rose-200 p-6 sm:p-8 space-y-6 shadow-2xl max-h-[90vh] overflow-y-auto">
+                <div className="w-full max-w-2xl rounded-3xl bg-[#0d111c]/98 border border-violet-500/20 p-6 sm:p-8 space-y-6 shadow-2xl max-h-[90vh] overflow-y-auto backdrop-blur-xl">
                   <div className="flex items-center justify-between border-b border-gray-200 pb-4">
                     <div className="flex items-center gap-2">
                       <Calendar className="h-5 w-5 text-rose-600" />
@@ -1141,7 +1143,7 @@ export default function AdminPage() {
                         placeholder="e.g. AURIX Flagship Hackathon 2026"
                         value={newEventTitle}
                         onChange={(e) => setNewEventTitle(e.target.value)}
-                        className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-gray-200 text-gray-900 placeholder:text-zinc-600 focus:outline-none focus:border-violet-500 text-sm"
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.04] border border-white/10 text-white placeholder:text-zinc-500 focus:outline-none focus:border-violet-500 text-sm"
                       />
                     </div>
 
@@ -1151,7 +1153,7 @@ export default function AdminPage() {
                         <select
                           value={newEventMode}
                           onChange={(e) => setNewEventMode(e.target.value as any)}
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-gray-200 text-gray-900 focus:outline-none focus:border-violet-500"
+                          className="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.04] border border-white/10 text-white focus:outline-none focus:border-violet-500"
                         >
                           <option value="in_person">In-Person (Campus)</option>
                           <option value="online">Online / Virtual</option>
@@ -1164,7 +1166,7 @@ export default function AdminPage() {
                         <select
                           value={newEventDeptId}
                           onChange={(e) => setNewEventDeptId(e.target.value)}
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-gray-200 text-gray-900 focus:outline-none focus:border-violet-500"
+                          className="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.04] border border-white/10 text-white focus:outline-none focus:border-violet-500"
                         >
                           <option value="">All / Club-Wide</option>
                           {departments.map((d) => (
@@ -1183,7 +1185,7 @@ export default function AdminPage() {
                           type="datetime-local"
                           value={newEventStartsAt}
                           onChange={(e) => setNewEventStartsAt(e.target.value)}
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-gray-200 text-gray-900 focus:outline-none focus:border-violet-500"
+                          className="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.04] border border-white/10 text-white focus:outline-none focus:border-violet-500"
                         />
                       </div>
 
@@ -1193,7 +1195,7 @@ export default function AdminPage() {
                           type="datetime-local"
                           value={newEventEndsAt}
                           onChange={(e) => setNewEventEndsAt(e.target.value)}
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-gray-200 text-gray-900 focus:outline-none focus:border-violet-500"
+                          className="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.04] border border-white/10 text-white focus:outline-none focus:border-violet-500"
                         />
                       </div>
                     </div>
@@ -1206,7 +1208,7 @@ export default function AdminPage() {
                           placeholder="e.g. Main Auditorium / CSE Seminar Hall"
                           value={newEventVenue}
                           onChange={(e) => setNewEventVenue(e.target.value)}
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-gray-200 text-gray-900 placeholder:text-zinc-600 focus:outline-none focus:border-violet-500"
+                          className="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.04] border border-white/10 text-white placeholder:text-zinc-500 focus:outline-none focus:border-violet-500"
                         />
                       </div>
 
@@ -1217,7 +1219,7 @@ export default function AdminPage() {
                           placeholder="100"
                           value={newEventMaxParticipants}
                           onChange={(e) => setNewEventMaxParticipants(e.target.value)}
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-gray-200 text-gray-900 placeholder:text-zinc-600 focus:outline-none focus:border-violet-500 font-mono"
+                          className="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.04] border border-white/10 text-white placeholder:text-zinc-500 focus:outline-none focus:border-violet-500 font-mono"
                         />
                       </div>
                     </div>
@@ -1244,7 +1246,7 @@ export default function AdminPage() {
                           placeholder="Upload image or paste poster URL..."
                           value={newEventCoverImage}
                           onChange={(e) => setNewEventCoverImage(e.target.value)}
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-gray-200 text-gray-900 placeholder:text-zinc-600 focus:outline-none focus:border-violet-500 font-mono text-[11px]"
+                          className="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.04] border border-white/10 text-white placeholder:text-zinc-500 focus:outline-none focus:border-violet-500 font-mono text-[11px]"
                         />
 
                         {newEventCoverImage && (
@@ -1270,7 +1272,7 @@ export default function AdminPage() {
                         placeholder="Detail the event format, prerequisites, schedule, and benefits..."
                         value={newEventDesc}
                         onChange={(e) => setNewEventDesc(e.target.value)}
-                        className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-gray-200 text-gray-900 placeholder:text-zinc-600 focus:outline-none focus:border-violet-500 text-xs"
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.04] border border-white/10 text-white placeholder:text-zinc-500 focus:outline-none focus:border-violet-500 text-xs"
                       />
                     </div>
 
@@ -1278,14 +1280,14 @@ export default function AdminPage() {
                       <button
                         type="button"
                         onClick={() => setShowCreateEventModal(false)}
-                        className="px-4 py-2 rounded-xl bg-gray-100 hover:bg-white/[0.1] text-gray-500 hover:text-gray-900 transition-colors"
+                        className="px-4 py-2 rounded-xl bg-white/[0.06] hover:bg-white/[0.1] text-zinc-400 hover:text-white border border-white/10 transition-colors"
                       >
                         Cancel
                       </button>
                       <button
                         type="submit"
                         disabled={isCreatingEvent || !newEventTitle.trim()}
-                        className="px-6 py-2 rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 hover:opacity-90 disabled:opacity-40 text-gray-900 font-bold shadow-lg shadow-rose-500/20 transition-all"
+                        className="px-6 py-2 rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 hover:opacity-90 disabled:opacity-40 text-white font-bold shadow-lg shadow-violet-500/20 transition-all"
                       >
                         {isCreatingEvent ? "Publishing..." : "Create & Publish Event"}
                       </button>
@@ -1299,7 +1301,7 @@ export default function AdminPage() {
               {events.map((ev) => (
                 <div
                   key={ev.id}
-                  className="p-6 rounded-2xl bg-white/90 border border-gray-200 space-y-4 hover:border-rose-200 transition-all flex flex-col justify-between"
+                  className="p-6 rounded-2xl bg-white/[0.03] border border-white/[0.06] space-y-4 hover:border-violet-500/30 transition-all flex flex-col justify-between backdrop-blur-sm"
                 >
                   <div className="space-y-3">
                     <div className="flex items-start justify-between gap-2">
@@ -1329,7 +1331,7 @@ export default function AdminPage() {
                   <div className="pt-4 border-t border-gray-200 flex items-center justify-between">
                     <button
                       onClick={() => handleOpenEventRegistrations(ev)}
-                      className="px-3 py-1.5 rounded-lg bg-gray-100 hover:bg-white/[0.1] text-xs font-semibold text-gray-600 hover:text-gray-900 transition-colors"
+                      className="px-3 py-1.5 rounded-lg bg-white/[0.06] hover:bg-white/[0.1] text-xs font-semibold text-zinc-400 hover:text-white border border-white/10 transition-colors"
                     >
                       Attendees ({ev.registration_count})
                     </button>
@@ -1353,7 +1355,7 @@ export default function AdminPage() {
           <div className="space-y-6">
             <div className="flex items-center justify-between">
               <div>
-                <h2 className="text-2xl font-bold text-gray-900">Email Campaigns & Broadcasts</h2>
+                <h2 className="text-2xl font-bold text-gradient-primary">Email Campaigns & Broadcasts</h2>
                 <p className="text-xs text-gray-500">Broadcast updates to all members or specific event attendees.</p>
               </div>
 
@@ -1377,7 +1379,7 @@ export default function AdminPage() {
                     loadData();
                   }
                 }}
-                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-rose-500 hover:bg-rose-600 text-gray-900 text-xs font-semibold shadow-lg shadow-rose-500/20 transition-all"
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-rose-500 hover:bg-rose-600 text-white text-xs font-semibold shadow-lg shadow-rose-500/20 transition-all"
               >
                 <Plus className="h-4 w-4" />
                 <span>Send Broadcast</span>
@@ -1388,7 +1390,7 @@ export default function AdminPage() {
               {emails.map((camp) => (
                 <div
                   key={camp.id}
-                  className="p-5 rounded-2xl bg-white/90 border border-gray-200 space-y-2"
+                  className="p-5 rounded-2xl bg-white/[0.03] border border-white/[0.06] space-y-2 backdrop-blur-sm"
                 >
                   <div className="flex items-center justify-between">
                     <h3 className="text-base font-bold text-gray-900">{camp.subject}</h3>
@@ -1397,7 +1399,7 @@ export default function AdminPage() {
                     </span>
                   </div>
 
-                  <p className="text-xs text-gray-600 leading-relaxed whitespace-pre-line bg-white/[0.02] p-3 rounded-xl border border-white/[0.04]">
+                  <p className="text-xs text-slate-300 leading-relaxed whitespace-pre-line bg-white/[0.03] p-3 rounded-xl border border-white/[0.06]">
                     {camp.body}
                   </p>
 
@@ -1416,7 +1418,7 @@ export default function AdminPage() {
           <div className="space-y-6">
             <div className="flex items-center justify-between">
               <div>
-                <h2 className="text-2xl font-bold text-gray-900">Projects Management</h2>
+                <h2 className="text-2xl font-bold text-gradient-primary">Projects Management</h2>
                 <p className="text-xs text-gray-500">Manage platform showcase projects dynamically.</p>
               </div>
 
@@ -1443,7 +1445,7 @@ export default function AdminPage() {
                     alert("Failed to create project");
                   }
                 }}
-                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-rose-500 hover:bg-rose-600 text-gray-900 text-xs font-semibold shadow-lg shadow-rose-500/20 transition-all"
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-rose-500 hover:bg-rose-600 text-white text-xs font-semibold shadow-lg shadow-rose-500/20 transition-all"
               >
                 <Plus className="h-4 w-4" />
                 <span>Add Project</span>
@@ -1453,7 +1455,7 @@ export default function AdminPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
               {projects.length > 0 ? (
                 projects.map((project: any) => (
-                  <div key={project.id} className="p-6 rounded-2xl bg-white/90 border border-gray-200 space-y-4">
+                  <div key={project.id} className="p-6 rounded-2xl bg-white/[0.03] border border-white/[0.06] space-y-4 backdrop-blur-sm hover:border-violet-500/30 transition-all">
                     <div className="flex items-center justify-between">
                       <span className="text-[10px] font-mono text-rose-600 uppercase tracking-wider">{project.category}</span>
                       <button
@@ -1487,13 +1489,13 @@ export default function AdminPage() {
           <div className="space-y-6">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div>
-                <h2 className="text-2xl font-bold text-gray-900">Global Announcements</h2>
+                <h2 className="text-2xl font-bold text-gradient-primary">Global Announcements</h2>
                 <p className="text-xs text-gray-500">Manage the front-page popup announcement.</p>
               </div>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <div className="p-6 rounded-3xl bg-white/90 border border-gray-200 space-y-4">
+              <div className="p-6 rounded-3xl bg-white/[0.03] border border-white/[0.06] space-y-4 backdrop-blur-sm">
                 <h3 className="text-sm font-bold text-gray-900 mb-4">Create Announcement</h3>
                 <form 
                   onSubmit={async (e) => {
@@ -1522,7 +1524,7 @@ export default function AdminPage() {
                       required
                       value={newAnnouncement.title}
                       onChange={e => setNewAnnouncement({...newAnnouncement, title: e.target.value})}
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.02] border border-gray-200 text-gray-900 focus:border-violet-500 outline-none"
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.04] border border-white/10 text-white focus:border-violet-500 outline-none"
                     />
                   </div>
                   <div>
@@ -1532,7 +1534,7 @@ export default function AdminPage() {
                       rows={3}
                       value={newAnnouncement.message}
                       onChange={e => setNewAnnouncement({...newAnnouncement, message: e.target.value})}
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.02] border border-gray-200 text-gray-900 focus:border-violet-500 outline-none resize-none"
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.04] border border-white/10 text-white focus:border-violet-500 outline-none resize-none"
                     />
                   </div>
                   <div className="grid grid-cols-2 gap-4">
@@ -1542,7 +1544,7 @@ export default function AdminPage() {
                         type="url"
                         value={newAnnouncement.link_url}
                         onChange={e => setNewAnnouncement({...newAnnouncement, link_url: e.target.value})}
-                        className="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.02] border border-gray-200 text-gray-900 focus:border-violet-500 outline-none"
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.04] border border-white/10 text-white focus:border-violet-500 outline-none"
                       />
                     </div>
                     <div>
@@ -1552,7 +1554,7 @@ export default function AdminPage() {
                         value={newAnnouncement.link_text}
                         onChange={e => setNewAnnouncement({...newAnnouncement, link_text: e.target.value})}
                         placeholder="e.g. Learn More"
-                        className="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.02] border border-gray-200 text-gray-900 focus:border-violet-500 outline-none"
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.04] border border-white/10 text-white focus:border-violet-500 outline-none"
                       />
                     </div>
                   </div>
@@ -1569,7 +1571,7 @@ export default function AdminPage() {
                   <button
                     type="submit"
                     disabled={isCreatingAnnouncement}
-                    className="w-full py-2.5 rounded-xl bg-rose-500 hover:bg-rose-600 text-gray-900 font-bold transition-all disabled:opacity-50 mt-4"
+                    className="w-full py-2.5 rounded-xl bg-rose-500 hover:bg-rose-600 text-white font-bold transition-all disabled:opacity-50 mt-4"
                   >
                     {isCreatingAnnouncement ? "Creating..." : "Create Announcement"}
                   </button>
@@ -1580,7 +1582,7 @@ export default function AdminPage() {
                 <h3 className="text-sm font-bold text-gray-900">Previous Announcements</h3>
                 <div className="space-y-3 max-h-[600px] overflow-y-auto pr-2">
                   {announcements.map(ann => (
-                    <div key={ann.id} className={`p-4 rounded-2xl border transition-all ${ann.is_active ? 'bg-violet-900/20 border-violet-500/50' : 'bg-white/[0.02] border-gray-200'}`}>
+                    <div key={ann.id} className={`p-4 rounded-2xl border transition-all ${ann.is_active ? 'bg-violet-900/20 border-violet-500/50' : 'bg-white/[0.03] border-white/[0.06]'}`}>
                       <div className="flex justify-between items-start mb-2">
                         <h4 className="text-sm font-bold text-gray-900">{ann.title}</h4>
                         <div className="flex items-center gap-2">
@@ -1628,7 +1630,7 @@ export default function AdminPage() {
       {/* Attendees Modal */}
       {selectedEventForRegs && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
-          <div className="w-full max-w-2xl rounded-3xl bg-white border border-gray-200 p-6 space-y-6 max-h-[85vh] flex flex-col">
+          <div className="w-full max-w-2xl rounded-3xl bg-[#0d111c]/98 border border-white/[0.08] p-6 space-y-6 max-h-[85vh] flex flex-col backdrop-blur-xl">
             <div className="flex items-center justify-between border-b border-gray-200 pb-4">
               <div>
                 <h3 className="text-lg font-bold text-gray-900">{selectedEventForRegs.title}</h3>
@@ -1647,7 +1649,7 @@ export default function AdminPage() {
                 eventRegistrations.map((reg: any) => (
                   <div
                     key={reg.id}
-                    className="p-3.5 rounded-xl bg-gray-50 border border-gray-200 flex items-center justify-between"
+                    className="p-3.5 rounded-xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-between"
                   >
                     <div>
                       <div className="text-xs font-bold text-gray-900">{reg.full_name}</div>

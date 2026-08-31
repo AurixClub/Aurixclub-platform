@@ -66,8 +66,6 @@ const departments: Record<
     accentText: "text-indigo-400",
     focusTags: ["Sponsorships", "Corporate Relations", "Mentorship", "Alumni Network", "Industry Talks"],
     members: [
-      { name: "Member Name", role: "Lead", image: "" },
-      { name: "Member Name", role: "Co-Lead", image: "" },
       { name: "Member Name", role: "Core Member", image: "" },
     ],
   },
@@ -100,7 +98,7 @@ const departments: Record<
     accentText: "text-purple-400",
     focusTags: ["Hackathons", "Tech Fests", "Guest Talks", "Operations", "Logistics", "Experience Design"],
     members: [
-      { name: "Member Name", role: "Lead", image: "" },
+      { name: "Adithya P", role: "Department Head", image: "/team/team-1.jpg" },
       { name: "Member Name", role: "Co-Lead", image: "" },
       { name: "Member Name", role: "Core Member", image: "" },
     ],
@@ -268,27 +266,29 @@ export default function DepartmentDetailPage() {
                 <h2 className="text-lg font-bold text-white">Team Members</h2>
               </div>
 
-              <StaggerContainer staggerDelay={0.08} className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+              <StaggerContainer staggerDelay={0.08} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {members.map((member, i) => (
                   <StaggerItem key={i}>
-                    <div className="group rounded-2xl border border-white/10 bg-white/[0.03] p-4 text-center hover:bg-white/[0.06] hover:border-white/15 transition-all duration-300">
-                      {/* Photo placeholder */}
-                      <div className="relative w-20 h-20 mx-auto mb-3 rounded-full overflow-hidden border-2 border-white/10 bg-white/[0.04]">
+                    <div className="group rounded-3xl border border-white/10 bg-gradient-to-b from-white/[0.04] to-white/[0.01] p-4 text-center hover:border-violet-400/50 hover:shadow-[0_15px_35px_rgba(139,92,246,0.2)] hover:-translate-y-1.5 transition-all duration-500">
+                      {/* Large Photo showcase */}
+                      <div className="relative w-full h-56 mx-auto mb-4 rounded-2xl overflow-hidden ring-1 ring-white/10 group-hover:ring-2 group-hover:ring-violet-400/80 bg-slate-900 shadow-xl transition-all duration-500">
                         {member.image ? (
                           <Image
                             src={member.image}
                             alt={member.name}
                             fill
-                            className="object-cover"
+                            className="object-cover object-top group-hover:scale-108 transition-transform duration-700 ease-out"
                           />
                         ) : (
-                          <div className="absolute inset-0 flex items-center justify-center">
-                            <Users className="h-6 w-6 text-zinc-600" />
+                          <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-tr from-blue-950 to-purple-950 text-white">
+                            <span className="text-4xl font-black text-white/80">{member.name.charAt(0)}</span>
+                            <span className="text-[10px] text-zinc-400 font-mono mt-1 uppercase tracking-wider">{dept.name}</span>
                           </div>
                         )}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-70 group-hover:opacity-30 transition-opacity duration-500 pointer-events-none" />
                       </div>
-                      <h3 className="text-sm font-semibold text-white truncate">{member.name}</h3>
-                      <p className={`text-xs ${dept.accentText} mt-0.5`}>{member.role}</p>
+                      <h3 className="text-base font-bold text-white group-hover:text-violet-300 transition-colors truncate">{member.name}</h3>
+                      <p className={`text-xs font-mono font-semibold ${dept.accentText} mt-1`}>{member.role}</p>
                     </div>
                   </StaggerItem>
                 ))}

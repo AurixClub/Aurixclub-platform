@@ -49,6 +49,11 @@ const config: Config = {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+      fontFamily: {
+        montserrat: ["var(--font-montserrat)", "Montserrat", "sans-serif"],
+        serif: ["var(--font-serif)", "Playfair Display", "Georgia", "serif"],
+        sans: ["var(--font-inter)", "var(--font-montserrat)", "Inter", "sans-serif"],
+      },
     },
   },
   plugins: [require("tailwindcss-animate")],

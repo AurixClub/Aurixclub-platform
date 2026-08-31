@@ -1,6 +1,7 @@
 import { Navbar } from "@/components/navigation/Navbar";
 import { HeroSection } from "@/components/home/HeroSection";
-import { ImpactSection } from "@/components/home/ImpactSection";
+import { OngoingEventsMarquee } from "@/components/home/OngoingEventsMarquee";
+import { DepartmentsSection } from "@/components/home/DepartmentsSection";
 import { SponsorsSection } from "@/components/home/SponsorsSection";
 import { Footer } from "@/components/layout/Footer";
 import { ScrollProgress } from "@/components/ui/ScrollReveal";
@@ -18,7 +19,8 @@ export default function HomePage() {
       {/* Main Sections */}
       <main className="flex-grow">
         <HeroSection />
-        <ImpactSection />
+        <OngoingEventsMarquee />
+        <DepartmentsSection />
         <SponsorsSection />
       </main>
 
