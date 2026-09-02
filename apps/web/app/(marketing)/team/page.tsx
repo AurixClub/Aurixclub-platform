@@ -1,356 +1,388 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import Link from "next/link";
+import React, { useState } from "react";
+import { Calistoga } from "next/font/google";
+import { motion } from "framer-motion";
 import { Navbar } from "@/components/navigation/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { ScrollProgress } from "@/components/ui/ScrollReveal";
-import {
-  Users,
-  Crown,
-  Sparkles,
-  ArrowRight,
-  Mail,
-  Layers,
-  Linkedin,
-  Github,
-  Award,
-  Globe,
-  Compass,
-} from "lucide-react";
-import type { Department } from "@aurix/types";
 
-interface FounderProfile {
+const displayFont = Calistoga({
+  weight: "400",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+interface TeamMember {
+  id: string;
   name: string;
   role: string;
-  badge: string;
-  avatar: string;
-  bio: string;
-  department: string;
-  github?: string;
+  category?: "web" | "design" | "media" | "sponsorship" | "operation" | "technical";
+  image: string;
   linkedin?: string;
 }
 
-const FOUNDERS: FounderProfile[] = [
+const CORE_MEMBERS: TeamMember[] = [
   {
-    name: "Advaith Kolkar",
-    role: "Founder & Lead Architect",
-    badge: "FOUNDER",
-    avatar: "/team/team-4.png",
-    bio: "Founding visionary of AURIX club. Architecting distributed platforms, engineering curricula, and inspiring the next generation of builders and technology leaders.",
-    department: "Executive & Core Engineering",
-    github: "https://github.com/advaithkolkar",
-    linkedin: "https://linkedin.com/in/advaithkolkar",
+    id: "dr-bipin-rai",
+    name: "Dr. Bipin Kumar Rai",
+    role: "Faculty Coordinator",
+    image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&auto=format&fit=crop&q=80",
+    linkedin: "https://linkedin.com",
   },
   {
+    id: "trisha",
+    name: "Trisha",
+    role: "Student Coordinator",
+    image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&auto=format&fit=crop&q=80",
+    linkedin: "https://linkedin.com",
+  },
+  {
+    id: "s-shreenidhi",
+    name: "S Shreenidhi",
+    role: "Student Coordinator",
+    image: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=500&auto=format&fit=crop&q=80",
+    linkedin: "https://linkedin.com",
+  },
+  {
+    id: "manavi-p",
+    name: "Manavi P",
+    role: "Web Team Lead",
+    image: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=500&auto=format&fit=crop&q=80",
+    linkedin: "https://linkedin.com",
+  },
+  {
+    id: "harshith-gowda",
+    name: "Harshith Gowda",
+    role: "Club President",
+    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&auto=format&fit=crop&q=80",
+    linkedin: "https://linkedin.com",
+  },
+  {
+    id: "advaith-kolkar",
+    name: "Advaith Kolkar",
+    role: "Lead Systems Architect",
+    image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=500&auto=format&fit=crop&q=80",
+    linkedin: "https://linkedin.com",
+  },
+  {
+    id: "anish-sharma",
     name: "Anish Sharma",
-    role: "Co-Founder & Head of Operations",
-    badge: "CO-FOUNDER",
-    avatar: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=400&auto=format&fit=crop&q=80",
-    bio: "Co-founder spearheading club growth, corporate partnerships, flagship ecosystem programs, and cross-department collaboration across universities.",
-    department: "Executive & Global Strategy",
-    github: "https://github.com/anishsharma",
-    linkedin: "https://linkedin.com/in/anishsharma",
+    role: "Operations & Partnerships",
+    image: "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=500&auto=format&fit=crop&q=80",
+    linkedin: "https://linkedin.com",
+  },
+  {
+    id: "adithya-p",
+    name: "Adithya P",
+    role: "Event Management Head",
+    image: "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=500&auto=format&fit=crop&q=80",
+    linkedin: "https://linkedin.com",
   },
 ];
 
-import { PageHeaderBanner } from "@/components/ui/PageHeaderBanner";
+const ENTIRE_TEAM_MEMBERS: TeamMember[] = [
+  // Operations Team
+  {
+    id: "et-manavi-p",
+    name: "Manavi P",
+    role: "Operation Team Co Lead",
+    category: "operation",
+    image: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=500&auto=format&fit=crop&q=80",
+    linkedin: "https://linkedin.com",
+  },
+  {
+    id: "et-monisha-ns",
+    name: "Monisha N S",
+    role: "Operation Team",
+    category: "operation",
+    image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&auto=format&fit=crop&q=80",
+    linkedin: "https://linkedin.com",
+  },
+  {
+    id: "et-meghana-kv",
+    name: "Meghana K V",
+    role: "Operation Team",
+    category: "operation",
+    image: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=500&auto=format&fit=crop&q=80",
+    linkedin: "https://linkedin.com",
+  },
+  // Web Team
+  {
+    id: "et-rohan-k",
+    name: "Rohan Kumar",
+    role: "Full Stack Engineer",
+    category: "web",
+    image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=500&auto=format&fit=crop&q=80",
+    linkedin: "https://linkedin.com",
+  },
+  {
+    id: "et-varun-m",
+    name: "Varun Mohan",
+    role: "Frontend Developer",
+    category: "web",
+    image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=500&auto=format&fit=crop&q=80",
+    linkedin: "https://linkedin.com",
+  },
+  // Design Team
+  {
+    id: "et-sneha-r",
+    name: "Sneha Reddy",
+    role: "UI/UX Design Lead",
+    category: "design",
+    image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=500&auto=format&fit=crop&q=80",
+    linkedin: "https://linkedin.com",
+  },
+  {
+    id: "et-pranav-b",
+    name: "Pranav Bhat",
+    role: "Brand & Visual Designer",
+    category: "design",
+    image: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=500&auto=format&fit=crop&q=80",
+    linkedin: "https://linkedin.com",
+  },
+  // Media Team
+  {
+    id: "et-kiran-k",
+    name: "Kiran Kumar",
+    role: "Media & Content Head",
+    category: "media",
+    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&auto=format&fit=crop&q=80",
+    linkedin: "https://linkedin.com",
+  },
+  {
+    id: "et-pooja-m",
+    name: "Pooja Menon",
+    role: "Social Media Strategist",
+    category: "media",
+    image: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=500&auto=format&fit=crop&q=80",
+    linkedin: "https://linkedin.com",
+  },
+  // Sponsorship Team
+  {
+    id: "et-sony-k",
+    name: "Sony",
+    role: "Sponsorship Lead",
+    category: "sponsorship",
+    image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&auto=format&fit=crop&q=80",
+    linkedin: "https://linkedin.com",
+  },
+  {
+    id: "et-rajveer-s",
+    name: "Rajveer Singh",
+    role: "Corporate Partnerships",
+    category: "sponsorship",
+    image: "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=500&auto=format&fit=crop&q=80",
+    linkedin: "https://linkedin.com",
+  },
+  // Technical Team
+  {
+    id: "et-tanmay-s",
+    name: "Tanmay Sharma",
+    role: "AI / Systems Engineer",
+    category: "technical",
+    image: "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=500&auto=format&fit=crop&q=80",
+    linkedin: "https://linkedin.com",
+  },
+];
+
+const DEPARTMENT_TABS = [
+  { id: "web", label: "WEB TEAM" },
+  { id: "design", label: "DESIGN TEAM" },
+  { id: "media", label: "MEDIA TEAM" },
+  { id: "sponsorship", label: "SPONSORSHIP TEAM" },
+  { id: "operation", label: "OPERATION TEAM" },
+  { id: "technical", label: "TECHNICAL TEAM" },
+] as const;
 
 export default function TeamPage() {
-  const [departments, setDepartments] = useState<Department[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState<string>("operation");
 
-  useEffect(() => {
-    async function fetchDepartments() {
-      try {
-        const res = await fetch("/api/departments");
-        const data = await res.json();
-        if (data.success && data.data?.departments) {
-          setDepartments(data.data.departments);
-        }
-      } catch (e) {
-        console.error("Failed to load departments", e);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-    fetchDepartments();
-  }, []);
+  const filteredEntireTeam = ENTIRE_TEAM_MEMBERS.filter(
+    (m) => m.category === activeTab
+  );
 
   return (
-    <div className="min-h-screen bg-white text-zinc-900 flex flex-col selection:bg-indigo-500/20 selection:text-indigo-900">
+    <div className="min-h-screen bg-gradient-to-b from-[#f0f6fc] via-[#f7fafd] to-[#ffffff] text-zinc-900 flex flex-col selection:bg-blue-500/20 selection:text-blue-900 relative overflow-hidden">
       <ScrollProgress />
       <Navbar />
 
-      <PageHeaderBanner
-        badge="AURIX Leadership & Department Rosters"
-        title="The People Behind"
-        highlightTitle="AURIX"
-        description="Meet our founders, executive leads, and department members building the community, organizing tech events, and pushing the boundaries of student innovation."
-      />
+      {/* Radiant Soft Sunrise Ambient Glows - Subtle & Elegant */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] sm:w-[1200px] h-[480px] bg-gradient-to-b from-sky-200/20 via-blue-100/10 to-transparent rounded-full blur-[120px] pointer-events-none -z-0" />
+      <div className="absolute top-10 left-1/2 -translate-x-1/2 w-[520px] h-[300px] bg-gradient-to-b from-amber-100/25 via-sky-100/15 to-transparent rounded-full blur-[90px] pointer-events-none -z-0" />
+      {/* Subtle geometric morning dawn grid */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(37,99,235,0.025)_1px,transparent_1px),linear-gradient(to_bottom,rgba(37,99,235,0.025)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_60%_at_50%_0%,#000_50%,transparent_100%)] pointer-events-none -z-0" />
 
-      <main className="flex-grow pt-8">
-
-        {/* SECTION 1: FOUNDING LEADERSHIP */}
-        <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
-          <div className="rounded-3xl bg-slate-50 border border-zinc-200 p-6 sm:p-10 space-y-8 relative overflow-hidden shadow-xl shadow-slate-200/50">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-zinc-200 pb-6">
-              <div>
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 border border-amber-200 text-amber-800 text-xs font-mono font-bold uppercase tracking-wider mb-2">
-                  <Crown className="h-3.5 w-3.5 text-amber-600" />
-                  <span>Founding Office</span>
-                </div>
-                <h2 className="text-2xl sm:text-3xl font-black text-zinc-900 tracking-tight">
-                  Executive Founders
-                </h2>
-                <p className="text-xs sm:text-sm text-zinc-600 pt-1">
-                  The pioneers who established AURIX and established its vision, mission, and pillars.
-                </p>
-              </div>
-            </div>
-
-            {/* Founder Cards Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {FOUNDERS.map((founder) => (
-                <div
-                  key={founder.name}
-                  className="rounded-2xl p-7 bg-white border border-zinc-200 shadow-md shadow-slate-200/50 hover:border-indigo-300 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl flex flex-col sm:flex-row gap-6 items-center sm:items-start group"
-                >
-                  <div className="relative shrink-0">
-                    <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-2xl overflow-hidden bg-slate-100 ring-2 ring-indigo-200 group-hover:ring-indigo-500 transition-all shadow-md">
-                      <img
-                        src={founder.avatar}
-                        alt={founder.name}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                      />
-                    </div>
-                    <span className="absolute -bottom-2 -right-2 px-2.5 py-0.5 rounded-md bg-amber-500 text-white font-black text-[10px] uppercase tracking-wider shadow-md flex items-center gap-1">
-                      <Crown className="h-3 w-3" />
-                      {founder.badge}
-                    </span>
-                  </div>
-
-                  <div className="space-y-3 text-center sm:text-left flex-grow">
-                    <div>
-                      <h3 className="text-xl font-bold text-zinc-900 group-hover:text-indigo-600 transition-colors">
-                        {founder.name}
-                      </h3>
-                      <p className="text-xs font-semibold text-indigo-600 font-mono tracking-wide">
-                        {founder.role}
-                      </p>
-                      <span className="text-[11px] text-zinc-500 font-mono">
-                        {founder.department}
-                      </span>
-                    </div>
-
-                    <p className="text-xs text-zinc-600 leading-relaxed">
-                      {founder.bio}
-                    </p>
-
-                    <div className="pt-2 flex items-center justify-center sm:justify-start gap-3 border-t border-zinc-100">
-                      {founder.github && (
-                        <a
-                          href={founder.github}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="p-1.5 rounded-lg bg-zinc-100 hover:bg-zinc-200 text-zinc-700 hover:text-zinc-900 transition-colors"
-                          aria-label={`${founder.name} GitHub`}
-                        >
-                          <Github className="h-4 w-4" />
-                        </a>
-                      )}
-                      {founder.linkedin && (
-                        <a
-                          href={founder.linkedin}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="p-1.5 rounded-lg bg-zinc-100 hover:bg-indigo-50 text-zinc-700 hover:text-indigo-600 transition-colors"
-                          aria-label={`${founder.name} LinkedIn`}
-                        >
-                          <Linkedin className="h-4 w-4" />
-                        </a>
-                      )}
-                      <span className="text-[11px] font-mono text-zinc-500 ml-auto">
-                        AURIX Core
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
+      <main className="flex-grow pt-16 sm:pt-20 pb-24 px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="mx-auto max-w-6xl">
+          {/* Main Title Section */}
+          <div className="text-center max-w-4xl mx-auto pb-4 space-y-2">
+            <h1
+              className={`${displayFont.className} text-3xl sm:text-4xl md:text-5xl lg:text-6xl uppercase tracking-[0.12em] sm:tracking-[0.16em] leading-tight select-none`}
+            >
+              <span className="text-zinc-900">MEET THE </span>
+              <span className="text-blue-600 font-normal">TEAM</span>
+            </h1>
           </div>
-        </section>
 
-        {/* SECTION 2: DEPARTMENT-BY-DEPARTMENT ROSTERS */}
-        {isLoading && (
-          <div className="text-center py-24 flex items-center justify-center gap-3 text-zinc-500 font-mono text-sm">
-            <span className="h-5 w-5 rounded-full border-2 border-indigo-200 border-t-indigo-600 animate-spin" />
-            <span>Loading Department Team Rosters...</span>
-          </div>
-        )}
-
-        {!isLoading && (
-          <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24 space-y-16">
-            <div className="text-center space-y-2 pb-4">
-              <div className="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-slate-50 px-3 py-1 text-xs font-medium text-zinc-600 font-mono shadow-xs">
-                <Layers className="h-3.5 w-3.5 text-indigo-600" />
-                <span>Department Teams</span>
-              </div>
-              <h2 className="text-3xl sm:text-4xl font-extrabold text-zinc-900">
-                Domain Leads & Specialized Members
+          {/* ══════════════ SECTION 1: CORE TEAM ══════════════ */}
+          <div className="relative my-6 border-t-2 border-zinc-900 pt-5">
+            <div className="text-center">
+              <h2
+                className={`${displayFont.className} inline-block text-xl sm:text-2xl md:text-3xl font-normal uppercase tracking-[0.15em] text-zinc-900 select-none`}
+              >
+                CORE TEAM
               </h2>
             </div>
+          </div>
 
-            {departments.map((dept, deptIndex) => {
-              const members = dept.members || [];
+          {/* Core Team Cards Grid - Compact & Refined Size */}
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5 lg:gap-6 mt-8">
+            {CORE_MEMBERS.map((member, index) => (
+              <motion.div
+                key={member.id}
+                initial={{ opacity: 0, y: 20, scale: 0.97 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true, margin: "-20px" }}
+                transition={{
+                  duration: 0.45,
+                  delay: (index % 4) * 0.05,
+                  ease: [0.22, 1, 0.36, 1],
+                }}
+                style={{ willChange: "transform, opacity", transform: "translateZ(0)" }}
+                className="group relative rounded-xl border-2 border-zinc-900 bg-white overflow-hidden shadow-[4px_4px_0px_0px_#18181b] hover:shadow-[5px_5px_0px_0px_#2563eb] hover:-translate-y-1 hover:-translate-x-1 active:scale-[0.98] transition-all duration-200 flex flex-col justify-between"
+              >
+                {/* Photo Container */}
+                <div className="relative aspect-square w-full bg-zinc-100 overflow-hidden border-b-2 border-zinc-900">
+                  <img
+                    src={member.image}
+                    alt={member.name}
+                    className="w-full h-full object-cover grayscale contrast-105 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500"
+                  />
+                </div>
 
-              return (
-                <div
-                  key={dept.id}
-                  id={dept.slug}
-                  className="rounded-3xl bg-white border border-zinc-200/90 p-6 sm:p-10 space-y-8 relative overflow-hidden shadow-lg shadow-slate-200/50"
-                >
-                  <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-zinc-100 pb-6">
-                    <div className="space-y-1 max-w-2xl">
-                      <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-indigo-50 border border-indigo-200 text-indigo-700 text-[11px] font-mono font-bold uppercase tracking-wider">
-                        <Layers className="h-3 w-3" />
-                        <span>Department 0{deptIndex + 1}</span>
-                      </div>
-                      <h3 className="text-2xl sm:text-3xl font-black text-zinc-900 tracking-tight">
-                        {dept.name}
-                      </h3>
-                      <p className="text-xs sm:text-sm text-zinc-600 leading-relaxed pt-1">
-                        {dept.description}
-                      </p>
-                    </div>
-
-                    <div className="flex items-center gap-3 shrink-0">
-                      <span className="text-xs font-mono px-3 py-1 rounded-xl bg-zinc-100 border border-zinc-200 text-zinc-700 font-medium">
-                        {members.length} {members.length === 1 ? "Profile" : "Profiles"} Listed
-                      </span>
-                      <Link
-                        href="/join"
-                        className="text-xs font-bold text-indigo-600 hover:text-indigo-700 inline-flex items-center gap-1 transition-colors"
-                      >
-                        <span>Join Team</span>
-                        <ArrowRight className="h-3.5 w-3.5" />
-                      </Link>
-                    </div>
+                {/* Card Content */}
+                <div className="p-3 sm:p-3.5 flex flex-col justify-between flex-grow space-y-1.5 text-center">
+                  <div className="flex flex-col items-center justify-center">
+                    <h3 className="font-montserrat text-xs sm:text-[14px] font-extrabold uppercase tracking-tight text-zinc-900 group-hover:text-blue-600 transition-colors leading-snug line-clamp-1 text-center">
+                      {member.name}
+                    </h3>
+                    <p className="text-[9.5px] sm:text-[10.5px] font-mono uppercase tracking-wider text-zinc-500 font-semibold mt-0.5 truncate text-center">
+                      {member.role}
+                    </p>
                   </div>
 
-                  {members.length > 0 ? (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 items-stretch">
-                      {members.map((member) => {
-                        const isLead = member.role.toLowerCase().includes("lead");
+                  {/* Dashed divider line from screenshot */}
+                  <div className="border-b border-dashed border-zinc-300 my-1" />
 
-                        return (
-                          <div
-                            key={member.id}
-                            className="rounded-3xl p-4 flex flex-col justify-between space-y-4 transition-all duration-500 hover:-translate-y-2 hover:shadow-xl bg-slate-50 border border-zinc-200/80 hover:border-indigo-300 group h-full"
-                          >
-                            <div className="space-y-4">
-                              <div className="relative w-full h-56 rounded-2xl overflow-hidden bg-slate-100 ring-1 ring-zinc-200 group-hover:ring-2 group-hover:ring-indigo-500 transition-all duration-500 shadow-md">
-                                {member.avatar_url ? (
-                                  <img
-                                    src={member.avatar_url}
-                                    alt={member.name}
-                                    className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
-                                  />
-                                ) : (
-                                  <div className="w-full h-full flex flex-col items-center justify-center bg-indigo-50 text-indigo-700 group-hover:scale-105 transition-transform duration-500">
-                                    <span className="text-5xl font-black text-indigo-600">
-                                      {member.name.charAt(0)}
-                                    </span>
-                                    <span className="text-xs text-indigo-500 font-mono mt-2 uppercase tracking-wider">{dept.name}</span>
-                                  </div>
-                                )}
-
-                                {isLead && (
-                                  <div className="absolute top-3 right-3 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-400 text-slate-950 text-[11px] font-mono font-extrabold uppercase tracking-wider shadow-md">
-                                    <Crown className="h-3.5 w-3.5 text-slate-950 fill-slate-950" />
-                                    <span>Lead</span>
-                                  </div>
-                                )}
-                              </div>
-
-                              <div className="space-y-2 px-1">
-                                <div className="flex items-start justify-between gap-2">
-                                  <div>
-                                    <h4 className="text-lg font-bold text-zinc-900 group-hover:text-indigo-600 transition-colors leading-snug">
-                                      {member.name}
-                                    </h4>
-                                    <span
-                                      className={`inline-block text-[11px] font-mono uppercase px-2.5 py-0.5 rounded-full font-bold tracking-wider mt-1 ${
-                                        isLead
-                                          ? "bg-amber-50 text-amber-800 border border-amber-200"
-                                          : "bg-indigo-50 text-indigo-700 border border-indigo-200"
-                                      }`}
-                                    >
-                                      {member.role}
-                                    </span>
-                                  </div>
-                                </div>
-
-                                {member.description && (
-                                  <p className="text-xs text-zinc-600 line-clamp-3 leading-relaxed pt-1">
-                                    {member.description}
-                                  </p>
-                                )}
-                              </div>
-                            </div>
-
-                            {member.email && (
-                              <div className="pt-3 border-t border-zinc-200 px-1">
-                                <a
-                                  href={`mailto:${member.email}`}
-                                  className="w-full py-2 px-3 rounded-xl bg-white hover:bg-indigo-50 border border-zinc-200 hover:border-indigo-200 text-zinc-700 hover:text-indigo-700 text-xs font-mono transition-all flex items-center justify-center gap-2 group/email shadow-xs"
-                                >
-                                  <Mail className="h-3.5 w-3.5 text-indigo-600 group-hover/email:scale-110 transition-transform" />
-                                  <span className="truncate">{member.email}</span>
-                                </a>
-                              </div>
-                            )}
-                          </div>
-                        );
-                      })}
-                    </div>
-                  ) : (
-                    <div className="p-8 rounded-2xl border border-dashed border-zinc-200 text-center space-y-2 bg-slate-50">
-                      <p className="text-xs text-zinc-500">No member profiles listed for {dept.name} yet.</p>
-                      <Link
-                        href="/join"
-                        className="inline-block text-xs text-indigo-600 hover:text-indigo-700 font-semibold underline"
+                  {/* Footer with LinkedIn 'in' button on side */}
+                  <div className="flex items-center justify-end pt-0.5">
+                    {member.linkedin ? (
+                      <a
+                        href={member.linkedin}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-5 h-5 sm:w-6 sm:h-6 rounded bg-zinc-900 group-hover:bg-blue-600 text-white flex items-center justify-center text-[10px] sm:text-[11px] font-bold transition-colors shadow-xs shrink-0"
+                        aria-label={`${member.name} LinkedIn`}
                       >
-                        Apply to lead or join {dept.name} →
-                      </Link>
-                    </div>
-                  )}
+                        in
+                      </a>
+                    ) : null}
+                  </div>
                 </div>
-              );
-            })}
-          </section>
-        )}
+              </motion.div>
+            ))}
+          </div>
 
-        {/* Join CTA */}
-        <section className="relative py-20 px-4 sm:px-6 lg:px-8 border-t border-zinc-200 text-center bg-slate-50">
-          <div className="mx-auto max-w-3xl bg-white p-10 rounded-3xl border border-zinc-200 shadow-xl shadow-slate-200/50 space-y-6">
-            <h3 className="text-2xl sm:text-3xl font-bold text-zinc-900">
-              Want to Lead & Build with Us?
-            </h3>
-            <p className="text-sm sm:text-base text-zinc-600 max-w-xl mx-auto leading-relaxed">
-              We are constantly looking for enthusiastic students to join our core department teams and take ownership of initiatives.
-            </p>
-            <div>
-              <Link
-                href="/join"
-                className="inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-8 py-3.5 text-sm font-semibold text-white shadow-lg shadow-indigo-500/25 hover:bg-indigo-700 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
+          {/* ══════════════ SECTION 2: MEET THE ENTIRE TEAM ══════════════ */}
+          <div className="relative mt-16 mb-6 border-t-2 border-zinc-900 pt-6">
+            <div className="text-center">
+              <h2
+                className={`${displayFont.className} inline-block text-2xl sm:text-3xl md:text-4xl font-normal uppercase tracking-[0.14em] text-zinc-900 select-none`}
               >
-                <span>Submit Join Application</span>
-                <ArrowRight className="h-4 w-4" />
-              </Link>
+                MEET THE ENTIRE TEAM
+              </h2>
             </div>
           </div>
-        </section>
+
+          {/* Filter Tabs without 'ALL' button, styled in website theme */}
+          <div className="flex items-center justify-center flex-wrap gap-2 sm:gap-3 my-6">
+            {DEPARTMENT_TABS.map((tab) => {
+              const isActive = activeTab === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-lg font-mono text-[11px] sm:text-xs font-bold uppercase tracking-wider transition-all duration-200 ${
+                    isActive
+                      ? "bg-blue-600 text-white border-2 border-zinc-900 shadow-[3px_3px_0px_0px_#18181b] -translate-y-0.5"
+                      : "bg-white text-zinc-800 border-2 border-zinc-900 shadow-[2.5px_2.5px_0px_0px_#18181b] hover:shadow-[3px_3px_0px_0px_#2563eb] hover:-translate-y-0.5"
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Entire Team Cards Grid - Compact & Refined Size */}
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5 lg:gap-6 mt-8">
+            {filteredEntireTeam.map((member, index) => (
+              <motion.div
+                key={member.id}
+                initial={{ opacity: 0, y: 20, scale: 0.97 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true, margin: "-20px" }}
+                transition={{
+                  duration: 0.45,
+                  delay: (index % 4) * 0.05,
+                  ease: [0.22, 1, 0.36, 1],
+                }}
+                style={{ willChange: "transform, opacity", transform: "translateZ(0)" }}
+                className="group relative rounded-xl border-2 border-zinc-900 bg-white overflow-hidden shadow-[4px_4px_0px_0px_#18181b] hover:shadow-[5px_5px_0px_0px_#2563eb] hover:-translate-y-1 hover:-translate-x-1 active:scale-[0.98] transition-all duration-200 flex flex-col justify-between"
+              >
+                {/* Photo Container */}
+                <div className="relative aspect-square w-full bg-zinc-100 overflow-hidden border-b-2 border-zinc-900">
+                  <img
+                    src={member.image}
+                    alt={member.name}
+                    className="w-full h-full object-cover grayscale contrast-105 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500"
+                  />
+                </div>
+
+                {/* Card Content */}
+                <div className="p-3 sm:p-3.5 flex flex-col justify-between flex-grow space-y-1.5 text-center">
+                  <div className="flex flex-col items-center justify-center">
+                    <h3 className="font-montserrat text-xs sm:text-[14px] font-extrabold uppercase tracking-tight text-zinc-900 group-hover:text-blue-600 transition-colors leading-snug line-clamp-1 text-center">
+                      {member.name}
+                    </h3>
+                    <p className="text-[9.5px] sm:text-[10.5px] font-mono uppercase tracking-wider text-zinc-500 font-semibold mt-0.5 truncate text-center">
+                      {member.role}
+                    </p>
+                  </div>
+
+                  {/* Dashed divider line from screenshot */}
+                  <div className="border-b border-dashed border-zinc-300 my-1" />
+
+                  {/* Footer with LinkedIn 'in' button on side */}
+                  <div className="flex items-center justify-end pt-0.5">
+                    {member.linkedin ? (
+                      <a
+                        href={member.linkedin}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-5 h-5 sm:w-6 sm:h-6 rounded bg-zinc-900 group-hover:bg-blue-600 text-white flex items-center justify-center text-[10px] sm:text-[11px] font-bold transition-colors shadow-xs shrink-0"
+                        aria-label={`${member.name} LinkedIn`}
+                      >
+                        in
+                      </a>
+                    ) : null}
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
       </main>
 
       <Footer />

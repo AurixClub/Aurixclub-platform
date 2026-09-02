@@ -60,7 +60,7 @@ export function SponsorsSection() {
         <ScrollReveal direction="up" delay={0.3} duration={0.6}>
           <div className="text-center">
             <Link
-              href="/departments/sponsors-industry-relations"
+              href="/contact"
               className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-indigo-600 hover:text-indigo-700 transition-colors group"
             >
               <span>Contact for Collaborations</span>

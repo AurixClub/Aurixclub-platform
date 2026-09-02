@@ -23,8 +23,11 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "AURIX | Advanced Robotics & Innovation Club",
-  description: "Official portal for the AURIX club.",
+  title: {
+    default: "AURIX | Advance Unit Research for Xcellence",
+    template: "%s | AURIX",
+  },
+  description: "Official portal for AURIX — Advance Unit Research for Xcellence at Dr. Ambedkar Institute of Technology, Bengaluru.",
 };
 
 export default function RootLayout({
