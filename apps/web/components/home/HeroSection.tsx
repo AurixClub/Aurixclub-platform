@@ -43,9 +43,9 @@ export function HeroSection() {
 
         {/* Main Headline */}
         <motion.div
-          initial={{ opacity: 0, y: 30, filter: "blur(6px)" }}
-          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-          transition={{ duration: 0.8, delay: 0.1, ease: [0.21, 0.47, 0.32, 0.98] }}
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.1, ease: [0.21, 0.47, 0.32, 0.98] }}
         >
           <h1 className="font-montserrat text-2xl sm:text-4xl md:text-6xl lg:text-6xl font-semibold uppercase tracking-tight text-white max-w-5xl mx-auto leading-[1.15] sm:leading-tight drop-shadow-sm">
             <span className="block sm:inline sm:whitespace-nowrap">WHERE STUDENT CURIOSITY</span>{" "}
@@ -61,9 +61,9 @@ export function HeroSection() {
 
         {/* Description */}
         <motion.p
-          initial={{ opacity: 0, y: 25, filter: "blur(4px)" }}
-          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-          transition={{ duration: 0.85, delay: 0.2, ease: [0.21, 0.47, 0.32, 0.98] }}
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.2, ease: [0.21, 0.47, 0.32, 0.98] }}
           className="mx-auto max-w-2xl text-base sm:text-lg md:text-xl text-blue-100/90 leading-relaxed font-medium px-2 sm:px-0"
         >
           A student-led platform for corporate programs, hackathons, and capability building at <strong className="text-white font-bold">Dr. AIT, Bengaluru</strong>.

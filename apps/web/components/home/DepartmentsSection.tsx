@@ -77,29 +77,22 @@ export function DepartmentsSection() {
     loadDepts();
   }, []);
 
-  // Dynamic entrance variants (ultra-smooth floating entry optimized for mobile and desktop)
+  // Ultra-smooth 60/120fps hardware-accelerated entrance variants
   const getCardVariants = (index: number): Variants => {
-    const col = index % 3;
-    const xOffset = col === 0 ? -40 : col === 2 ? 40 : 0;
-
     return {
       hidden: {
         opacity: 0,
-        x: xOffset,
-        y: 45,
-        scale: 0.95,
-        filter: "blur(6px)",
+        y: 28,
+        scale: 0.97,
       },
       visible: {
         opacity: 1,
-        x: 0,
         y: 0,
         scale: 1,
-        filter: "blur(0px)",
         transition: {
-          duration: 0.85,
-          ease: [0.16, 1, 0.3, 1],
-          delay: (index % 6) * 0.08,
+          duration: 0.55,
+          ease: [0.22, 1, 0.36, 1],
+          delay: (index % 6) * 0.06,
         },
       },
     };
@@ -182,14 +175,8 @@ export function DepartmentsSection() {
                   style={{ willChange: "transform, opacity" }}
                   className="group relative h-full"
                 >
-                  {/* Subtle Gradient Glow Ring on Hover */}
-                  <div className="absolute -inset-[1px] rounded-3xl bg-gradient-to-br from-indigo-500/0 via-violet-500/0 to-fuchsia-500/0 group-hover:from-indigo-500/20 group-hover:via-violet-500/15 group-hover:to-fuchsia-500/20 transition-all duration-500 opacity-0 group-hover:opacity-100 blur-[1px]" />
-
                   {/* Card Container */}
-                  <div className="relative h-full rounded-2xl bg-zinc-100 border border-zinc-200/80 group-hover:border-indigo-300 p-4 sm:p-5 flex flex-col justify-between shadow-sm group-hover:shadow-lg transition-all duration-400 overflow-hidden">
-                    {/* Ambient corner glow */}
-                    <div className="absolute top-0 right-0 w-36 h-36 bg-indigo-500/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-
+                  <div className="relative h-full rounded-2xl bg-zinc-100 border border-zinc-200/80 group-hover:border-indigo-300 active:scale-[0.98] p-4 sm:p-5 flex flex-col justify-between shadow-sm group-hover:shadow-lg transition-all duration-300 overflow-hidden">
                     <div className="relative z-10 space-y-3">
                       {/* Department Logo Container */}
                       <div className="flex items-center justify-between gap-3 min-h-[56px]">
@@ -217,21 +204,13 @@ export function DepartmentsSection() {
                     </div>
 
                     {/* Clean Action Footer */}
-                    <div className="relative z-10 pt-4 mt-4 border-t border-zinc-200/60 flex items-center justify-between gap-3">
-                      <Link
-                        href={`/departments/${dept.slug}`}
-                        className="text-xs font-semibold text-indigo-600 hover:text-indigo-700 inline-flex items-center gap-1.5 transition-all group/link"
-                      >
-                        <Users className="h-3.5 w-3.5" />
-                        <span>Explore Domain</span>
-                        <ArrowRight className="h-3.5 w-3.5 opacity-70 group-hover/link:translate-x-1 group-hover/link:opacity-100 transition-all duration-300" />
-                      </Link>
-
+                    <div className="relative z-10 pt-4 mt-4 border-t border-zinc-200/60 flex items-center justify-end">
                       <Link
                         href="/join"
-                        className="px-3.5 py-1.5 rounded-xl bg-zinc-100 hover:bg-indigo-50 hover:border-indigo-200 text-zinc-800 hover:text-indigo-700 border border-zinc-200 text-xs font-semibold transition-all duration-300"
+                        className="w-full inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-zinc-100 hover:bg-indigo-50 hover:border-indigo-200 text-zinc-800 hover:text-indigo-700 border border-zinc-200 text-xs font-semibold transition-all duration-300 group/btn"
                       >
-                        Apply Now
+                        <span>Apply to Join</span>
+                        <ArrowRight className="h-3.5 w-3.5 opacity-70 group-hover/btn:translate-x-1 group-hover/btn:opacity-100 transition-all duration-300" />
                       </Link>
                     </div>
                   </div>

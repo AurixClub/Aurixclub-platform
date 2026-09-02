@@ -78,15 +78,15 @@ export function Navbar() {
     { href: "/projects", label: "Projects" },
   ];
 
-  const isTransparentHero = isHome && !isScrolled;
+  const isTransparentHero = (isHome || pathname === "/events") && !isScrolled;
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-out ${isTransparentHero
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-out ${isTransparentHero
           ? "bg-gradient-to-b from-blue-950/40 via-blue-900/20 to-transparent backdrop-blur-xs border-b border-white/10 text-white"
           : isScrolled
             ? "bg-white/95 backdrop-blur-xl border-b border-zinc-200 shadow-md text-zinc-900"
-            : "bg-white/80 backdrop-blur-md border-b border-zinc-200/80 text-zinc-900 shadow-xs"
+            : "bg-white/85 backdrop-blur-md border-b border-zinc-200/80 text-zinc-900 shadow-xs"
         }`}
     >
       <nav className="w-full px-4 sm:px-6 lg:px-10">
