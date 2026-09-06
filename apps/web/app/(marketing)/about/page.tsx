@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen bg-[#07090e] text-white flex flex-col selection:bg-blue-500/30 selection:text-white">
+    <div className="min-h-screen bg-[#f5f8fc] text-zinc-900 flex flex-col selection:bg-indigo-500/20 selection:text-indigo-900">
       {/* Navigation */}
       <Navbar />
 

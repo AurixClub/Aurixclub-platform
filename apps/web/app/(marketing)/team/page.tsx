@@ -1,392 +1,337 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import Link from "next/link";
+import React, { useState } from "react";
+import { Calistoga } from "next/font/google";
+import { motion } from "framer-motion";
 import { Navbar } from "@/components/navigation/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { ScrollProgress } from "@/components/ui/ScrollReveal";
-import {
-  Users,
-  Crown,
-  Sparkles,
-  ArrowRight,
-  Mail,
-  Layers,
-  Linkedin,
-  Github,
-  Award,
-  Globe,
-  Compass,
-} from "lucide-react";
-import type { Department } from "@aurix/types";
 
-interface FounderProfile {
+const displayFont = Calistoga({
+  weight: "400",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+interface TeamMember {
+  id: string;
   name: string;
   role: string;
-  badge: string;
-  avatar: string;
-  bio: string;
-  department: string;
-  github?: string;
+  category?: "leadership" | "events" | "sponsorship" | "technical" | "media" | "design";
+  image: string;
   linkedin?: string;
 }
 
-const FOUNDERS: FounderProfile[] = [
+const CORE_MEMBERS: TeamMember[] = [
   {
-    name: "Advaith Kolkar",
-    role: "Founder & Lead Architect",
-    badge: "FOUNDER",
-    avatar: "/team/team-4.png",
-    bio: "Founding visionary of AURIX club. Architecting distributed platforms, engineering curricula, and inspiring the next generation of builders and technology leaders.",
-    department: "Executive & Core Engineering",
-    github: "https://github.com/advaithkolkar",
-    linkedin: "https://linkedin.com/in/advaithkolkar",
+    id: "dr-shylaja-kr",
+    name: "Dr. Shylaja K R",
+    role: "Dean (Research & Development)",
+    image: "/team/dr-shylaja-kr.jpg",
+    linkedin: "https://linkedin.com",
   },
   {
-    name: "Anish Sharma",
-    role: "Co-Founder & Head of Operations",
-    badge: "CO-FOUNDER",
-    avatar: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=400&auto=format&fit=crop&q=80",
-    bio: "Co-founder spearheading club growth, corporate partnerships, flagship ecosystem programs, and cross-department collaboration across universities.",
-    department: "Executive & Global Strategy",
-    github: "https://github.com/anishsharma",
-    linkedin: "https://linkedin.com/in/anishsharma",
+    id: "dr-kumara-thanaiah",
+    name: "Dr. Kumara Thanaiah",
+    role: "Faculty Head - Entrepreneurship & Start-up",
+    image: "/team/dr-kumara-thanaiah.jpg",
+    linkedin: "https://linkedin.com",
+  },
+  {
+    id: "dr-nagarathna-ml",
+    name: "Dr. Nagarathna M. L",
+    role: "Clinical Psychology, HHS Department",
+    image: "/team/dr-nagarathna-ml.jpg",
+    linkedin: "https://linkedin.com",
+  },
+  {
+    id: "n-chethan",
+    name: "N Chethan",
+    role: "Student Welfare Officer (SWO)",
+    image: "/team/n-chethan.jpg",
+    linkedin: "https://linkedin.com",
   },
 ];
 
-export default function TeamPage() {
-  const [departments, setDepartments] = useState<Department[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+const ENTIRE_TEAM_MEMBERS: TeamMember[] = [
+  // Leadership
+  {
+    id: "et-anish-kumar",
+    name: "Anish Kumar",
+    role: "President",
+    category: "leadership",
+    image: "/team/anish-kumar.jpg",
+    linkedin: "https://linkedin.com",
+  },
+  {
+    id: "et-advaith",
+    name: "Advaith",
+    role: "Chief Patron",
+    category: "leadership",
+    image: "/team/advaith-kolkar.jpg",
+    linkedin: "https://linkedin.com",
+  },
+  // Event Management
+  {
+    id: "et-aditya-p",
+    name: "Aditya P",
+    role: "Event Management Head",
+    category: "events",
+    image: "/team/aditya-p.jpg",
+    linkedin: "https://linkedin.com",
+  },
+  // IRS & Sponsorship Team
+  {
+    id: "et-sony-k",
+    name: "Sony",
+    role: "IRS Co-Lead",
+    category: "sponsorship",
+    image: "/team/sony.jpg",
+    linkedin: "https://linkedin.com",
+  },
+  {
+    id: "et-rajveer-s",
+    name: "Rajveer Singh",
+    role: "IRS Co-Lead",
+    category: "sponsorship",
+    image: "/team/rajveer-singh.jpg",
+    linkedin: "https://linkedin.com",
+  },
+];
 
-  useEffect(() => {
-    async function fetchDepartments() {
-      try {
-        const res = await fetch("/api/departments");
-        const data = await res.json();
-        if (data.success && data.data?.departments) {
-          setDepartments(data.data.departments);
-        }
-      } catch (e) {
-        console.error("Failed to load departments", e);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-    fetchDepartments();
-  }, []);
+const DEPARTMENT_TABS = [
+  { id: "all", label: "ALL DEPARTMENTS" },
+  { id: "leadership", label: "LEADERSHIP" },
+  { id: "events", label: "EVENT MANAGEMENT" },
+  { id: "sponsorship", label: "IRS & SPONSORSHIP" },
+  { id: "technical", label: "TECHNICAL TEAM" },
+  { id: "media", label: "MEDIA & MARKETING" },
+  { id: "design", label: "DESIGN TEAM" },
+] as const;
+
+export default function TeamPage() {
+  const [activeTab, setActiveTab] = useState<string>("all");
+
+  const departmentsToRender =
+    activeTab === "all"
+      ? DEPARTMENT_TABS.filter(
+          (tab) =>
+            tab.id !== "all" &&
+            ENTIRE_TEAM_MEMBERS.some((m) => m.category === tab.id)
+        )
+      : DEPARTMENT_TABS.filter((tab) => tab.id === activeTab);
 
   return (
-    <div className="min-h-screen bg-[#07090e] text-white flex flex-col selection:bg-purple-500/30 selection:text-white">
+    <div className="min-h-screen bg-gradient-to-b from-[#f0f6fc] via-[#f7fafd] to-[#ffffff] text-zinc-900 flex flex-col selection:bg-blue-500/20 selection:text-blue-900 relative overflow-hidden">
       <ScrollProgress />
       <Navbar />
 
-      <main className="flex-grow pt-24">
-        {/* Page Hero */}
-        <section className="relative pt-16 pb-12 px-4 sm:px-6 lg:px-8 overflow-hidden text-center">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-gradient-to-tr from-blue-600/15 via-purple-600/15 to-pink-600/15 rounded-full blur-3xl pointer-events-none -z-10" />
+      {/* Radiant Soft Sunrise Ambient Glows - Subtle & Elegant */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] sm:w-[1200px] h-[480px] bg-gradient-to-b from-sky-200/20 via-blue-100/10 to-transparent rounded-full blur-[120px] pointer-events-none -z-0" />
+      <div className="absolute top-10 left-1/2 -translate-x-1/2 w-[520px] h-[300px] bg-gradient-to-b from-amber-100/25 via-sky-100/15 to-transparent rounded-full blur-[90px] pointer-events-none -z-0" />
+      {/* Subtle geometric morning dawn grid */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(37,99,235,0.025)_1px,transparent_1px),linear-gradient(to_bottom,rgba(37,99,235,0.025)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_60%_at_50%_0%,#000_50%,transparent_100%)] pointer-events-none -z-0" />
 
-          <div className="mx-auto max-w-4xl space-y-4">
-            <div className="inline-flex items-center gap-2 rounded-full border border-purple-500/20 bg-purple-500/10 px-3.5 py-1 text-xs font-medium text-purple-300">
-              <Sparkles className="h-3.5 w-3.5" />
-              <span>AURIX Leadership & Department Rosters</span>
-            </div>
-
-            <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight text-white">
-              The People Behind <span className="text-gradient-primary">AURIX</span>
+      <main className="flex-grow pt-16 sm:pt-20 pb-24 px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="mx-auto max-w-6xl">
+          {/* Main Title Section */}
+          <div className="text-center max-w-4xl mx-auto pb-4 space-y-2">
+            <h1
+              className={`${displayFont.className} text-3xl sm:text-4xl md:text-5xl lg:text-6xl uppercase tracking-[0.12em] sm:tracking-[0.16em] leading-tight select-none`}
+            >
+              <span className="text-zinc-900">MEET THE </span>
+              <span className="text-blue-600 font-normal">TEAM</span>
             </h1>
-            <p className="text-base sm:text-xl text-zinc-300 max-w-2xl mx-auto leading-relaxed">
-              Meet our founders, executive leads, and department members building the community, organizing tech events, and pushing the boundaries of student innovation.
-            </p>
           </div>
-        </section>
 
-        {/* ========================================================================= */}
-        {/* SECTION 1: FOUNDING LEADERSHIP (Advaith Kolkar & Anish Sharma)             */}
-        {/* ========================================================================= */}
-        <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
-          <div className="rounded-3xl bg-gradient-to-b from-purple-950/20 via-[#0d101e]/80 to-[#090b14]/90 border border-purple-500/20 p-6 sm:p-10 space-y-8 relative overflow-hidden backdrop-blur-2xl shadow-2xl">
-            {/* Ambient Background Lights */}
-            <div className="absolute -top-24 left-1/4 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl pointer-events-none -z-10" />
-            <div className="absolute -bottom-24 right-1/4 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none -z-10" />
-
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/[0.08] pb-6">
-              <div>
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-300 text-xs font-mono font-bold uppercase tracking-wider mb-2">
-                  <Crown className="h-3.5 w-3.5 text-amber-400" />
-                  <span>Founding Office</span>
-                </div>
-                <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
-                  Executive Founders
-                </h2>
-                <p className="text-xs sm:text-sm text-zinc-400 pt-1">
-                  The pioneers who established AURIX and established its vision, mission, and pillars.
-                </p>
-              </div>
-            </div>
-
-            {/* Founder Cards Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {FOUNDERS.map((founder) => (
-                <div
-                  key={founder.name}
-                  className="rounded-2xl p-7 bg-[#101424]/90 border border-purple-500/30 hover:border-purple-400/60 transition-all duration-300 hover:-translate-y-1.5 shadow-xl hover:shadow-purple-500/10 flex flex-col sm:flex-row gap-6 items-center sm:items-start group"
-                >
-                  {/* Photo with Crown */}
-                  <div className="relative shrink-0">
-                    <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-2xl overflow-hidden bg-slate-900 ring-2 ring-purple-500/40 group-hover:ring-purple-400 transition-all shadow-2xl">
-                      <img
-                        src={founder.avatar}
-                        alt={founder.name}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                      />
-                    </div>
-                    <span className="absolute -bottom-2 -right-2 px-2.5 py-0.5 rounded-md bg-gradient-to-r from-amber-500 to-yellow-500 text-black font-black text-[10px] uppercase tracking-wider shadow-lg flex items-center gap-1">
-                      <Crown className="h-3 w-3" />
-                      {founder.badge}
-                    </span>
-                  </div>
-
-                  {/* Details */}
-                  <div className="space-y-3 text-center sm:text-left flex-grow">
-                    <div>
-                      <h3 className="text-xl font-bold text-white group-hover:text-purple-300 transition-colors">
-                        {founder.name}
-                      </h3>
-                      <p className="text-xs font-semibold text-purple-400 font-mono tracking-wide">
-                        {founder.role}
-                      </p>
-                      <span className="text-[11px] text-zinc-400 font-mono">
-                        {founder.department}
-                      </span>
-                    </div>
-
-                    <p className="text-xs text-zinc-300 leading-relaxed">
-                      {founder.bio}
-                    </p>
-
-                    {/* Social links */}
-                    <div className="pt-2 flex items-center justify-center sm:justify-start gap-3 border-t border-white/[0.06]">
-                      {founder.github && (
-                        <a
-                          href={founder.github}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="p-1.5 rounded-lg bg-white/[0.04] hover:bg-white/[0.08] text-zinc-400 hover:text-white transition-colors"
-                          aria-label={`${founder.name} GitHub`}
-                        >
-                          <Github className="h-4 w-4" />
-                        </a>
-                      )}
-                      {founder.linkedin && (
-                        <a
-                          href={founder.linkedin}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="p-1.5 rounded-lg bg-white/[0.04] hover:bg-white/[0.08] text-zinc-400 hover:text-blue-400 transition-colors"
-                          aria-label={`${founder.name} LinkedIn`}
-                        >
-                          <Linkedin className="h-4 w-4" />
-                        </a>
-                      )}
-                      <span className="text-[11px] font-mono text-zinc-500 ml-auto">
-                        AURIX Core
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* ========================================================================= */}
-        {/* SECTION 2: DEPARTMENT-BY-DEPARTMENT ROSTERS                               */}
-        {/* ========================================================================= */}
-        {/* Loading State */}
-        {isLoading && (
-          <div className="text-center py-24 flex items-center justify-center gap-3 text-zinc-400 font-mono text-sm">
-            <span className="h-5 w-5 rounded-full border-2 border-purple-500/30 border-t-purple-500 animate-spin" />
-            <span>Loading Department Team Rosters...</span>
-          </div>
-        )}
-
-        {!isLoading && (
-          <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24 space-y-16">
-            <div className="text-center space-y-2 pb-4">
-              <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-xs font-medium text-zinc-400 font-mono">
-                <Layers className="h-3.5 w-3.5 text-purple-400" />
-                <span>Department Teams</span>
-              </div>
-              <h2 className="text-3xl sm:text-4xl font-extrabold text-white">
-                Domain Leads & Specialized Members
+          {/* ══════════════ SECTION 1: CORE TEAM ══════════════ */}
+          <div className="relative my-6 border-t-2 border-zinc-900 pt-5">
+            <div className="text-center">
+              <h2
+                className={`${displayFont.className} inline-block text-xl sm:text-2xl md:text-3xl font-normal uppercase tracking-[0.15em] text-zinc-900 select-none`}
+              >
+                CORE TEAM
               </h2>
             </div>
+          </div>
 
-            {departments.map((dept, deptIndex) => {
-              const members = dept.members || [];
+          {/* Core Team Cards Grid - Compact & Refined Size */}
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5 lg:gap-6 mt-8">
+            {CORE_MEMBERS.map((member, index) => (
+              <motion.div
+                key={member.id}
+                initial={{ opacity: 0, y: 20, scale: 0.97 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true, margin: "-20px" }}
+                transition={{
+                  duration: 0.45,
+                  delay: (index % 4) * 0.05,
+                  ease: [0.22, 1, 0.36, 1],
+                }}
+                style={{ willChange: "transform, opacity", transform: "translateZ(0)" }}
+                className="group relative rounded-xl border-2 border-zinc-900 bg-white overflow-hidden shadow-[4px_4px_0px_0px_#18181b] hover:shadow-[5px_5px_0px_0px_#2563eb] hover:-translate-y-1 hover:-translate-x-1 active:scale-[0.98] transition-all duration-200 flex flex-col justify-between"
+              >
+                {/* Photo Container */}
+                <div className="relative aspect-square w-full bg-zinc-100 overflow-hidden border-b-2 border-zinc-900">
+                  <img
+                    src={member.image}
+                    alt={member.name}
+                    className="w-full h-full object-cover grayscale contrast-105 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500"
+                  />
+                </div>
 
-              return (
-                <div
-                  key={dept.id}
-                  id={dept.slug}
-                  className="rounded-3xl bg-[#0a0d16]/80 border border-white/10 p-6 sm:p-10 space-y-8 relative overflow-hidden backdrop-blur-xl"
-                >
-                  {/* Subtle Background Glow per row */}
-                  <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-bl from-purple-600/5 via-blue-600/5 to-transparent rounded-full blur-2xl pointer-events-none -z-10" />
-
-                  {/* Department Row Header */}
-                  <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-white/[0.08] pb-6">
-                    <div className="space-y-1 max-w-2xl">
-                      <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-violet-500/10 border border-violet-500/25 text-violet-300 text-[11px] font-mono font-bold uppercase tracking-wider">
-                        <Layers className="h-3 w-3" />
-                        <span>Department 0{deptIndex + 1}</span>
-                      </div>
-                      <h3 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
-                        {dept.name}
-                      </h3>
-                      <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed pt-1">
-                        {dept.description}
-                      </p>
-                    </div>
-
-                    <div className="flex items-center gap-3 shrink-0">
-                      <span className="text-xs font-mono px-3 py-1 rounded-xl bg-white/[0.04] border border-white/10 text-zinc-300">
-                        {members.length} {members.length === 1 ? "Profile" : "Profiles"} Listed
-                      </span>
-                      <Link
-                        href="/join"
-                        className="text-xs font-bold text-violet-400 hover:text-violet-300 inline-flex items-center gap-1 transition-colors"
-                      >
-                        <span>Join Team</span>
-                        <ArrowRight className="h-3.5 w-3.5" />
-                      </Link>
-                    </div>
+                {/* Card Content */}
+                <div className="p-3 sm:p-3.5 flex flex-col justify-between flex-grow space-y-1.5 text-center">
+                  <div className="flex flex-col items-center justify-center">
+                    <h3 className="font-montserrat text-xs sm:text-[14px] font-extrabold uppercase tracking-tight text-zinc-900 group-hover:text-blue-600 transition-colors leading-snug line-clamp-1 text-center">
+                      {member.name}
+                    </h3>
+                    <p className="text-[9.5px] sm:text-[10.5px] font-mono uppercase tracking-wider text-zinc-500 font-semibold mt-0.5 line-clamp-2 text-center">
+                      {member.role}
+                    </p>
                   </div>
 
-                  {/* Profile Cards Grid for This Department */}
-                  {members.length > 0 ? (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                      {members.map((member) => {
-                        const isLead = member.role.toLowerCase().includes("lead");
+                  {/* Dashed divider line from screenshot */}
+                  <div className="border-b border-dashed border-zinc-300 my-1" />
 
-                        return (
-                          <div
-                            key={member.id}
-                            className={`rounded-3xl p-4 flex flex-col justify-between space-y-4 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(139,92,246,0.22)] group ${
-                              isLead
-                                ? "bg-gradient-to-b from-[#141828] via-[#0e1220] to-[#090c15] border border-violet-500/40 hover:border-violet-400"
-                                : "bg-gradient-to-b from-[#111422] to-[#090c15] border border-white/10 hover:border-violet-500/40"
-                            }`}
-                          >
-                            <div className="space-y-4">
-                              {/* Large Showcase Portrait Photo */}
-                              <div className="relative w-full h-64 sm:h-72 rounded-2xl overflow-hidden bg-slate-900/80 ring-1 ring-white/15 group-hover:ring-2 group-hover:ring-violet-400/80 transition-all duration-500 shadow-2xl">
-                                {member.avatar_url ? (
-                                  <img
-                                    src={member.avatar_url}
-                                    alt={member.name}
-                                    className="w-full h-full object-cover object-top group-hover:scale-108 transition-transform duration-700 ease-out"
-                                  />
-                                ) : (
-                                  <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-tr from-blue-950 via-indigo-900 to-purple-950 text-white group-hover:scale-105 transition-transform duration-500">
-                                    <span className="text-5xl font-black bg-clip-text text-transparent bg-gradient-to-br from-white to-slate-400">
-                                      {member.name.charAt(0)}
-                                    </span>
-                                    <span className="text-xs text-zinc-400 font-mono mt-2 uppercase tracking-wider">{dept.name}</span>
-                                  </div>
-                                )}
+                  {/* Footer with LinkedIn 'in' button on side */}
+                  <div className="flex items-center justify-end pt-0.5">
+                    {member.linkedin ? (
+                      <a
+                        href={member.linkedin}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-5 h-5 sm:w-6 sm:h-6 rounded bg-zinc-900 group-hover:bg-blue-600 text-white flex items-center justify-center text-[10px] sm:text-[11px] font-bold transition-colors shadow-xs shrink-0"
+                        aria-label={`${member.name} LinkedIn`}
+                      >
+                        in
+                      </a>
+                    ) : null}
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
 
-                                {/* Gradient Vignette on bottom of image for text readability */}
-                                <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-[#090c15] via-transparent to-black/20 opacity-80 group-hover:opacity-40 transition-opacity duration-500" />
+          {/* ══════════════ SECTION 2: MEET THE ENTIRE TEAM ══════════════ */}
+          <div className="relative mt-16 mb-6 border-t-2 border-zinc-900 pt-6">
+            <div className="text-center">
+              <h2
+                className={`${displayFont.className} inline-block text-2xl sm:text-3xl md:text-4xl font-normal uppercase tracking-[0.14em] text-zinc-900 select-none`}
+              >
+                MEET THE ENTIRE TEAM
+              </h2>
+            </div>
+          </div>
 
-                                {isLead && (
-                                  <div className="absolute top-3 right-3 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-400 text-slate-950 text-[11px] font-mono font-extrabold uppercase tracking-wider shadow-xl ring-2 ring-black/30 backdrop-blur-md">
-                                    <Crown className="h-3.5 w-3.5 text-slate-950 fill-slate-950" />
-                                    <span>Lead</span>
-                                  </div>
-                                )}
-                              </div>
+          {/* Filter Tabs without 'ALL' button, styled in website theme */}
+          <div className="flex items-center justify-center flex-wrap gap-2 sm:gap-3 my-6">
+            {DEPARTMENT_TABS.map((tab) => {
+              const isActive = activeTab === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-lg font-mono text-[11px] sm:text-xs font-bold uppercase tracking-wider transition-all duration-200 ${
+                    isActive
+                      ? "bg-blue-600 text-white border-2 border-zinc-900 shadow-[3px_3px_0px_0px_#18181b] -translate-y-0.5"
+                      : "bg-white text-zinc-800 border-2 border-zinc-900 shadow-[2.5px_2.5px_0px_0px_#18181b] hover:shadow-[3px_3px_0px_0px_#2563eb] hover:-translate-y-0.5"
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              );
+            })}
+          </div>
 
-                              {/* Info Content */}
-                              <div className="space-y-2 px-1">
-                                <div className="flex items-start justify-between gap-2">
-                                  <div>
-                                    <h4 className="text-lg font-bold text-white group-hover:text-violet-300 transition-colors leading-snug">
-                                      {member.name}
-                                    </h4>
-                                    <span
-                                      className={`inline-block text-[11px] font-mono uppercase px-2.5 py-0.5 rounded-full font-bold tracking-wider mt-1 ${
-                                        isLead
-                                          ? "bg-amber-500/15 text-amber-300 border border-amber-500/30"
-                                          : "bg-blue-500/15 text-blue-300 border border-blue-500/30"
-                                      }`}
-                                    >
-                                      {member.role}
-                                    </span>
-                                  </div>
-                                </div>
+          {/* Step-by-Step Department Sections */}
+          <div className="space-y-12 sm:space-y-14 mt-8">
+            {departmentsToRender.map((dept) => {
+              const deptMembers = ENTIRE_TEAM_MEMBERS.filter(
+                (m) => m.category === dept.id
+              );
 
-                                {member.description && (
-                                  <p className="text-xs text-zinc-300 line-clamp-3 leading-relaxed pt-1">
-                                    {member.description}
-                                  </p>
-                                )}
-                              </div>
+              return (
+                <div key={dept.id} className="relative">
+                  {/* Department Header */}
+                  <div className="flex items-center gap-3 mb-6 pb-2 border-b border-zinc-200">
+                    <h3
+                      className={`${displayFont.className} text-lg sm:text-xl md:text-2xl uppercase tracking-wider text-zinc-900`}
+                    >
+                      {dept.label}
+                    </h3>
+                    <div className="h-[2px] flex-1 bg-zinc-200" />
+                  </div>
+
+                  {deptMembers.length > 0 ? (
+                    <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5 lg:gap-6">
+                      {deptMembers.map((member, index) => (
+                        <motion.div
+                          key={member.id}
+                          initial={{ opacity: 0, y: 20, scale: 0.97 }}
+                          whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                          viewport={{ once: true, margin: "-20px" }}
+                          transition={{
+                            duration: 0.45,
+                            delay: (index % 4) * 0.05,
+                            ease: [0.22, 1, 0.36, 1],
+                          }}
+                          style={{ willChange: "transform, opacity", transform: "translateZ(0)" }}
+                          className="group relative rounded-xl border-2 border-zinc-900 bg-white overflow-hidden shadow-[4px_4px_0px_0px_#18181b] hover:shadow-[5px_5px_0px_0px_#2563eb] hover:-translate-y-1 hover:-translate-x-1 active:scale-[0.98] transition-all duration-200 flex flex-col justify-between"
+                        >
+                          {/* Photo Container */}
+                          <div className="relative aspect-square w-full bg-zinc-100 overflow-hidden border-b-2 border-zinc-900">
+                            <img
+                              src={member.image}
+                              alt={member.name}
+                              className="w-full h-full object-cover grayscale contrast-105 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500"
+                            />
+                          </div>
+
+                          {/* Card Content */}
+                          <div className="p-3 sm:p-3.5 flex flex-col justify-between flex-grow space-y-1.5 text-center">
+                            <div className="flex flex-col items-center justify-center">
+                              <h3 className="font-montserrat text-xs sm:text-[14px] font-extrabold uppercase tracking-tight text-zinc-900 group-hover:text-blue-600 transition-colors leading-snug line-clamp-1 text-center">
+                                {member.name}
+                              </h3>
+                              <p className="text-[9.5px] sm:text-[10.5px] font-mono uppercase tracking-wider text-zinc-500 font-semibold mt-0.5 line-clamp-2 text-center">
+                                {member.role}
+                              </p>
                             </div>
 
-                            {/* Email / Contact Footer */}
-                            {member.email && (
-                              <div className="pt-3 border-t border-white/[0.06] px-1">
+                            {/* Dashed divider line from screenshot */}
+                            <div className="border-b border-dashed border-zinc-300 my-1" />
+
+                            {/* Footer with LinkedIn 'in' button on side */}
+                            <div className="flex items-center justify-end pt-0.5">
+                              {member.linkedin ? (
                                 <a
-                                  href={`mailto:${member.email}`}
-                                  className="w-full py-2 px-3 rounded-xl bg-white/[0.04] hover:bg-violet-600/20 border border-white/10 hover:border-violet-500/40 text-zinc-300 hover:text-white text-xs font-mono transition-all flex items-center justify-center gap-2 group/email"
+                                  href={member.linkedin}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="w-5 h-5 sm:w-6 sm:h-6 rounded bg-zinc-900 group-hover:bg-blue-600 text-white flex items-center justify-center text-[10px] sm:text-[11px] font-bold transition-colors shadow-xs shrink-0"
+                                  aria-label={`${member.name} LinkedIn`}
                                 >
-                                  <Mail className="h-3.5 w-3.5 text-violet-400 group-hover/email:scale-110 transition-transform" />
-                                  <span className="truncate">{member.email}</span>
+                                  in
                                 </a>
-                              </div>
-                            )}
+                              ) : null}
+                            </div>
                           </div>
-                        );
-                      })}
+                        </motion.div>
+                      ))}
                     </div>
                   ) : (
-                    <div className="p-8 rounded-2xl border border-dashed border-white/10 text-center space-y-2">
-                      <p className="text-xs text-zinc-400">No member profiles listed for {dept.name} yet.</p>
-                      <Link
-                        href="/join"
-                        className="inline-block text-xs text-violet-400 hover:text-violet-300 font-semibold underline"
-                      >
-                        Apply to lead or join {dept.name} →
-                      </Link>
+                    <div className="text-center py-14 px-4 text-zinc-500 bg-white/50 rounded-2xl border-2 border-dashed border-zinc-300 mt-4 max-w-md mx-auto">
+                      <p className="font-mono text-xs uppercase tracking-wider font-semibold">
+                        Department members being announced soon
+                      </p>
                     </div>
                   )}
                 </div>
               );
             })}
-          </section>
-        )}
-
-        {/* Join CTA */}
-        <section className="relative py-20 px-4 sm:px-6 lg:px-8 border-t border-white/[0.06] text-center">
-          <div className="mx-auto max-w-3xl glass-card p-10 rounded-3xl border border-white/10 space-y-6">
-            <h3 className="text-2xl sm:text-3xl font-bold text-white">
-              Want to Lead & Build with Us?
-            </h3>
-            <p className="text-sm sm:text-base text-zinc-400 max-w-xl mx-auto leading-relaxed">
-              We are constantly looking for enthusiastic students to join our core department teams and take ownership of initiatives.
-            </p>
-            <div>
-              <Link
-                href="/join"
-                className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 px-8 py-3.5 text-sm font-semibold text-white shadow-xl shadow-indigo-500/25 hover:shadow-indigo-500/40 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
-              >
-                <span>Submit Join Application</span>
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-            </div>
           </div>
-        </section>
+        </div>
       </main>
 
       <Footer />

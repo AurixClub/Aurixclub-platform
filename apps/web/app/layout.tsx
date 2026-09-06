@@ -23,8 +23,11 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "AURIX | Advanced Robotics & Innovation Club",
-  description: "Official portal for the AURIX club.",
+  title: {
+    default: "AURIX | Advance Unit Research for Xcellence",
+    template: "%s | AURIX",
+  },
+  description: "Official portal for AURIX — Advance Unit Research for Xcellence at Dr. Ambedkar Institute of Technology, Bengaluru.",
 };
 
 export default function RootLayout({
@@ -33,8 +36,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`dark ${montserrat.variable} ${playfair.variable} ${inter.variable}`}>
-      <body className="min-h-screen bg-background font-sans antialiased">
+    <html lang="en" className={`light ${montserrat.variable} ${playfair.variable} ${inter.variable}`}>
+      <body className="min-h-screen bg-white text-zinc-900 font-sans antialiased">
         <SmoothScrollProvider>{children}</SmoothScrollProvider>
       </body>
     </html>

@@ -30,6 +30,8 @@ import {
   Crown,
   Sparkle,
   Megaphone,
+  Github,
+  Code2,
 } from "lucide-react";
 import type {
   SessionData,
@@ -44,7 +46,6 @@ import type {
 
 type AdminTab =
   | "overview"
-  | "departments"
   | "applications"
   | "events"
   | "emails"
@@ -71,17 +72,6 @@ export default function AdminPage() {
   const [newAnnouncement, setNewAnnouncement] = useState({ title: "", message: "", link_text: "", link_url: "", is_active: false });
   const [isCreatingAnnouncement, setIsCreatingAnnouncement] = useState(false);
 
-  // Department & Member Management state
-  const [selectedDept, setSelectedDept] = useState<Department | null>(null);
-  
-  // New Member Form state
-  const [newMemberName, setNewMemberName] = useState("");
-  const [newMemberRole, setNewMemberRole] = useState("Lead");
-  const [newMemberDesc, setNewMemberDesc] = useState("");
-  const [newMemberAvatar, setNewMemberAvatar] = useState("");
-  const [newMemberEmail, setNewMemberEmail] = useState("");
-  const [isAddingMember, setIsAddingMember] = useState(false);
-
   // Modals & UI helpers
   const [appReviewNotes, setAppReviewNotes] = useState("");
   const [selectedEventForRegs, setSelectedEventForRegs] = useState<Event | null>(null);
@@ -102,6 +92,17 @@ export default function AdminPage() {
   const [newEventDeptId, setNewEventDeptId] = useState("");
   const [newEventTags, setNewEventTags] = useState("hackathon, workshop");
   const [isCreatingEvent, setIsCreatingEvent] = useState(false);
+
+  // Project Creation Modal State
+  const [showCreateProjectModal, setShowCreateProjectModal] = useState(false);
+  const [newProjectTitle, setNewProjectTitle] = useState("");
+  const [newProjectCategory, setNewProjectCategory] = useState("Fullstack Web & Systems");
+  const [newProjectDesc, setNewProjectDesc] = useState("");
+  const [newProjectCoverImage, setNewProjectCoverImage] = useState("");
+  const [newProjectGithub, setNewProjectGithub] = useState("");
+  const [newProjectDemo, setNewProjectDemo] = useState("");
+  const [newProjectTags, setNewProjectTags] = useState("React, TypeScript, Next.js");
+  const [isCreatingProject, setIsCreatingProject] = useState(false);
 
   // File Upload Helper
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>, setter: (val: string) => void) => {
@@ -143,16 +144,6 @@ export default function AdminPage() {
         const res = await fetch("/api/admin/overview");
         const d = await res.json();
         if (d.success) setOverview(d.data);
-      } else if (activeTab === "departments") {
-        const res = await fetch("/api/departments");
-        const d = await res.json();
-        if (d.success) {
-          setDepartments(d.data.departments);
-          if (selectedDept) {
-            const updated = d.data.departments.find((dept: Department) => dept.id === selectedDept.id);
-            if (updated) setSelectedDept(updated);
-          }
-        }
       } else if (activeTab === "applications") {
         const url = appStatusFilter !== "all" ? `/api/applications?status=${appStatusFilter}` : "/api/applications";
         const res = await fetch(url);
@@ -202,52 +193,6 @@ export default function AdminPage() {
     }
   };
 
-  // Actions: Department Member Management
-  const handleAddDepartmentMember = async (deptId: string) => {
-    if (!newMemberName.trim()) {
-      alert("Please enter a name for the member.");
-      return;
-    }
-
-    setIsAddingMember(true);
-    try {
-      const res = await fetch("/api/departments/members", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          department_id: deptId,
-          name: newMemberName.trim(),
-          role: newMemberRole.trim() || "Lead",
-          description: newMemberDesc.trim() || null,
-          avatar_url: newMemberAvatar.trim() || null,
-          email: newMemberEmail.trim() || null,
-        }),
-      });
-
-      if (res.ok) {
-        // Reset form
-        setNewMemberName("");
-        setNewMemberRole("Lead");
-        setNewMemberDesc("");
-        setNewMemberAvatar("");
-        setNewMemberEmail("");
-        loadData();
-      }
-    } catch (e) {
-      console.error("Failed to add member", e);
-      alert("Failed to add member. Please check the form values and try again.");
-    } finally {
-      setIsAddingMember(false);
-    }
-  };
-
-  const handleRemoveDepartmentMember = async (memberId: string) => {
-    if (!confirm("Remove this member profile from the department?")) return;
-    const res = await fetch(`/api/departments/members/${memberId}`, {
-      method: "DELETE",
-    });
-    if (res.ok) loadData();
-  };
 
   // Actions: Applications
   const handleReviewApplication = async (appId: string, status: "approved" | "rejected" | "waitlisted") => {
@@ -358,6 +303,55 @@ export default function AdminPage() {
     }
   };
 
+  const handleCreateProject = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newProjectTitle.trim() || !newProjectCategory.trim() || !newProjectDesc.trim()) {
+      alert("Please fill in Title, Category, and Description.");
+      return;
+    }
+    setIsCreatingProject(true);
+    try {
+      const tagsArray = newProjectTags
+        .split(",")
+        .map((t) => t.trim())
+        .filter(Boolean);
+
+      const res = await fetch("/api/projects", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title: newProjectTitle.trim(),
+          category: newProjectCategory.trim(),
+          description: newProjectDesc.trim(),
+          icon: newProjectCoverImage.trim() || null,
+          github_url: newProjectGithub.trim() || null,
+          demo_url: newProjectDemo.trim() || null,
+          tags: tagsArray,
+        }),
+      });
+
+      if (res.ok) {
+        setShowCreateProjectModal(false);
+        setNewProjectTitle("");
+        setNewProjectCategory("Fullstack Web & Systems");
+        setNewProjectDesc("");
+        setNewProjectCoverImage("");
+        setNewProjectGithub("");
+        setNewProjectDemo("");
+        setNewProjectTags("React, TypeScript, Next.js");
+        loadData();
+      } else {
+        const d = await res.json().catch(() => ({}));
+        alert(d.error?.message || "Failed to create project");
+      }
+    } catch (err) {
+      console.error("Create project error", err);
+      alert("Failed to create project");
+    } finally {
+      setIsCreatingProject(false);
+    }
+  };
+
 
   if (isLoading) {
     return (
@@ -461,7 +455,6 @@ export default function AdminPage() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center gap-1 overflow-x-auto py-2 scrollbar-none">
             {[
               { id: "overview", label: "Overview", icon: Sparkles },
-              { id: "departments", label: "Departments & Leads", icon: Layers },
               { id: "applications", label: "Applications", icon: UserCheck },
               { id: "events", label: "Events", icon: Calendar },
               { id: "emails", label: "Emails", icon: Mail },
@@ -475,7 +468,6 @@ export default function AdminPage() {
                   key={tab.id}
                   onClick={() => {
                     setActiveTab(tab.id as AdminTab);
-                    setSelectedDept(null);
                   }}
                   className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${
                     isActive
@@ -500,7 +492,7 @@ export default function AdminPage() {
             {/* Metrics Counters Grid */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
               {[
-                { label: "Departments", value: overview?.counts?.departments ?? departments.length, sub: "Active departments", icon: Layers, color: "text-blue-400", tab: "departments" },
+                { label: "Announcements", value: announcements.length, sub: "Published updates", icon: Megaphone, color: "text-blue-400", tab: "announcements" },
                 { label: "Pending Apps", value: overview?.counts?.pending_applications ?? "-", sub: `${overview?.counts?.total_applications ?? 0} total apps`, icon: UserCheck, color: "text-amber-400", tab: "applications" },
                 { label: "Events", value: overview?.counts?.events ?? "-", sub: `${overview?.counts?.published_events ?? 0} published`, icon: Calendar, color: "text-emerald-400", tab: "events" },
                 { label: "Emails", value: overview?.counts?.email_campaigns ?? "-", sub: "Campaigns sent", icon: Mail, color: "text-pink-400", tab: "emails" },
@@ -650,336 +642,6 @@ export default function AdminPage() {
                 </div>
               </div>
             </div>
-          </div>
-        )}
-
-        {/* ─── TAB: DEPARTMENTS & LEADS ──────────────────────────────────── */}
-        {activeTab === "departments" && (
-          <div className="space-y-6">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-              <div>
-                <h2 className="text-2xl font-bold text-gradient-primary">Departments & Leads</h2>
-                <p className="text-xs text-gray-500">
-                  Select a department to view and manage its Leads, Co-Leads, and Member profiles.
-                </p>
-              </div>
-              <button
-                onClick={async () => {
-                  const name = prompt("Enter new department name:");
-                  if (!name) return;
-                  const desc = prompt("Enter short description:");
-                  const res = await fetch("/api/departments", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ name, description: desc || null }),
-                  });
-                  if (res.ok) loadData();
-                }}
-                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-rose-500 hover:bg-rose-600 text-white text-xs font-semibold shadow-lg shadow-rose-500/20 transition-all"
-              >
-                <Plus className="h-4 w-4" />
-                <span>Create Department</span>
-              </button>
-            </div>
-
-            {/* Clean Department Cards Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-              {departments.map((dept) => {
-                const isSelected = selectedDept?.id === dept.id;
-                const leadsCount = dept.members?.filter((m) => m.role.toLowerCase().includes("lead")).length || 0;
-
-                return (
-                  <div
-                    key={dept.id}
-                    onClick={() => setSelectedDept(isSelected ? null : dept)}
-                    className={`p-6 rounded-2xl border cursor-pointer transition-all backdrop-blur-sm ${
-                      isSelected
-                        ? "border-violet-500/50 shadow-xl shadow-violet-500/10 bg-violet-950/30"
-                        : "bg-white/[0.03] border-white/[0.06] hover:border-violet-500/30 hover:bg-white/[0.05]"
-                    }`}
-                  >
-                    <div className="flex items-start justify-between">
-                      <div>
-                        <h3 className="text-base font-bold text-gray-900">{dept.name}</h3>
-                        <span className="text-[11px] font-mono text-gray-400">/{dept.slug}</span>
-                      </div>
-                      <span
-                        className={`text-[10px] font-mono uppercase px-2.5 py-0.5 rounded-full font-bold ${
-                          dept.status === "active"
-                            ? "bg-emerald-500/15 text-emerald-300 border border-emerald-500/30"
-                            : "bg-zinc-500/15 text-gray-500 border border-zinc-500/30"
-                        }`}
-                      >
-                        {dept.status}
-                      </span>
-                    </div>
-
-                    <p className="text-xs text-gray-600 leading-relaxed my-3 line-clamp-2">
-                      {dept.description || "No description provided."}
-                    </p>
-
-                    <div className="pt-3 border-t border-gray-200 flex items-center justify-between text-xs">
-                      <span className="text-gray-500 font-mono flex items-center gap-1.5">
-                        <Users className="h-3.5 w-3.5 text-blue-400" />
-                        <span>Team Profiles: <strong className="text-gray-900">{dept.members?.length || 0}</strong></span>
-                      </span>
-
-                      <span className="text-[11px] text-rose-600 font-semibold">
-                        {isSelected ? "Managing Team ↓" : "View Leads & Members →"}
-                      </span>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-
-            {/* Department Member Management Roster Panel */}
-            {selectedDept && (
-              <div className="p-6 sm:p-8 rounded-3xl bg-[#0d111c]/95 border border-violet-500/20 shadow-2xl space-y-8 backdrop-blur-xl">
-                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-gray-200 pb-5">
-                  <div>
-                    <div className="inline-flex items-center gap-2 text-xs font-mono text-rose-500 uppercase tracking-wider mb-1">
-                      <Crown className="h-3.5 w-3.5 text-amber-400" />
-                      <span>Department Leadership & Team Management</span>
-                    </div>
-                    <h3 className="text-2xl font-black text-gray-900">{selectedDept.name}</h3>
-                    <p className="text-xs text-gray-500 mt-1">{selectedDept.description}</p>
-                  </div>
-
-                  <div className="flex items-center gap-2">
-                    <button
-                      onClick={async () => {
-                        if (!confirm(`Delete ${selectedDept.name}?`)) return;
-                        const res = await fetch(`/api/departments/${selectedDept.id}`, { method: "DELETE" });
-                        if (res.ok) {
-                          setSelectedDept(null);
-                          loadData();
-                        }
-                      }}
-                      className="px-3 py-1.5 rounded-xl bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/20 text-xs font-medium transition-colors"
-                    >
-                      Delete Department
-                    </button>
-                    <button
-                      onClick={() => setSelectedDept(null)}
-                      className="px-3 py-1.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.1] text-zinc-400 hover:text-white border border-white/10 text-xs font-medium transition-colors"
-                    >
-                      Close Panel
-                    </button>
-                  </div>
-                </div>
-
-                {/* Add Member / Lead / Co-Lead Form */}
-                <div className="p-6 rounded-2xl bg-white/[0.03] border border-white/[0.08] space-y-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2 text-sm font-bold text-gray-900">
-                      <UserPlus className="h-4 w-4 text-emerald-400" />
-                      <span>Add Member, Lead, or Co-Lead to {selectedDept.name}</span>
-                    </div>
-                    <span className="text-[11px] font-mono text-gray-500">Directly adds to public department page</span>
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
-                    <div>
-                      <label className="text-gray-500 font-mono block mb-1">Full Name *</label>
-                      <input
-                        type="text"
-                        placeholder="e.g. Harshith Gowda"
-                        value={newMemberName}
-                        onChange={(e) => setNewMemberName(e.target.value)}
-                        className="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.04] border border-white/10 text-white placeholder:text-zinc-500 focus:outline-none focus:border-violet-500"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="text-gray-500 font-mono block mb-1">Role in Department *</label>
-                      <input
-                        type="text"
-                        placeholder="e.g. Lead, Co-Lead, Core Member"
-                        value={newMemberRole}
-                        onChange={(e) => setNewMemberRole(e.target.value)}
-                        className="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.04] border border-white/10 text-white placeholder:text-zinc-500 focus:outline-none focus:border-violet-500"
-                      />
-                    </div>
-
-                    <div>
-                      <div className="flex items-center justify-between mb-1">
-                        <label className="text-gray-500 font-mono text-xs">Profile Photo</label>
-                        <label className="cursor-pointer text-[10px] text-rose-600 hover:text-rose-500 font-mono underline flex items-center gap-1">
-                          <ImageIcon className="h-3 w-3" />
-                          <span>Upload File</span>
-                          <input
-                            type="file"
-                            accept="image/*"
-                            onChange={(e) => handleFileUpload(e, setNewMemberAvatar)}
-                            className="hidden"
-                          />
-                        </label>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        {newMemberAvatar && (
-                          <div className="w-8 h-8 rounded-lg overflow-hidden shrink-0 border border-violet-400">
-                            <img src={newMemberAvatar} alt="preview" className="w-full h-full object-cover" />
-                          </div>
-                        )}
-                        <input
-                          type="text"
-                          placeholder="Upload or paste image URL..."
-                          value={newMemberAvatar}
-                          onChange={(e) => setNewMemberAvatar(e.target.value)}
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.04] border border-white/10 text-white placeholder:text-zinc-500 focus:outline-none focus:border-violet-500 font-mono text-[11px]"
-                        />
-                      </div>
-                    </div>
-
-                    <div>
-                      <label className="text-gray-500 font-mono block mb-1">Email Address</label>
-                      <input
-                        type="email"
-                        placeholder="member@aurix.club"
-                        value={newMemberEmail}
-                        onChange={(e) => setNewMemberEmail(e.target.value)}
-                        className="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.04] border border-white/10 text-white placeholder:text-zinc-500 focus:outline-none focus:border-violet-500 font-mono text-[11px]"
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="text-gray-500 font-mono text-xs block mb-1">Short Description / Specialization</label>
-                    <input
-                      type="text"
-                      placeholder="e.g. Full-stack architect & AI workflow specialist leading software engineering tracks."
-                      value={newMemberDesc}
-                      onChange={(e) => setNewMemberDesc(e.target.value)}
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.04] border border-white/10 text-xs text-white placeholder:text-zinc-500 focus:outline-none focus:border-violet-500"
-                    />
-                  </div>
-
-                  <div className="flex items-center justify-between pt-2">
-                    <div className="flex items-center gap-2">
-                      <span className="text-[11px] text-gray-400 font-mono">Quick Avatars:</span>
-                      {[
-                        "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&auto=format&fit=crop",
-                        "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=300&auto=format&fit=crop",
-                        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=300&auto=format&fit=crop",
-                        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&auto=format&fit=crop",
-                      ].map((img, i) => (
-                        <button
-                          key={i}
-                          type="button"
-                          onClick={() => setNewMemberAvatar(img)}
-                          className="w-6 h-6 rounded-full overflow-hidden border border-white/20 hover:border-violet-400 transition-all"
-                        >
-                          <img src={img} alt="preset" className="w-full h-full object-cover" />
-                        </button>
-                      ))}
-                      {newMemberAvatar && (
-                        <button
-                          type="button"
-                          onClick={() => setNewMemberAvatar("")}
-                          className="text-[10px] text-gray-400 hover:text-red-400 font-mono ml-1"
-                        >
-                          Clear
-                        </button>
-                      )}
-                    </div>
-
-                    <button
-                      onClick={() => handleAddDepartmentMember(selectedDept.id)}
-                      disabled={isAddingMember || !newMemberName.trim()}
-                      className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:opacity-95 disabled:opacity-40 text-white text-xs font-bold shadow-lg shadow-emerald-600/25 transition-all flex items-center gap-1.5"
-                    >
-                      <Plus className="h-4 w-4" />
-                      <span>{isAddingMember ? "Adding..." : "Add to Department"}</span>
-                    </button>
-                  </div>
-                </div>
-
-                {/* Current Department Members & Leads Cards Grid */}
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <h4 className="text-sm font-bold uppercase tracking-wider text-gray-600">
-                      Current Department Members & Leads ({selectedDept.members?.length || 0})
-                    </h4>
-                  </div>
-
-                  {selectedDept.members && selectedDept.members.length > 0 ? (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                      {selectedDept.members.map((member) => {
-                        const isLead = member.role.toLowerCase().includes("lead");
-                        return (
-                          <div
-                            key={member.id}
-                            className={`group p-5 rounded-2xl border flex flex-col justify-between space-y-4 transition-all ${
-                              isLead
-                                ? "bg-gradient-to-br from-violet-950/40 via-[#0d111c] to-[#0d111c] border-violet-500/20"
-                                : "bg-white/[0.03] border-white/[0.06]"
-                            }`}
-                          >
-                            <div className="space-y-3">
-                              <div className="flex items-start justify-between gap-3">
-                                <div className="flex items-center gap-3.5">
-                                  {member.avatar_url ? (
-                                    <div className="w-16 h-16 rounded-2xl overflow-hidden ring-2 ring-violet-500/30 flex-shrink-0 bg-slate-900 shadow-md">
-                                      <img
-                                        src={member.avatar_url}
-                                        alt={member.name}
-                                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                                      />
-                                    </div>
-                                  ) : (
-                                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-violet-600/30 to-indigo-600/30 border border-violet-500/30 flex items-center justify-center font-bold text-lg text-white flex-shrink-0 shadow-md">
-                                      {member.name.charAt(0)}
-                                    </div>
-                                  )}
-                                  <div>
-                                    <h5 className="text-sm font-bold text-white leading-tight">{member.name}</h5>
-                                    <span
-                                      className={`inline-block text-[10px] font-mono uppercase px-2.5 py-0.5 rounded-full font-bold mt-1 ${
-                                        isLead
-                                          ? "bg-amber-500/20 text-amber-300 border border-amber-500/30"
-                                          : "bg-blue-500/20 text-blue-300 border border-blue-500/30"
-                                      }`}
-                                    >
-                                      {member.role}
-                                    </span>
-                                  </div>
-                                </div>
-
-                                <button
-                                  onClick={() => handleRemoveDepartmentMember(member.id)}
-                                  className="p-1.5 rounded-lg text-zinc-400 hover:text-red-400 hover:bg-red-500/10 transition-colors"
-                                  title="Remove Member"
-                                >
-                                  <Trash2 className="h-4 w-4" />
-                                </button>
-                              </div>
-
-                              {member.description && (
-                                <p className="text-xs text-gray-600 leading-relaxed line-clamp-3">
-                                  {member.description}
-                                </p>
-                              )}
-                            </div>
-
-                            {member.email && (
-                              <div className="text-[11px] font-mono text-gray-400 pt-2 border-t border-white/[0.04]">
-                                {member.email}
-                              </div>
-                            )}
-                          </div>
-                        );
-                      })}
-                    </div>
-                  ) : (
-                    <div className="p-8 rounded-2xl border border-dashed border-gray-200 text-center text-xs text-gray-500 space-y-1">
-                      <p>No member or lead profiles added to {selectedDept.name} yet.</p>
-                      <p className="text-gray-400">Use the form above to add Leads, Co-Leads, and department members!</p>
-                    </div>
-                  )}
-                </div>
-              </div>
-            )}
           </div>
         )}
 
@@ -1419,32 +1081,12 @@ export default function AdminPage() {
             <div className="flex items-center justify-between">
               <div>
                 <h2 className="text-2xl font-bold text-gradient-primary">Projects Management</h2>
-                <p className="text-xs text-gray-500">Manage platform showcase projects dynamically.</p>
+                <p className="text-xs text-gray-500">Manage platform showcase projects dynamically with cover banners and links.</p>
               </div>
 
               <button
-                onClick={async () => {
-                  const title = prompt("Project Title:");
-                  if (!title) return;
-                  const category = prompt("Project Category:");
-                  const description = prompt("Description:");
-                  if (!category || !description) return;
-                  
-                  const res = await fetch("/api/projects", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                      title,
-                      category,
-                      description,
-                    }),
-                  });
-                  if (res.ok) {
-                    loadData();
-                  } else {
-                    alert("Failed to create project");
-                  }
-                }}
+                type="button"
+                onClick={() => setShowCreateProjectModal(true)}
                 className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-rose-500 hover:bg-rose-600 text-white text-xs font-semibold shadow-lg shadow-rose-500/20 transition-all"
               >
                 <Plus className="h-4 w-4" />
@@ -1452,34 +1094,271 @@ export default function AdminPage() {
               </button>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {projects.length > 0 ? (
                 projects.map((project: any) => (
-                  <div key={project.id} className="p-6 rounded-2xl bg-white/[0.03] border border-white/[0.06] space-y-4 backdrop-blur-sm hover:border-violet-500/30 transition-all">
-                    <div className="flex items-center justify-between">
-                      <span className="text-[10px] font-mono text-rose-600 uppercase tracking-wider">{project.category}</span>
-                      <button
-                        onClick={async () => {
-                          if (!confirm(`Delete project "${project.title}"?`)) return;
-                          const res = await fetch(`/api/projects/${project.id}`, { method: "DELETE" });
-                          if (res.ok) loadData();
-                        }}
-                        className="p-1.5 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20"
-                      >
-                        <Trash2 className="h-3.5 w-3.5" />
-                      </button>
-                    </div>
+                  <div
+                    key={project.id}
+                    className="group rounded-2xl border border-white/10 bg-white/[0.03] p-4 flex flex-col justify-between hover:border-violet-500/40 hover:bg-white/[0.05] transition-all backdrop-blur-sm shadow-md"
+                  >
                     <div>
-                      <h3 className="text-lg font-bold text-gray-900">{project.title}</h3>
-                      <p className="text-xs text-gray-500 mt-1 line-clamp-3">{project.description}</p>
+                      {/* Box-Type Image Banner (Same as Events Card) */}
+                      <div className="relative w-full aspect-[16/10] rounded-xl overflow-hidden mb-3 bg-zinc-800 border border-white/10">
+                        {project.icon ? (
+                          <img
+                            src={project.icon}
+                            alt={project.title}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                          />
+                        ) : (
+                          <div className="w-full h-full bg-gradient-to-br from-violet-950/40 via-indigo-950/30 to-purple-950/40 flex flex-col items-center justify-center gap-1.5 p-3 text-center">
+                            <Code2 className="h-7 w-7 text-rose-400" />
+                            <span className="text-[10px] font-mono font-bold tracking-wider uppercase text-rose-300">
+                              AURIX Project
+                            </span>
+                          </div>
+                        )}
+
+                        {/* Category Badge Overlay */}
+                        <div className="absolute top-2 left-2">
+                          <span className="text-[9.5px] font-mono uppercase px-2.5 py-0.5 rounded-full font-bold bg-black/70 text-white backdrop-blur-md border border-white/20 shadow-xs">
+                            {project.category}
+                          </span>
+                        </div>
+
+                        {/* Delete Button */}
+                        <div className="absolute top-2 right-2">
+                          <button
+                            onClick={async () => {
+                              if (!confirm(`Delete project "${project.title}"?`)) return;
+                              const res = await fetch(`/api/projects/${project.id}`, { method: "DELETE" });
+                              if (res.ok) loadData();
+                            }}
+                            className="p-1.5 rounded-lg bg-black/70 text-red-400 hover:text-white hover:bg-red-600 transition-colors shadow-xs"
+                            title="Delete project"
+                          >
+                            <Trash2 className="h-3.5 w-3.5" />
+                          </button>
+                        </div>
+                      </div>
+
+                      <h3 className="text-base font-bold text-white group-hover:text-rose-400 transition-colors line-clamp-1 mb-1">
+                        {project.title}
+                      </h3>
+                      <p className="text-xs text-zinc-400 line-clamp-2 leading-relaxed mb-3">
+                        {project.description}
+                      </p>
+
+                      {project.tags && project.tags.length > 0 && (
+                        <div className="flex flex-wrap gap-1.5 mb-3">
+                          {project.tags.map((t: string) => (
+                            <span
+                              key={t}
+                              className="px-2 py-0.5 rounded-md bg-white/[0.04] text-[10px] font-mono text-zinc-300 border border-white/[0.08]"
+                            >
+                              {t}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="pt-3 border-t border-white/10 flex items-center justify-between text-xs">
+                      <div className="flex items-center gap-3">
+                        {project.github_url && (
+                          <a
+                            href={project.github_url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-zinc-400 hover:text-white flex items-center gap-1 transition-colors"
+                          >
+                            <Github className="h-3.5 w-3.5" />
+                            <span>Code</span>
+                          </a>
+                        )}
+                        {project.demo_url && (
+                          <a
+                            href={project.demo_url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-rose-400 hover:text-rose-300 flex items-center gap-1 transition-colors"
+                          >
+                            <ExternalLink className="h-3.5 w-3.5" />
+                            <span>Live Demo</span>
+                          </a>
+                        )}
+                      </div>
                     </div>
                   </div>
                 ))
               ) : (
-                <div className="col-span-full py-12 text-center text-sm text-gray-400">
-                  No projects added yet. Click "Add Project" to get started.
+                <div className="col-span-full py-12 text-center text-sm text-zinc-400 bg-white/[0.02] rounded-2xl border border-white/10">
+                  No projects added yet. Click "Add Project" to add your first showcase innovation!
                 </div>
               )}
+            </div>
+          </div>
+        )}
+
+        {/* ─── MODAL: CREATE PROJECT ─────────────────────────────────────── */}
+        {showCreateProjectModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm overflow-y-auto">
+            <div className="relative w-full max-w-xl rounded-3xl bg-[#111521] border border-white/10 p-6 sm:p-7 space-y-5 shadow-2xl my-8">
+              <div className="flex items-center justify-between pb-3 border-b border-white/10">
+                <div className="flex items-center gap-3">
+                  <div className="p-2.5 rounded-xl bg-gradient-to-tr from-rose-500 to-pink-500 text-white shadow-md">
+                    <Code2 className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-bold text-white">Add New Project</h3>
+                    <p className="text-xs text-zinc-400">Fill in the form to showcase a new club innovation</p>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setShowCreateProjectModal(false)}
+                  className="p-1.5 rounded-lg text-zinc-400 hover:text-white hover:bg-white/10 transition-colors"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
+
+              <form onSubmit={handleCreateProject} className="space-y-3.5 text-xs">
+                <div>
+                  <label className="text-zinc-400 font-mono block mb-1">Project Title *</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. Autonomous Ground Vehicle Simulator"
+                    value={newProjectTitle}
+                    onChange={(e) => setNewProjectTitle(e.target.value)}
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.04] border border-white/10 text-white placeholder:text-zinc-500 focus:outline-none focus:border-rose-500 text-sm"
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label className="text-zinc-400 font-mono block mb-1">Category *</label>
+                    <select
+                      value={newProjectCategory}
+                      onChange={(e) => setNewProjectCategory(e.target.value)}
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-[#1a1f2e] border border-white/10 text-white focus:outline-none focus:border-rose-500"
+                    >
+                      <option value="Fullstack Web & Systems">Fullstack Web & Systems</option>
+                      <option value="AI & Machine Learning">AI & Machine Learning</option>
+                      <option value="Robotics & Embedded">Robotics & Embedded</option>
+                      <option value="DevOps & Infrastructure">DevOps & Infrastructure</option>
+                      <option value="Open Source & Tools">Open Source & Tools</option>
+                      <option value="Startup & Venture">Startup & Venture</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="text-zinc-400 font-mono block mb-1">Tags (Comma-separated)</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. React, ROS2, Python, PyTorch"
+                      value={newProjectTags}
+                      onChange={(e) => setNewProjectTags(e.target.value)}
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.04] border border-white/10 text-white placeholder:text-zinc-500 focus:outline-none focus:border-rose-500 font-mono text-[11px]"
+                    />
+                  </div>
+                </div>
+
+                {/* Banner / Poster Upload or URL */}
+                <div>
+                  <div className="flex items-center justify-between mb-1">
+                    <label className="text-zinc-400 font-mono">Cover Image / Banner URL</label>
+                    <label className="cursor-pointer text-[10px] text-rose-400 hover:text-rose-300 font-mono flex items-center gap-1">
+                      <ImageIcon className="h-3 w-3" />
+                      <span>Upload File</span>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        onChange={(e) => handleFileUpload(e, setNewProjectCoverImage)}
+                      />
+                    </label>
+                  </div>
+
+                  <div className="space-y-2">
+                    <input
+                      type="text"
+                      placeholder="Paste image URL or use file upload..."
+                      value={newProjectCoverImage}
+                      onChange={(e) => setNewProjectCoverImage(e.target.value)}
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.04] border border-white/10 text-white placeholder:text-zinc-500 focus:outline-none focus:border-rose-500 font-mono text-[11px]"
+                    />
+
+                    {newProjectCoverImage && (
+                      <div className="relative w-full h-32 rounded-xl overflow-hidden border border-rose-500/40 bg-black/40">
+                        <img src={newProjectCoverImage} alt="cover preview" className="w-full h-full object-cover" />
+                        <button
+                          type="button"
+                          onClick={() => setNewProjectCoverImage("")}
+                          className="absolute top-2 right-2 px-2 py-0.5 rounded-md bg-black/80 text-zinc-300 hover:text-white text-[10px]"
+                        >
+                          Remove
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                <div>
+                  <label className="text-zinc-400 font-mono block mb-1">Description *</label>
+                  <textarea
+                    rows={3}
+                    required
+                    placeholder="What does this project do, what technologies were used, and what impact does it have?..."
+                    value={newProjectDesc}
+                    onChange={(e) => setNewProjectDesc(e.target.value)}
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.04] border border-white/10 text-white placeholder:text-zinc-500 focus:outline-none focus:border-rose-500 text-xs"
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label className="text-zinc-400 font-mono block mb-1">GitHub URL</label>
+                    <input
+                      type="url"
+                      placeholder="https://github.com/aurixclub/..."
+                      value={newProjectGithub}
+                      onChange={(e) => setNewProjectGithub(e.target.value)}
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.04] border border-white/10 text-white placeholder:text-zinc-500 focus:outline-none focus:border-rose-500 font-mono text-[11px]"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-zinc-400 font-mono block mb-1">Live Demo URL</label>
+                    <input
+                      type="url"
+                      placeholder="https://demo.aurix.club/..."
+                      value={newProjectDemo}
+                      onChange={(e) => setNewProjectDemo(e.target.value)}
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.04] border border-white/10 text-white placeholder:text-zinc-500 focus:outline-none focus:border-rose-500 font-mono text-[11px]"
+                    />
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-end gap-3 pt-3 border-t border-white/10">
+                  <button
+                    type="button"
+                    onClick={() => setShowCreateProjectModal(false)}
+                    className="px-4 py-2 rounded-xl bg-white/[0.06] hover:bg-white/[0.1] text-zinc-400 hover:text-white border border-white/10 transition-colors"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={isCreatingProject || !newProjectTitle.trim() || !newProjectDesc.trim()}
+                    className="px-6 py-2 rounded-xl bg-gradient-to-r from-rose-500 to-pink-600 hover:opacity-90 disabled:opacity-40 text-white font-bold shadow-lg shadow-rose-500/20 transition-all flex items-center gap-1.5"
+                  >
+                    {isCreatingProject && <span className="h-3 w-3 rounded-full border border-white border-t-transparent animate-spin" />}
+                    <span>{isCreatingProject ? "Creating..." : "Create Project"}</span>
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
         )}

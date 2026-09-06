@@ -6,6 +6,19 @@ const nextConfig: NextConfig = {
   transpilePackages: ["@aurix/types", "@aurix/supabase", "@aurix/backend", "three"],
   reactStrictMode: true,
 
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+      },
+      {
+        protocol: "https",
+        hostname: "**",
+      },
+    ],
+  },
+
   // SECURITY: Comprehensive security headers
   async headers() {
     return [

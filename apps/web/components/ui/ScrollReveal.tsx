@@ -14,17 +14,18 @@ interface ScrollRevealProps {
   amount?: number | "some" | "all";
 }
 
-const customEasing: [number, number, number, number] = [0.21, 0.47, 0.32, 0.98];
+// Ultra-smooth 60/120fps natural cubic bezier easing
+const customEasing: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
 export function ScrollReveal({
   children,
   direction = "up",
-  duration = 0.75,
+  duration = 0.65,
   delay = 0,
-  distance = 32,
+  distance = 28,
   className = "",
   once = true,
-  amount = 0.15,
+  amount = 0.1,
 }: ScrollRevealProps) {
   const getVariants = (): Variants => {
     switch (direction) {
@@ -66,7 +67,7 @@ export function ScrollReveal({
         };
       case "zoom":
         return {
-          hidden: { opacity: 0, scale: 0.92 },
+          hidden: { opacity: 0, scale: 0.95 },
           visible: {
             opacity: 1,
             scale: 1,
@@ -74,20 +75,13 @@ export function ScrollReveal({
           },
         };
       case "blur":
-        return {
-          hidden: { opacity: 0, scale: 0.98 },
-          visible: {
-            opacity: 1,
-            scale: 1,
-            transition: { duration, delay, ease: customEasing },
-          },
-        };
       case "fade":
       default:
         return {
-          hidden: { opacity: 0 },
+          hidden: { opacity: 0, y: 12 },
           visible: {
             opacity: 1,
+            y: 0,
             transition: { duration, delay, ease: customEasing },
           },
         };
@@ -101,6 +95,7 @@ export function ScrollReveal({
       viewport={{ once, amount }}
       variants={getVariants()}
       className={className}
+      style={{ willChange: "transform, opacity", transform: "translateZ(0)" }}
     >
       {children}
     </motion.div>
@@ -118,11 +113,11 @@ interface StaggerContainerProps {
 
 export function StaggerContainer({
   children,
-  staggerDelay = 0.12,
-  delayChildren = 0.05,
+  staggerDelay = 0.08,
+  delayChildren = 0.04,
   className = "",
   once = true,
-  amount = 0.1,
+  amount = 0.08,
 }: StaggerContainerProps) {
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
@@ -142,6 +137,7 @@ export function StaggerContainer({
       viewport={{ once, amount }}
       variants={containerVariants}
       className={className}
+      style={{ willChange: "opacity" }}
     >
       {children}
     </motion.div>
@@ -158,16 +154,15 @@ interface StaggerItemProps {
 export function StaggerItem({
   children,
   className = "",
-  distance = 28,
-  duration = 0.7,
+  distance = 22,
+  duration = 0.55,
 }: StaggerItemProps) {
   const itemVariants: Variants = {
-    hidden: { opacity: 0, y: distance, scale: 0.96, filter: "blur(4px)" },
+    hidden: { opacity: 0, y: distance, scale: 0.97 },
     visible: {
       opacity: 1,
       y: 0,
       scale: 1,
-      filter: "blur(0px)",
       transition: {
         duration,
         ease: customEasing,
@@ -176,7 +171,11 @@ export function StaggerItem({
   };
 
   return (
-    <motion.div variants={itemVariants} className={className}>
+    <motion.div
+      variants={itemVariants}
+      className={className}
+      style={{ willChange: "transform, opacity", transform: "translateZ(0)" }}
+    >
       {children}
     </motion.div>
   );
@@ -185,8 +184,8 @@ export function StaggerItem({
 export function ScrollProgress() {
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
+    stiffness: 140,
+    damping: 26,
     restDelta: 0.001,
   });
 
